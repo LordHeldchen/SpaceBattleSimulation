@@ -1,0 +1,9 @@
+﻿++ Protective Measures
+
+Armor provides additional Armor-Hitpoints per Section it is attached to, plus it provides absolute damage reduction as long as Armor-Hitpoints remain. This reduction is reduced by destroyed attached sections probably may (partially) be bypassed by critical hits.
+
+Armor normally adds weigth, thereby lowering the overall agility of the ship. It depends on the size of the section that is to be protected how much Armor-Hitpoints it gets and how large the penalties are.
+
++++ Armor
+* Heavy Armor: Armor +25, [Defensive Strength] +1, [Battle Speed Decay] +2
+* Ablative Armor: [Defensive Strength] +5 for one hit

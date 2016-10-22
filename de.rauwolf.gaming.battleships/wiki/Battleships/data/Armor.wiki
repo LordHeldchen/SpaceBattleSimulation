@@ -1,0 +1,6 @@
+﻿++ Armor
+
+Defines the defensive capabilities of the hull of a ship.
+
+- Amount: Defines the hitpoints of a ship. Once the Amount of the armor reaches 0 or less, the ship is destroyed.
+- Strength: Defines the capability of the armor to absorb hits partially or fully. The strength of armor is 1 to 20, which results in damage reduction and a probability to completely deflect the incoming damage according to the [Damage Factor].

@@ -1,0 +1,41 @@
+﻿++ Damage Factor
+
+Defines two things:
+- The percentage of damage taken. If the strength of the shield or armor is greater than the [Penetration Power] of the weapon, the damage factor is <1.
+- The chance of completely deflecting the incoming damage. This chance is 1 minus the same percentage that was used above.
+  * Shields do normally NOT provide the chance to completely deflect damage. There however MAY be modifications allowing them to do so.
+
+The [Penetration Power] of weapons and [Defensive Strength] of armors and shields is within a range from 1 to 20.
+
+The formula to calculate the damage factor is the following:
+<<pre
+    for (int armorStrength = 0; armorStrength < 20; armorStrength++) {
+        for (int weaponStrength = 0; weaponStrength < 20; weaponStrength++) {
+            armorMatrix[armorStrength][weaponStrength] = weaponStrength >= armorStrength ? (float) 1
+                            : (((float) weaponStrength + 10)) / ((float) armorStrength + 11);
+        }
+    }
+>>
+
+<<pre
+Armor 1:  1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 2:  0,83 1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 3:  0,77 0,85 1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 4:  0,71 0,79 0,86 1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 5:  0,67 0,73 0,8  0,87 1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 6:  0,62 0,69 0,75 0,81 0,88 1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 7:  0,59 0,65 0,71 0,76 0,82 0,88 1    1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 8:  0,56 0,61 0,67 0,72 0,78 0,83 0,89 1    1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 9:  0,53 0,58 0,63 0,68 0,74 0,79 0,84 0,89 1    1    1    1    1    1    1    1    1    1    1    1    
+Armor 10: 0,5  0,55 0,6  0,65 0,7  0,75 0,8  0,85 0,9  1    1    1    1    1    1    1    1    1    1    1    
+Armor 11: 0,48 0,52 0,57 0,62 0,67 0,71 0,76 0,81 0,86 0,9  1    1    1    1    1    1    1    1    1    1    
+Armor 12: 0,45 0,5  0,55 0,59 0,64 0,68 0,73 0,77 0,82 0,86 0,91 1    1    1    1    1    1    1    1    1    
+Armor 13: 0,43 0,48 0,52 0,57 0,61 0,65 0,7  0,74 0,78 0,83 0,87 0,91 1    1    1    1    1    1    1    1    
+Armor 14: 0,42 0,46 0,5  0,54 0,58 0,62 0,67 0,71 0,75 0,79 0,83 0,88 0,92 1    1    1    1    1    1    1    
+Armor 15: 0,4  0,44 0,48 0,52 0,56 0,6  0,64 0,68 0,72 0,76 0,8  0,84 0,88 0,92 1    1    1    1    1    1    
+Armor 16: 0,38 0,42 0,46 0,5  0,54 0,58 0,62 0,65 0,69 0,73 0,77 0,81 0,85 0,88 0,92 1    1    1    1    1    
+Armor 17: 0,37 0,41 0,44 0,48 0,52 0,56 0,59 0,63 0,67 0,7  0,74 0,78 0,81 0,85 0,89 0,93 1    1    1    1    
+Armor 18: 0,36 0,39 0,43 0,46 0,5  0,54 0,57 0,61 0,64 0,68 0,71 0,75 0,79 0,82 0,86 0,89 0,93 1    1    1    
+Armor 19: 0,34 0,38 0,41 0,45 0,48 0,52 0,55 0,59 0,62 0,66 0,69 0,72 0,76 0,79 0,83 0,86 0,9  0,93 1    1    
+Armor 20: 0,33 0,37 0,4  0,43 0,47 0,5  0,53 0,57 0,6  0,63 0,67 0,7  0,73 0,77 0,8  0,83 0,87 0,9  0,93 1    
+>>

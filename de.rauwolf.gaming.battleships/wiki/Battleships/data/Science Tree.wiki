@@ -1,0 +1,22 @@
+﻿++ Science Tree
+
++++ Development
+Standard Science cost, but probably some techs (breakthroughs likely) cannot be researched without a major building project that is to be done beforehand? Analyze impact on pace and balancing!
+
+
++++ Types of Technologies
+
+* Fundamental Research (solely requirement for new development)
+  * Breakthrough (high cost, unlocks completely new type of technology, e.g. Laser Beams)
+  * Logical advancement (the next step in an existing type of technology, e.g. High Frequency Lasers)
+* Application (unlocks new parts)
+* Refinement (improves existing parts)
+
+
+
++++ Techs
+
+Powered Armor (for infantry...?)
+
+++++ Armor
+Composite Alloys

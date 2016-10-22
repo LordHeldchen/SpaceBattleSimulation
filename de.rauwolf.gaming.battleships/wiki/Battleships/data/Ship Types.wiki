@@ -1,0 +1,17 @@
+﻿++ Ship Types
+
++ Defining Ships
+
+All ships are divided up into so-called [Sections] (maybe except for Fighters and Drones). Those sections have a basic concept of being adjacent to one another so that damage distribution works well. [Sections] may only be the target of an external attack if other [Protective Measures] have failed.
+
+Alltogether those sections define the [Stats] of a Ship.
+
++ Classes of Ships
+
+[Fighter]
+[Frigate]
+[Destroyer]
+[Cruiser]
+[Battleship]
+[Carrier]
+[Dreadnought]

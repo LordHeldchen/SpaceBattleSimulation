@@ -1,0 +1,40 @@
+[wiki_db]
+data_dir = data
+
+[main]
+footnotes_as_wikiwords = False
+versioning_storagelocation = 0
+last_wiki_word = Stats
+hotkey_showhide_bywiki = 
+log_window_autoshow = Gray
+filestorage_identity_filenamemustmatch = False
+export_default_dir = 
+tabs_maxcharacters = 0
+wiki_icon = 
+headingsasaliases_depth = 0
+wiki_name = Battleships
+tree_expandednodes_rememberduration = 2
+wikipagetitleprefix = ++
+wikipagetitle_fromlinktitle = False
+wiki_lastactivetabno = 0
+first_wiki_word = 
+wikipagefiles_gracefuloutsideaddandremove = True
+indexsearch_enabled = False
+wiki_lasttabssubctrls = textedit
+template_pagenamesre = ^template/
+wikipagetitle_creationmode = 1
+tree_expandednodes_descriptorpathes_main = wikipage/Battleships;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Electronics Room,wikipage/Exposure;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Exposure;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Stats;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Space available;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Layout;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Fighter;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Protective Measures;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Weapons Bay;wikipage/Battleships,wikipage/Ship Configurator;wikipage/Battleships,wikipage/Ship Configurator,wikipage/Ship Types,wikipage/Sections,wikipage/Space available,wikipage/Protective Measures
+wiki_wikilanguage = wikidpad_default_2_0
+tree_force_scratchpad_visibility = True
+further_wiki_words = 
+tree_expandednodes_descriptorpathes_views = 
+tree_last_root_wiki_word = Battleships
+db_pagefile_suffix = .wiki
+filestorage_identity_moddatemustmatch = False
+filestorage_identity_moddateisenough = False
+wiki_database_type = original_sqlite
+wikipagefiles_asciionly = False
+indexsearch_formatno = 1
+versioning_completesteps = 10
+wiki_readonly = False
+

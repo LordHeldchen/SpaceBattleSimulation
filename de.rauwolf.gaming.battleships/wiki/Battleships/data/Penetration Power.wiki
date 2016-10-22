@@ -1,0 +1,3 @@
+﻿++ Penetration Power
+
+The ability to pierce the armor of the target.

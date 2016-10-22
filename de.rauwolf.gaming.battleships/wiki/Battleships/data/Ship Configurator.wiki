@@ -1,0 +1,3 @@
+﻿++ Ship Configurator
+
+Exists to create [Blueprint]s for the existing [Ship Types].

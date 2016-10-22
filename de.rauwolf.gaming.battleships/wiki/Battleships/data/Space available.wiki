@@ -1,0 +1,3 @@
+﻿++ Space available
+
+Each Section has a predefined amount of space available. This space can be filled with appropriate equipment as well as additional general-purpose [Protective Measures] for the specific sections. More than one piece of eqipment may be put into one section. Doing so however imposes penalties to the space available (very low penalties for the first two to three subsystems, larger penalties for more; probably defined by the Fibonacci Sequence).

@@ -1,0 +1,3 @@
+﻿++ Stealth
+
+Stealth defines an initial bonus to the [Battle Speed] of a ship.

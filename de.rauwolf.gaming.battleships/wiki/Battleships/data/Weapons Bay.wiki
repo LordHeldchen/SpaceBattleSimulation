@@ -1,0 +1,20 @@
+﻿++ Weapons Bay
+
++++ Close Combat Weaponry
+
+++++ 'Vulcan' Close Combat Laser Guns:
+* 4-16 Damage
+* [Penetration Power] 2
+* [Accuracy] 100
+* Initial [Battle Speed] -50
+* Size 1
+* Modifications:
+  * Overcharged: [Payload] -1, [Accuracy] -10, [Penetration Power] +1, Damage +20
+  * Gatling: [Accuracy] +10, Damage -10
+  
+
++++ Point Defense
+- Has a very small cooldown, but due to this cooldown swarming bigger ships remains possible.
+- Fires only against attackers that use close combat type weaponry.
+- Some (not all) Point defenses may increase dodge against missile type weaponry.
+- Biggest point defense is suitable for keeping Ships the size of Frigates at bay.

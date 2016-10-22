@@ -1,0 +1,3 @@
+﻿++ Wings
+
+Wings are Fighters that are with a carrier ship. Fighters may be manned or fully mechanical. In the latter case, the fighters are destroyed as soon as the commanding unit gets jammed or destroyed.

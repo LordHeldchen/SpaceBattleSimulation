@@ -1,0 +1,25 @@
+- Schilde mithilfe von payload sofort wieder aufladen, wenn leer und Runde des tragenden Schiffes
+- Defensiver Timewarp: Chance, Schaden komplett zu vermeiden (unabhängig von Rüstung und evade)
+- Offensiver Timewarp: Chance, keine Geschwindigkeit nach Feuern zu verbrauchen
+- Höhere Reichweite (i.e. höhere Start-battlespeed) bei geringerer Zielgenauigkeit (insbesondere f. Standard-Fighter, Kreuzer, Schlachtschiffe)
+- Unterscheidung nach "reflective shield" und "multiphasic shield" (siehe GSB)
+- Schilde für Fighter  
+- Regenerierende Panzerung
+- Types of Weapons:
+  * Railguns, which simply pierce "non-hardened" Barriereschilde einfach durchschlagen
+- Add "tactics" attribute in fleets, so that the same target might be attacked more often.
+  Probably create collection of already hit targets which is chosen at a certain percentage
+  instead of some random target (which may be the same target again)
+- Make initial battle speed dependent on weapon range
+- Interceptors should NOT have the overall highest initial battle speed (even though it may be quite high), simply because of their short range
+  and missing cloaking. They SHOULD however be the unit qith the slowest battlespeed-decay and the best elusiveness.
+- Load the available layouts and modifications from a config file. Modifications are per definition available for Layouts.
+
+ArmorModifications:
+- Heavy: Obviously.
+- Ablative: Strong defense, but only once. Little or even no handicap in speed.
+- Regenerating: Obviously.
+
+HullLayouts: Dub as armor and as cargo layout. Do NOT dub as subtype for specific ship classes (they still are e.g. "interceptor" and "bomber" for fighters).
+- Mechanic hull
+- Organic hull

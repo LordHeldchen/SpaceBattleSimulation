@@ -1,0 +1,3 @@
+﻿++ General Purpose Room
+
+Any Submodules can be fitted in here. Is used to model Fighter sized vessels and exceptionally versatile bigger ships.

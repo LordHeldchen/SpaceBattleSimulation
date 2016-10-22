@@ -1,0 +1,9 @@
+﻿++ Technologies
+
+* Fan Beam (hiting multiple Targets pretty hard, weapon for large ships)
+* 'Solaris' Large Beam
+* Shaped magnetic fields
+  * Fusion Technology
+  * Precursors for Shield technology
+  * Partial requirement for Warp drives?
+* Extremely high temperature superconductivity

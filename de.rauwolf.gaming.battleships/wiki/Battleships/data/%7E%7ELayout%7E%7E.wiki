@@ -1,0 +1,10 @@
+﻿++ ~~OBSOLETE Layout~~
+
+Layouts define a ship. The type of ship that is to be defined tells only which layouts are available. It says nothing about the ship itself; without any layouts, its not even an empty hull.
+Layouts are:
+
+- [Hull OBSOLETE Layout]
+- [Weapon OBSOLETE Layout]
+- [Shield OBSOLETE Layout]
+- [Propulsion OBSOLETE Layout]
+- [Electronics OBSOLETE Layout]

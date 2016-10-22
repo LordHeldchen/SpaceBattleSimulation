@@ -1,0 +1,54 @@
+﻿++ Fighter
+
++++ Hull Layouts
+
+++++ Standard
+
+The Standard Fighter is a class of ships that usually has no Warp Drive of its own. Standard Fighters are mainly used in defensive wings to shield bigger ships, but also offensively as capable close combat support and diversion. With their (for their size) respectable durability, high firepower and still good speed, they pose a moderate threat to almost any enemy; there just need to be enough of them. Normally, Fighters are accomodated in a Carrier of some sort, waiting for their deployment wherever it may be needed, or exist in large wings as integral part of an array of planetary defenses.
+
+* Sections
+  * Fuselage ([General Purpose Room]), size 7, HP 50
+* Basic [Stats]
+  * [Battle Speed] 100
+  * [Battle speed Decay] 15
+  * [Evasion] 100
+* Boni
+  * Damage of close combat weapons +20%
+* Preferred Targets
+  * Bomber (20%)
+  * Standard Frigate (30%)
+* Rapid Fire
+  * Bomber (3)
+
+
+++++ Interceptor
+
+The Interceptor is a streamlined version of the standard fighter, with focus on maneuverability and combat awareness. Due to those features, they can be anywhere on the battlefield almost in an instant, driving off attackers wherever it is needed. The main purpose of an Interceptor is to protect higher value ships from all danger. It is the smallest ship to feature a dedicated [Engine Room] and [Electronics Room]. This high specialization of course comes at a price: Their only means of defense is their speed, and their weapons pose almost no threat to anything that is bigger than a Frigate.
+
+
+* Sections
+  * Fuselage ([General Purpose Room]), size 4, HP 20
+  * Engine Room ([Engine room]), size 2, HP 10
+  * Electronics Room ([Electronics Room]), size 1, HP 10
+* Basic [Stats]
+  * [Battle Speed] 140
+  * [Battle speed Decay] 15
+  * [Evasion] 120
+* Boni
+  * HP of all subsystems reduced by 50%
+* Preferred Targets
+  * Bomber (30%)
+  * Assault Frigate (20%)
+* Rapid Fire
+  * Assault Frigate (2)
+  * Bomber (4)
+
+
+
+++ Drone
+
+Fully automated version of the fighter, thus way more capable as no life support systems need to be powered and no space for a living being is required. However, Drones do require commands from its mothership, so once the mothership gets jammed or destroyed, the drones instantly become inoperational, too. Also, the Drones themselves are way more vulnerable to jamming than their manned counterparts are.
+
+* Armor +25
+* [Payload] +1
+* [Battle Speed] +10

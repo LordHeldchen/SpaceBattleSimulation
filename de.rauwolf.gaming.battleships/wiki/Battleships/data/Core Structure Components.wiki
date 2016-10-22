@@ -1,0 +1,5 @@
+﻿++ Core Structure Components
+
+If a core structure component is destroyed, the ship falls apart and thereby is destroyed instantly. Core structure components do not have room for subsystems, so they may or may not be protected by subsystems that do not need room (e.g. armor) or by projected defensive measures (e.g. point defense or point deflectors).
+
+Generator and Computer core are located here. If any such section is destroyed, the ship is disabled or destroyed.

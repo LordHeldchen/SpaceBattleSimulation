@@ -1,0 +1,76 @@
+﻿++ Electronics Room
+
++++ Shields
+
+* Modification: Ultimate Defense
+  * Makes the Ship invulnerable for the first x BattleSpeed / after an hit for x BattleSpeed with cooldown... or sth like that. Maybe only counts as a dampening field increasing defensive strength up to maximum.
+
+'Soap Bubble' Light Fighter Shield
+* 
+
+
+
+++++ Hardened Front Deflectors
+Makes the Ship have maximum shield strength until the fleets had some time to close in on each other or the ship is victim of a surprise attack.
+
+Almost every battle starts with firing long ranged weapons from a distance while the fleets are closing in on each other. During this phase, the angle from which the enemy attacks is rather easy to predict. This module allows to concentrate the defensive power of the shield to the front until the fleets are in close combat range, thereby maximizing the ships durability during this phase of combat.
+
+* Room needed: 10
+* Hit points: 35
+* Local [Exposure]: 6
+* Energy needed: 85
+* CPU needed: 55
+
+* Makes the Ship have maximum [Defensive Strength] for its shields until the first 50 [Battle Speed] have passed or it gets attacked by a cloaked enemy.
+* Attacks from cloaked enemies bypass all shields as long as this module is active.
+
+
++++ Point Deflectors
+
+++++ Static Point Deflectors
+Increase the [Defensive Strength] of a section that is to be protected significantly.
+
+This kind of point deflector may be assigned only to one specific section that cannot be changed. Very useful if you want to ensure that e.g. your weapon bays are up and running longer than the ship itself.
+
+* Room needed: 1
+* Hit points: 20
+* Local [Exposure]: 1
+* Energy needed: 5
+* CPU needed: 15
+
+* Increases the [Defensive Strength] of a given section by 5.
+* Reduces damage a section suffers when an adjacent section is destroyed by 3/4.
+* Only one point deflector type defensive bonus may be assigned to a given section at any time.
+
+
+++++ Dynamic Point Deflectors
+Increase the [Defensive Strength] of a section that is to be protected. This kind of point deflector may change its assigned section in the course of a battle.
+
+This kind of point deflector may change its assigned section during the battle with a certain delay, thereby always protecting the section that currently is taking damage. The fitting requirements however are way higher than those of a static point deflector and the defensive bonus is not quite as great. Considering the delay, this kind of deflector is extremely powerful in balanced engagements where consecutive hits on a single ship are rare, but the required resources are invested better in other defensive measures if the ship is likely to take a pounding or is in the rear line of a larger fleet.
+
+* Room needed: 4
+* Hit points: 30
+* Local [Exposure]: 3
+* Energy needed: 9
+* CPU needed: 30
+
+* Increases the [Defensive Strength] of a given section by 3.
+* Reduces damage a section suffers when an adjacent section is destroyed by 2/3.
+* Delay until the protected section may be changed: 10 [Battle Speed].
+* Only one point deflector type defensive bonus may be assigned to a given section at any time.
+
+
+++++ Internal Force Field Array
+This kind of point deflector Increase the [Defensive Strength] of all sections moderately.
+
+With the ships growing larger, smaller kinds of point deflectors became somewhat meaningless to install. With several weapon bays and generator rooms available, which are the ones that shall receive the additional protection? The Internal Force Field Array is a component meant for such large ships that provides a solution to this problem. It provides a sophisticated array of force field projectors that are able to contain damage wherever needed throughout the ship. The fitting requirements however are way higher than those of single section point deflectors and the defensive bonus is not quite as great. Depending on your strategy, stronger shields and additional armor may be the better investment.
+
+* Room needed: 12
+* Hit points: 60
+* Local [Exposure]: 7
+* Energy needed: 50
+* CPU needed: 80
+
+* Increases the [Defensive Strength] of all sections of a ship by 2.
+* Reduces damage a section suffers when an adjacent section is destroyed by 1/2.
+* Only one point deflector type defensive bonus may be assigned to a given section at any time.

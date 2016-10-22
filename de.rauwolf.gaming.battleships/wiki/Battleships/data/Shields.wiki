@@ -1,0 +1,21 @@
+﻿++ Shields
+
+Defines the defensive capabilities of the shield of a ship.
+Shields are divided into two subtypes: Dampening Fields, Barrier Shields.
+
++++ Dampening Fields
+
+A Dampening field increases the strength of the underlying armor. Not more, not less. It tends to use less energy than an actual barrier shield and is easier to maintain. A dampening field just exists, it does not break down (which basically makes it an additional layer of armor which may be invalidated by shield piercing weapons).
+
+Stats of a Dampening Field:
+* Armor Hardening: The additional [Defensive Strength] the shield provides to the armor.
+
+
++++ Barrier Shields
+
+A Barrier Shield features the well known "shield bubble" that deflects all incoming damage, but only for so long as it lasts. Once a barrier shield is penetrated, it will regenerate and come back up, but will provide no protection whatsoever until it actually does. In contrast to armor, Barrier Shields normally do NOT have the ability to completely deflect incoming damage.
+
+Stats of a Barrier Shield:
+* Amount: Defines the hitpoints of the shield. Until this amount reaches 0, no damage comes to the hull of the ship, except if a shield penetrating weapon is used.
+* Strength: Defines the capability of the shield to absorb hits. The strength of the shield is 1 to 20, which results in damage reduction and - if the correct modification is chosen - a probability to completely deflect the incoming damage according to the [Damage Factor].
+* Regeneration: The amount by which the shield regenerates each turn.

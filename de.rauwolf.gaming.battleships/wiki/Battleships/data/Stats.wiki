@@ -1,0 +1,12 @@
+﻿++ Stats
+
+Once all Layouts and Modifications are decided, a [Blueprint] may be created that summarizes the stats of the so-designed ship.
+Those stats are:
+
+* [Weapons]: [Accuracy], [Damage], [Penetration Power]
+* [Armor]: Amount, [Defensive Strength]
+* [Shields]: Amount, [Defensive Strength], [Regeneration], [Armor Hardening]
+* [Propulsion]: [Battle Speed], [Battle Speed Decay], [Evasion], [Starlane Speed]  << Probably some sort or other of "Delta V"?
+* [Electronics]: Sensor Strength, [Electronic Shielding]
+* [Tactics]: [Preferred Targets], [Rapid Fire]
+* [Cargo]: [Payload], [Supply], [Wings]

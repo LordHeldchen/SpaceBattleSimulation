@@ -1,0 +1,12 @@
+﻿++ Exposure
+
+Defines the probability of a specific section of being hit. Each time a ship is hit, one of the sections is selected for the hit with a predefined probability, which is related to all other sections by the so-called Exposure. The basic exposure rating is predefined by the ship type itself, e.g. a Battleship may have a well protected [Bridge] and (several) [Generator Room](s) plus very strong [Core Structure Components], so that these sections are likely the last ones to be destroyed.
+
+The probability for a given section is defined by
+
+ _Exposure of the section / Added exposure of all intact sections_
+
+
++++ Local Exposure
+
+Is a variant of exposure that applies to single sections. Each time a section is hit, the section itself and its subsystems will take damage. Which part takes how much is defined once again by the exposure mechanic, except in this context it is called local exposure.

@@ -1,0 +1,3 @@
+﻿++ Electronic Shielding
+
+The capability of the ship to resist electronig warfare, ion weapons and the like.

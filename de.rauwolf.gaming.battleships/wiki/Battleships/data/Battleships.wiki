@@ -1,0 +1,14 @@
+﻿++ Battleships
+
+A generic space battle game, not unlike freeorion.
+
+Development started with a basic battle system.
+
+Current development:
+- Infrastructure for a flexible [Ship Configurator].
+- A [Science Tree]
+- [Technologies]
+
+
+
+	* WikiSettings

@@ -1,0 +1,43 @@
+﻿++ Sections
+
+All sections of a given ship have a defined purpose:
+
+* [Core Structure Components]
+* [Bridge]
+* [Engine Room]
+* [Weapons Bay]
+* [Electronics Room]
+* [Cargo Bay]
+* [Drone Bay]
+* [General Purpose Room]
+
+A given ship may have zero or more of each of those rooms, with the exception being [Core Structure Components], the [Bridge] and the [Engine Room]: Each ship needs at least one of these.
+
+
++++ Attributes of Sections
+
+* Name: As a ship may have sections of the same type but varying sizes and other attributes, one should be able to tell them apart by their name (e.g. "emergency generator room" for a well protected but small [Generator Room]).
+* Basic hit points
+* [Defensive Strength] (always 0, but may be increased by appropriate subsystems)
+* [Exposure] of the section to enemy fire
+* [Space available], also defines the size to calculate penalties incurred by [Protective Measures] such as armor.
+* Other [Section Properties], e.g. "can easily be protected by armor"?????
+
+Components of sections may influence the attributes of other sections.
+
+
++++ General attributes of subsystems
+
+* Room needed
+* Hit points
+* Local [Exposure]
+* [Energy] needed
+* [CPU] needed
+* Other [Stats]
+
+
++++ Damage to Sections
+
+If a section is damaged, the damage is distributed to the section itself and its subsystems, again by the [Exposure] mechanic. In this context it is called _Local Exposure_.
+
+If a section is destroyed (i.e. the hit points reach 0), adjacent sections also suffer the surplus damage plus some additional damage (which also may be reduced by some subsystems, e.g. reinforced bulkheads). This additional damage bypasses any armor but not point deflectors, the surplus damage bypasses neither.
