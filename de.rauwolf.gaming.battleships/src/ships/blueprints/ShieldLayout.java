@@ -1,4 +1,4 @@
-package ships.layouts;
+package ships.blueprints;
 
 public class ShieldLayout {
     private final String name;
@@ -20,10 +20,6 @@ public class ShieldLayout {
         return name;
     }
 
-    public int getArmorHardening() {
-        return armorHardening;
-    }
-
     public int getMaxAmount() {
         return maxAmount;
     }
@@ -34,5 +30,9 @@ public class ShieldLayout {
 
     public int getStrength() {
         return strength;
+    }
+
+    public int getArmorHardening() {
+        return armorHardening;
     }
 }

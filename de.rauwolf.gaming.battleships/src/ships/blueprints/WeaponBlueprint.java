@@ -1,20 +1,36 @@
-package ships.layouts;
+package ships.blueprints;
 
-public class WeaponLayout {
-    private final String name;
+import java.util.HashMap;
+import java.util.Map;
 
-    private final int    accuracy;
-    private final int    damage;
-    private final int    strength;
+public class WeaponBlueprint {
+    private final String                               name;
 
-    private final int    maxPayload;
+    private final int                                  accuracy;
+    private final int                                  damage;
+    private final int                                  armorPenetration;
 
-    public WeaponLayout(String name, int accuracy, int damage, int strength, int maxPayload) {
+    private final int                                  maxPayload;
+
+    //TODO: Introduce reload time e.g. for BurstFire of several rounds?
+    private final int                                  battlespeedDecay;
+
+    protected Map<Class<? extends Blueprint>, Integer> preferredTargets;
+
+    public WeaponBlueprint(String name, int accuracy, int damage, int armorPenetration, int maxPayload,
+                    int battlespeedDecay) {
         this.name = name;
-        this.accuracy = 100;
-        this.damage = 50;
-        this.strength = 3;
+        this.accuracy = accuracy;
+        this.damage = damage;
+        this.armorPenetration = armorPenetration;
         this.maxPayload = maxPayload;
+        this.battlespeedDecay = battlespeedDecay;
+
+        this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
+    }
+
+    public Map<Class<? extends Blueprint>, Integer> getPreferredTargets() {
+        return preferredTargets;
     }
 
     public String getName() {
@@ -29,11 +45,15 @@ public class WeaponLayout {
         return damage;
     }
 
-    public int getStrength() {
-        return strength;
+    public int getArmorPenetration() {
+        return armorPenetration;
     }
 
     public int getMaxPayload() {
         return maxPayload;
+    }
+
+    public int getBattleSpeedDecay() {
+        return battlespeedDecay;
     }
 }

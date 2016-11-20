@@ -1,4 +1,4 @@
-package ships.layouts;
+package ships.blueprints;
 
 public class PropulsionLayout {
     private final String name;

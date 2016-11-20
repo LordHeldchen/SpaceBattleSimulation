@@ -4,23 +4,23 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import battle.ShipInstance;
 import ships.Fleet;
-import ships.Ship;
+import ships.blueprints.ArmorLayout;
 import ships.blueprints.Blueprint;
-import ships.layouts.ArmorLayout;
-import ships.layouts.PropulsionLayout;
-import ships.layouts.WeaponLayout;
+import ships.blueprints.PropulsionLayout;
+import ships.blueprints.WeaponBlueprint;
 
 public class StarSystem {
     private static final int participatingEmpireA = 1;
     private static final int participatingEmpireB = 2;
 
     private static Blueprint getStandardFighterBlueprint() {
-        WeaponLayout weaponLayout = new WeaponLayout("'Vulcan' Close Combat Laser Guns", 100, 50, 3, 5);
+        WeaponBlueprint weaponLayout = new WeaponBlueprint("'Vulcan' Close Combat Laser Guns", 100, 50, 3, 5);
         ArmorLayout armorLayout = new ArmorLayout("Basic Fighter Armor", 75, 2);
         PropulsionLayout propulsionLayout = new PropulsionLayout("Basic Fighter Turbine", 100, 15, 100, 0);
 
-        LinkedList<WeaponLayout> weaponList = new LinkedList<WeaponLayout>();
+        LinkedList<WeaponBlueprint> weaponList = new LinkedList<WeaponBlueprint>();
         weaponList.add(weaponLayout);
         LinkedList<ArmorLayout> armorList = new LinkedList<ArmorLayout>();
         armorList.add(armorLayout);
@@ -41,12 +41,12 @@ public class StarSystem {
         Fleet fleetA = new Fleet();
 
         for (int i = 0; i < 5; i++) {
-            fleetA.add(new Ship(participatingEmpireA, fighterBlueprint));
+            fleetA.add(new ShipInstance(participatingEmpireA, fighterBlueprint));
         }
 
         Fleet fleetB = new Fleet();
         for (int i = 0; i < 10; i++) {
-            fleetB.add(new Ship(participatingEmpireB, fighterBlueprint));
+            fleetB.add(new ShipInstance(participatingEmpireB, fighterBlueprint));
         }
 
         listOfFleets.add(fleetA);

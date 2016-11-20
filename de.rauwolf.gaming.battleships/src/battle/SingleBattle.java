@@ -9,30 +9,33 @@ import java.util.Set;
 import logging.battleLogger.BattleLogger;
 import logging.battleLogger.DebugBattleLogger;
 import ships.Fleet;
-import ships.Ship;
 import universe.StarSystem;
 
 public class SingleBattle {
-    boolean             continueCombat        = true;
-    int                 shipsRanOutOfPayload  = 0;
-    final int           initialAmountOfShips;
+    boolean                            continueCombat        = true;
+    int                                shipsRanOutOfPayload  = 0;
+    final int                          initialAmountOfShips;
 
-    Set<Integer>        participatingEmpires  = new HashSet<Integer>();
+    Set<Integer>                       participatingEmpires  = new HashSet<Integer>();
 
-    Map<Integer, Fleet> enemiesOfEmpireX      = new HashMap<Integer, Fleet>();
-    HashSet<Fleet>      allFleets             = new HashSet<Fleet>();
-    PriorityQueue<Ship> allShips              = new PriorityQueue<Ship>();
-    HashSet<Ship>       participatingFighters = new HashSet<Ship>();
+    Map<Integer, Fleet>                enemiesOfEmpireX      = new HashMap<Integer, Fleet>();
+    HashSet<Fleet>                     allFleets             = new HashSet<Fleet>();
+    HashSet<ShipInstance>              allShips              = new HashSet<ShipInstance>();
+    HashSet<ShipInstance>              participatingFighters = new HashSet<ShipInstance>();
 
-    final BattleLogger  logger;
+    private PriorityQueue<CombatActor> combatActors          = new PriorityQueue<CombatActor>();
+    private HashSet<CombatTarget>      combatTargets;
+
+    final BattleLogger                 logger;
 
     public SingleBattle(Set<Fleet> allFleetsFromStarSystem, BattleLogger logger) {
         this.logger = logger;
 
         allFleets.addAll(allFleetsFromStarSystem);
         for (Fleet fleet : allFleetsFromStarSystem) {
-            for (Ship ship : fleet) {
+            for (ShipInstance ship : fleet) {
                 participatingEmpires.add(ship.getIdOfOwningEmpire());
+                ship.setCurrentBattle(this);
             }
         }
 
@@ -41,98 +44,60 @@ public class SingleBattle {
         }
 
         for (Fleet fleet : allFleets) {
-            for (Ship ship : fleet) {
-                ship.prepareForBattle();
-                ship.addBattleLog(logger);
-                participatingFighters.addAll(ship.getFightersInBay());
-                for (int empire : participatingEmpires) {
-                    if (empire != ship.getIdOfOwningEmpire()) {
-                        enemiesOfEmpireX.get(empire).add(ship);
-                    }
-                }
-            }
-            allShips.addAll(fleet);
-        }
-
-        for (Ship fighter : participatingFighters) {
-            fighter.prepareForBattle();
-            fighter.addBattleLog(logger);
-            for (int empire : participatingEmpires) {
-                if (empire != fighter.getIdOfOwningEmpire()) {
-                    enemiesOfEmpireX.get(empire).add(fighter);
-                }
+            for (ShipInstance ship : fleet) {
+                integrateShipIntoBattle(ship);
             }
         }
-        allShips.addAll(participatingFighters);
 
         initialAmountOfShips = allShips.size();
 
         logger.showFormup(allFleets, allShips, enemiesOfEmpireX, participatingFighters);
     }
 
+    private void integrateShipIntoBattle(ShipInstance ship) {
+        combatTargets.add(ship);
+        combatActors.add(ship);
+        combatActors.addAll(ship.getCombatActorsOfShip());
+        for (int empire : participatingEmpires) {
+            if (empire != ship.getIdOfOwningEmpire()) {
+                enemiesOfEmpireX.get(empire).add(ship);
+            }
+        }
+        ship.addBattleLog(logger);
+        allShips.add(ship);
+
+        for (ShipInstance fighter : ship.getFightersInBay()) {
+            integrateShipIntoBattle(fighter);
+        }
+    }
+
     public void fight() {
-        boolean hasPayloadRemaining;
         while (continueCombat) {
             logger.nextRound();
 
-            Ship highestInit = allShips.poll();
-            hasPayloadRemaining = highestInit.hasPayloadRemaining();
-            highestInit.takeTurn();
-            allShips.add(highestInit);
+            CombatActor actorWithHighestInit = combatActors.poll();
+            actorWithHighestInit.takeAction();
+            combatActors.add(actorWithHighestInit);
 
             if (hasPayloadRemaining) {
-                attack(highestInit);
-            } else if (!highestInit.hasPayloadRemaining()) {
+                attack(actorWithHighestInit);
+            } else if (!actorWithHighestInit.hasPayloadRemaining()) {
                 ++shipsRanOutOfPayload;
             }
 
-            logger.checkPayloadAfterAttack(highestInit);
+            logger.checkPayloadAfterAttack(actorWithHighestInit);
 
             continueCombat &= shipsRanOutOfPayload < allShips.size() / 2;
         }
-    }
 
-    private void attack(Ship attacker) {
-        final Fleet listOfPotentialTargets = enemiesOfEmpireX.get(attacker.getIdOfOwningEmpire());
-        Ship target = attacker.chooseTarget(listOfPotentialTargets);
-
-        logger.beginSingleAttack(attacker, target);
-
-        if (target.reactBeforeAttacker(attacker)) {
-            logger.shipReacts(target);
-            if (checkDestructionOf(attacker)) {
-                logger.shipDestroyed(attacker);
-                return;
-            }
+        for (ShipInstance ship : allShips) {
+            ship.endCurrentBattle();
         }
-
-        target.takeDamage(attacker.getShots());
-        checkDestructionOf(target);
-
-    }
-
-    private boolean checkDestructionOf(Ship target) {
-        if (target.isDestroyed()) {
-            logger.shipDestroyed(target);
-            for (Fleet ships : enemiesOfEmpireX.values()) {
-                ships.remove(target);
-                if (ships.isEmpty()) {
-                    //Some empire has no more enemies in this battle
-                    continueCombat = false;
-                }
-            }
-            allShips.remove(target);
-            for (Fleet fleet : allFleets) {
-                fleet.remove(target);
-            }
-            return true;
-        }
-        return false;
     }
 
     private void endBattle() {
         logger.endOfBattle(allFleets);
-        for (Ship ship : allShips) {
+        for (ShipInstance ship : allShips) {
             ship.removeBattleLogger();
         }
     }

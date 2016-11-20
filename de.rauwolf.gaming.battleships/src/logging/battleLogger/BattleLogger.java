@@ -2,44 +2,43 @@ package logging.battleLogger;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.PriorityQueue;
 
+import battle.CombatActor;
+import battle.ShieldInstance;
+import battle.ShipInstance;
 import ships.Fleet;
-import ships.Ship;
 
 public interface BattleLogger {
     public void showFormup(HashSet<Fleet> allFleets,
-                           PriorityQueue<Ship> allShips,
+                           HashSet<ShipInstance> allShips,
                            Map<Integer, Fleet> enemiesOfEmpireX,
-                           HashSet<Ship> participatingFighters);
+                           HashSet<ShipInstance> participatingFighters);
 
-    public void checkPayloadAfterAttack(Ship highestInit);
-
-    public void shipDestroyed(Ship target);
+    public void shipDestroyed(ShipInstance target);
 
     public void endOfBattle(HashSet<Fleet> allFleets);
 
-    public void endOfSingleAttack(Ship attacker);
+    public void endOfSingleAttack(ShipInstance attacker);
 
-    public void beginSingleAttack(final Ship attacker, final Ship target);
+    public void beginSingleAttack(final ShipInstance attacker, final ShipInstance target);
 
     public void nextRound();
 
-    public void shipReacts(Ship attacker);
+    public void shipReacts(ShipInstance attacker);
 
-    public void evades(Ship ship, boolean doesEvade);
+    public void evades(ShipInstance ship, boolean doesEvade);
 
-    public void armorDeflectsAllDamage(Ship ship);
+    public void armorDeflectsAllDamage(ShipInstance ship);
 
-    public void takesArmorDamage(Ship ship, int damage);
+    public void takesArmorDamage(ShipInstance ship, int damage);
 
-    public void shieldBreaks(Ship ship);
+    public void shieldBreaks(ShipInstance ship);
 
-    public void takesShieldDamage(Ship ship, int i);
+    public void takesShieldDamage(ShipInstance ship, int i);
 
-    public void regeneratesShield(Ship ship, int regeneration, int shieldNow);
+    public void regeneratesShield(ShieldInstance ship, int regeneration, int shieldNow);
 
-    public void preysOnPreferredTargetType(Ship ship);
+    public void preysOnPreferredTargetType(CombatActor ship);
 
-    public void hasResupplied(Ship ship, Ship mothership);
+    public void hasResupplied(ShipInstance ship, ShipInstance mothership);
 }

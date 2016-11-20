@@ -4,19 +4,19 @@ import java.util.List;
 import java.util.Set;
 
 import ships.blueprints.Blueprint;
-import ships.layouts.WeaponLayout;
+import ships.blueprints.WeaponBlueprint;
 
 public abstract class ShipTypeConfigurator {
-    protected WeaponLayout weaponLayout;
+    protected WeaponBlueprint weaponLayout;
 
     abstract Blueprint getConfiguredBlueprint();
-    abstract Set<WeaponLayout> getAvailableWeaponLayouts();
-    abstract List<WeaponLayout> getAvailableShieldModules();
-    abstract List<WeaponLayout> getAvailableShieldModifications();
+    abstract Set<WeaponBlueprint> getAvailableWeaponLayouts();
+    abstract List<WeaponBlueprint> getAvailableShieldModules();
+    abstract List<WeaponBlueprint> getAvailableShieldModifications();
     abstract int getAllowedNumOfShieldModifications();
 
     //TODO: Activate assertions!
-    void setWeaponLayout(WeaponLayout weaponLayout) {
+    void setWeaponLayout(WeaponBlueprint weaponLayout) {
         assert(getAvailableWeaponLayouts().contains(weaponLayout));
         this.weaponLayout = weaponLayout;
     }

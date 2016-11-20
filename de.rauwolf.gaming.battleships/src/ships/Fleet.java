@@ -6,22 +6,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Spliterator;
 
+import battle.ShipInstance;
 import ships.blueprints.Blueprint;
 
-public class Fleet implements Iterable<Ship>, Collection<Ship> {
-    private HashMap<Blueprint, ArrayList<Ship>> classesOfShipsInFleet;
-    private ArrayList<Ship>                     allShipsInFleet;
+public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
+    private HashMap<Blueprint, ArrayList<ShipInstance>> classesOfShipsInFleet;
+    private ArrayList<ShipInstance>                     allShipsInFleet;
 
     public Fleet() {
-        this.classesOfShipsInFleet = new HashMap<Blueprint, ArrayList<Ship>>();
-        this.allShipsInFleet = new ArrayList<Ship>();
+        this.classesOfShipsInFleet = new HashMap<Blueprint, ArrayList<ShipInstance>>();
+        this.allShipsInFleet = new ArrayList<ShipInstance>();
     }
 
     @Override
-    public boolean add(Ship ship) {
-        ArrayList<Ship> shipClassList;
+    public boolean add(ShipInstance ship) {
+        ArrayList<ShipInstance> shipClassList;
         if (!classesOfShipsInFleet.containsKey(ship.getBlueprint())) {
-            shipClassList = new ArrayList<Ship>();
+            shipClassList = new ArrayList<ShipInstance>();
             classesOfShipsInFleet.put(ship.getBlueprint(), shipClassList);
         } else {
             shipClassList = classesOfShipsInFleet.get(ship.getBlueprint());
@@ -31,11 +32,11 @@ public class Fleet implements Iterable<Ship>, Collection<Ship> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends Ship> shipCollection) {
-        for (Ship ship : shipCollection) {
-            ArrayList<Ship> shipClassList;
+    public boolean addAll(Collection<? extends ShipInstance> shipCollection) {
+        for (ShipInstance ship : shipCollection) {
+            ArrayList<ShipInstance> shipClassList;
             if (!classesOfShipsInFleet.containsKey(ship.getClass())) {
-                shipClassList = classesOfShipsInFleet.put(ship.getBlueprint(), new ArrayList<Ship>());
+                shipClassList = classesOfShipsInFleet.put(ship.getBlueprint(), new ArrayList<ShipInstance>());
             } else {
                 shipClassList = classesOfShipsInFleet.get(ship.getBlueprint());
             }
@@ -44,7 +45,7 @@ public class Fleet implements Iterable<Ship>, Collection<Ship> {
         return allShipsInFleet.addAll(shipCollection);
     }
 
-    public Ship get(int i) {
+    public ShipInstance get(int i) {
         return allShipsInFleet.get(i);
     }
 
@@ -52,7 +53,7 @@ public class Fleet implements Iterable<Ship>, Collection<Ship> {
         return classesOfShipsInFleet.containsKey(type);
     }
 
-    public final ArrayList<Ship> getAllOfType(Class<? extends Blueprint> type) {
+    public final ArrayList<ShipInstance> getAllOfType(Class<? extends Blueprint> type) {
         return classesOfShipsInFleet.get(type);
     }
 
@@ -68,12 +69,12 @@ public class Fleet implements Iterable<Ship>, Collection<Ship> {
     }
 
     @Override
-    public Iterator<Ship> iterator() {
+    public Iterator<ShipInstance> iterator() {
         return allShipsInFleet.iterator();
     }
 
     @Override
-    public Spliterator<Ship> spliterator() {
+    public Spliterator<ShipInstance> spliterator() {
         return allShipsInFleet.spliterator();
     }
 

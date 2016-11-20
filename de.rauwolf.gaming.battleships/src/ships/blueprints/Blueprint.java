@@ -1,144 +1,60 @@
 package ships.blueprints;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import ships.layouts.ArmorLayout;
-import ships.layouts.ElectronicsLayout;
-import ships.layouts.PropulsionLayout;
-import ships.layouts.ShieldLayout;
-import ships.layouts.WeaponLayout;
+import ships.basicShips.HullType;
 
 public class Blueprint {
     // For all following elements: May be reduced from Lists to single elements if Ships may not contain more than one.
-    private final List<WeaponLayout>                   weapons;
-    private final List<ArmorLayout>                    armor;
-    private final List<ShieldLayout>                   shields;
-    private final List<PropulsionLayout>               propulsion;
-    private final List<ElectronicsLayout>              electronics;
+    private final HullType        hullType;
 
-    private final int                                  maxSupply;
+    private List<WeaponBlueprint> weapons;
+    private List<Component>       components;
+    private ArmorLayout           armor;
+    private ShieldLayout          shields;
+    private PropulsionLayout      propulsion;
 
-    private final String                               name;
-    private final String                               description;
+    private final String          name;
+    private final String          description;
 
-    protected Map<Class<? extends Blueprint>, Integer> preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
+    // Shields
+    private final MutableBaseStat maxShieldStrength;
+    private final MutableBaseStat shieldRegenerationAmount;
+    private final MutableBaseStat shieldRegenerationSpeed;
 
-    public Blueprint(
-                    String name,
-                    String description,
-                    List<WeaponLayout> weaponLayouts,
-                    List<ArmorLayout> armorLayouts,
-                    List<ShieldLayout> shieldLayouts,
-                    List<PropulsionLayout> propulsionLayouts,
-                    List<ElectronicsLayout> electronicsLayouts) {
+    // Speed
+    private final MutableBaseStat startBattleSpeed;
+    private final MutableBaseStat evasion;
+
+    // Armor
+    private final MutableBaseStat glanceThreshold;
+    private final MutableBaseStat hitThreshold;
+    private final MutableBaseStat critThreshold;
+    private final MutableBaseStat maxHullStrength;
+
+    public Blueprint(String name, String description, HullType hullType) {
         this.name = name;
         this.description = description;
-        this.weapons = weaponLayouts != null ? weaponLayouts : new LinkedList<WeaponLayout>();
-        this.armor = armorLayouts != null ? armorLayouts : new LinkedList<ArmorLayout>();
-        this.shields = shieldLayouts != null ? shieldLayouts : new LinkedList<ShieldLayout>();
-        this.propulsion = propulsionLayouts != null ? propulsionLayouts : new LinkedList<PropulsionLayout>();
-        this.electronics = electronicsLayouts != null ? electronicsLayouts : new LinkedList<ElectronicsLayout>();
+        this.hullType = hullType;
 
-        //XXX Make dependent on specific blueprint
-        maxSupply = 0;
-    }
-    public List<PropulsionLayout> getPropulsion() {
-        return propulsion;
-    }
+        maxShieldStrength = new MutableBaseStat(hullType.getMaxShieldStrength());
+        shieldRegenerationAmount = new MutableBaseStat(hullType.getShieldRegenerationAmount());
+        shieldRegenerationSpeed = new MutableBaseStat(hullType.getShieldRegenerationSpeed());
 
-    public List<ElectronicsLayout> getElectronics() {
-        return electronics;
-    }
+        //TODO: Boni zu bestimmten Waffenkategorien/-größen etc.
+        evasion = new MutableBaseStat(hullType.getMaxShieldStrength());
 
-    public List<ArmorLayout> getArmor() {
-        return armor;
+        glanceThreshold = new MutableBaseStat(hullType.getGlanceThreshold());
+        hitThreshold = new MutableBaseStat(hullType.getHitThreshold());
+        critThreshold = new MutableBaseStat(hullType.getCritThreshold());
+        maxHullStrength = new MutableBaseStat(hullType.getHullStrength());
+
+        startBattleSpeed = new MutableBaseStat(0);
     }
 
-    public List<ShieldLayout> getShields() {
-        return shields;
-    }
-
-    public List<WeaponLayout> getWeapons() {
-        return weapons;
-    }
-
-    public int getBaseBattleSpeed() {
-        int sum = 0;
-        for (PropulsionLayout prop : propulsion) {
-            sum += prop.getBattleSpeed();
-        }
-        return sum;
-    }
-
-    public int getBattleSpeedDecay() {
-        int sum = 0;
-        for (PropulsionLayout prop : propulsion) {
-            sum += prop.getBattleSpeedDecay();
-        }
-        return sum / propulsion.size();
-    }
-
-    public int getBaseEvasion() {
-        int sum = 0;
-        for (PropulsionLayout prop : propulsion) {
-            sum += prop.getEvasion();
-        }
-        return sum;
-    }
-
-    public int getMaxShieldStrength() {
-        int sum = 0;
-        for (ShieldLayout shield : shields) {
-            sum += shield.getStrength();
-        }
-        return sum == 0 ? 0 : sum / shields.size();
-    }
-
-    public int getShieldRegeneration() {
-        int sum = 0;
-        for (ShieldLayout shield : shields) {
-            sum += shield.getRegeneration();
-        }
-        return sum;
-    }
-
-    public int getArmorHardeningByShields() {
-        int sum = 0;
-        for (ShieldLayout shield : shields) {
-            sum += shield.getArmorHardening();
-        }
-        return sum == 0 ? 0 : sum / shields.size();
-    }
-
-    public int getArmorStrength() {
-        int sum = 0;
-        for (ArmorLayout arm : armor) {
-            sum += arm.getStrength();
-        }
-        return sum / armor.size();
-    }
-
-    public int getBaseStealth() {
-        int sum = 0;
-        for (ElectronicsLayout el : electronics) {
-            sum += el.getStealth();
-        }
-        return sum;
-    }
-
-    public int getMaxPayloadForWeapon(WeaponLayout weapon) {
-        return weapon.getMaxPayload();
-    }
-
-    public int getMaxSupply() {
-        return maxSupply;
-    }
-
-    public Map<Class<? extends Blueprint>, Integer> getPreferredTargets() {
-        return preferredTargets;
+    public HullType getHullType() {
+        return hullType;
     }
 
     public String getName() {
@@ -147,6 +63,62 @@ public class Blueprint {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<WeaponBlueprint> getWeapons() {
+        return weapons;
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public PropulsionLayout getPropulsion() {
+        return propulsion;
+    }
+
+    public ArmorLayout getArmor() {
+        return armor;
+    }
+
+    public ShieldLayout getShields() {
+        return shields;
+    }
+
+    public int getEvasion() {
+        return evasion.getCalculatedValue();
+    }
+
+    public int getMaxShieldStrength() {
+        return maxShieldStrength.getCalculatedValue();
+    }
+
+    public int getShieldRegenerationAmount() {
+        return shieldRegenerationAmount.getCalculatedValue();
+    }
+
+    public int getShieldRegenerationSpeed() {
+        return shieldRegenerationSpeed.getCalculatedValue();
+    }
+
+    public int getArmorGlanceThreshold() {
+        return glanceThreshold.getCalculatedValue();
+    }
+
+    public int getArmorHitThreshold() {
+        return hitThreshold.getCalculatedValue();
+    }
+
+    public int getArmorCritThreshold() {
+        return critThreshold.getCalculatedValue();
+    }
+
+    public MutableBaseStat getMaxHullStrength() {
+        return maxHullStrength;
+    }
+
+    public MutableBaseStat getStartBattleSpeed() {
+        return startBattleSpeed;
     }
 
     public List<Blueprint> getFighterTypesInBay() {

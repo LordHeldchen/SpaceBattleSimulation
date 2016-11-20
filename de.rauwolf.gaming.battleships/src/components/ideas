@@ -6,7 +6,7 @@
 - Schilde für Fighter  
 - Regenerierende Panzerung
 - Types of Weapons:
-  * Railguns, which simply pierce "non-hardened" Barriereschilde einfach durchschlagen
+  * Railguns, which simply pierce "non-hardened" Barrier Shields
 - Add "tactics" attribute in fleets, so that the same target might be attacked more often.
   Probably create collection of already hit targets which is chosen at a certain percentage
   instead of some random target (which may be the same target again)
