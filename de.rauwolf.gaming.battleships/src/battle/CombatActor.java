@@ -1,7 +1,36 @@
 package battle;
 
-public interface CombatActor {
+import logging.battleLogger.BattleLogger;
 
-    void takeAction();
+public abstract class CombatActor implements Comparable<CombatActor> {
+    private final int      initiativeDecay;
 
+    private int            currentInitiative;
+
+    protected SingleBattle currentBattle;
+    protected BattleLogger logger;
+
+    protected CombatActor(int startInitiative, int initiativeDecay) {
+        this.currentInitiative = startInitiative;
+        this.initiativeDecay = initiativeDecay;
+    }
+
+    protected final void loseInitiative() {
+        currentInitiative -= initiativeDecay;
+    }
+
+    public final void setCurrentBattle(SingleBattle singleBattle) {
+        this.currentBattle = singleBattle;
+    }
+
+    public final void addBattleLog(BattleLogger battleLogger) {
+        this.logger = battleLogger;
+    }
+
+    abstract CombatTarget takeAction();
+
+    @Override
+    public int compareTo(CombatActor other) {
+        return this.currentInitiative - other.currentInitiative;
+    }
 }

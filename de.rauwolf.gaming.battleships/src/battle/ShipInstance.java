@@ -5,7 +5,6 @@ import java.util.List;
 
 import logging.battleLogger.BattleLogger;
 import logging.battleLogger.HullDamageType;
-import ships.Fleet;
 import ships.blueprints.Blueprint;
 import ships.blueprints.MutableBaseStat;
 import ships.blueprints.WeaponBlueprint;
@@ -27,8 +26,6 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatTarget {
     protected final int             idOfOwningEmpire;
     protected BattleLogger          logger;
 
-    private SingleBattle            battle;
-
     private LinkedList<CombatActor> combatActorsOfShip;
 
     public ShipInstance(int idOfOwningEmpire, Blueprint blueprint) {
@@ -44,18 +41,16 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatTarget {
         return idOfOwningEmpire;
     }
 
-    public void setCurrentBattle(SingleBattle battle) {
-        this.battle = battle;
-    }
-
     public List<CombatActor> getCombatActorsOfShip() {
-        combatActorsOfShip = new LinkedList<CombatActor>();
-        for (WeaponBlueprint weapon : blueprint.getWeapons()) {
-            WeaponInstance weaponInstance = new WeaponInstance(weapon, this, logger);
-            combatActorsOfShip.add(weaponInstance);
+        if (combatActorsOfShip == null) {
+            combatActorsOfShip = new LinkedList<CombatActor>();
+            for (WeaponBlueprint weapon : blueprint.getWeapons()) {
+                WeaponInstance weaponInstance = new WeaponInstance(weapon, this, logger);
+                combatActorsOfShip.add(weaponInstance);
+            }
+            shieldInstance = new ShieldInstance(this, blueprint.getMaxShieldStrength(),
+                            blueprint.getShieldRegenerationAmount(), blueprint.getShieldInitiativeDecay());
         }
-        shieldInstance = new ShieldInstance(this, logger, blueprint.getMaxShieldStrength(),
-                        blueprint.getShieldRegenerationAmount(), blueprint.getShieldRegenerationSpeed());
         return combatActorsOfShip;
     }
 
@@ -78,10 +73,12 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatTarget {
         return fighters;
     }
 
+    @Override
     public final boolean isDestroyed() {
         return currentHullStrength <= 0;
     }
 
+    @Override
     public final void takeDamage(Shot shot) {
         final int evasion = blueprint.getEvasion() - BattleConstants.evasionEqualizer
                         + BattleConstants.randomizer.nextInt(BattleConstants.evasionRandomizerMaximum);
@@ -120,25 +117,6 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatTarget {
             logger.armorDeflectsAllDamage(this);
         }
         return 0;
-    }
-
-    private boolean checkDestructionOf(ShipInstance target) {
-        if (target.isDestroyed()) {
-            logger.shipDestroyed(target);
-            for (Fleet ships : enemiesOfEmpireX.values()) {
-                ships.remove(target);
-                if (ships.isEmpty()) {
-                    //Some empire has no more enemies in this battle
-                    continueCombat = false;
-                }
-            }
-            allShips.remove(target);
-            for (Fleet fleet : allFleets) {
-                fleet.remove(target);
-            }
-            return true;
-        }
-        return false;
     }
 
     @Override

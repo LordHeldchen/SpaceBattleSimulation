@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import battle.CombatActor;
+import battle.CombatTarget;
 import battle.ShieldInstance;
 import battle.ShipInstance;
 import ships.Fleet;
@@ -53,7 +54,7 @@ public class DebugBattleLogger implements BattleLogger {
     public void endOfSingleAttack(ShipInstance attacker) {}
 
     @Override
-    public void beginSingleAttack(final ShipInstance attacker, final ShipInstance target) {
+    public void beginSingleAttack(final CombatActor attacker, final CombatTarget target) {
         System.out.println("Round " + round + ": " + attacker + " goes against " + target);
     }
 

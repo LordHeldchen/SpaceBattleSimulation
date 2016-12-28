@@ -3,33 +3,50 @@ package battle;
 import java.util.ArrayList;
 import java.util.Map;
 
-import logging.battleLogger.BattleLogger;
 import ships.Fleet;
 import ships.blueprints.Blueprint;
 import ships.blueprints.WeaponBlueprint;
 
-public class WeaponInstance implements CombatActor {
-    private final ShipInstance    ship;
-    private final Blueprint       shipBlueprint;
+public class WeaponInstance extends CombatActor {
+    private final ShipInstance    owningShipInstance;
     private final WeaponBlueprint weaponBlueprint;
-    private final BattleLogger    logger;
 
-    private int                   currentBattleSpeed;
+    //TODO: Not sure yet whether the concept of "payload" will remain.
     private int                   currentPayload;
 
-    public WeaponInstance(WeaponBlueprint weapon, ShipInstance ship, BattleLogger logger) {
-        this.weaponBlueprint = weapon;
-        this.ship = ship;
-        this.shipBlueprint = ship.getBlueprint();
-        this.logger = logger;
+    public WeaponInstance(WeaponBlueprint weapon, ShipInstance owningShipInstance) {
+        super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
+                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
+                        weapon.getBattleSpeedDecay());
 
-        currentBattleSpeed = shipBlueprint.getStartBattleSpeed().getCalculatedValue()
-                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
-        currentPayload = weapon.getMaxPayload();
+        this.weaponBlueprint = weapon;
+        this.owningShipInstance = owningShipInstance;
+
+        this.currentPayload = weapon.getMaxPayload();
     }
 
     @Override
-    public final void takeAction() {}
+    public CombatTarget takeAction() {
+        loseInitiative();
+
+        final Fleet listOfPotentialTargets = currentBattle
+                        .getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
+        CombatTarget target = chooseTarget(listOfPotentialTargets);
+
+        logger.beginSingleAttack(this, target);
+
+        if (target.reactBeforeAttacker(attacker)) {
+            logger.shipReacts(target);
+            if (checkDestructionOf(attacker)) {
+                logger.shipDestroyed(attacker);
+                return;
+            }
+        }
+
+        target.takeDamage(attacker.getShots());
+        checkDestructionOf(target);
+        return target;
+    }
 
     private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
         Map<Class<? extends Blueprint>, Integer> preferredTargets = weaponBlueprint.getPreferredTargets();

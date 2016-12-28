@@ -1,37 +1,31 @@
 package battle;
 
 import logging.battleLogger.BattleLogger;
-import ships.blueprints.Blueprint;
 
-public class ShieldInstance implements CombatActor {
-    private final ShipInstance ship;
-    private final Blueprint    shipBlueprint;
+public class ShieldInstance extends CombatActor {
+    private final ShipInstance owningShipInstance;
     private final int          maxShield;
     private final int          regenerationAmount;
 
-    private final int          battleSpeedDecay;
-
-    private int                currentBattleSpeed;
     private int                currentShield;
 
-    private final BattleLogger logger;
+    private BattleLogger       logger;
+    private SingleBattle       singleBattle;
 
-    public ShieldInstance(ShipInstance ship, BattleLogger logger, int maxStrength,
-                    int regenerationAmount, int battleSpeedDecay) {
-        this.ship = ship;
+    public ShieldInstance(ShipInstance owningShipInstance, int maxStrength, int regenerationAmount,
+                    int initiativeDecay) {
+        super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
+                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
+                        initiativeDecay);
+
+        this.owningShipInstance = owningShipInstance;
         this.maxShield = maxStrength;
         this.regenerationAmount = regenerationAmount;
-        this.battleSpeedDecay = battleSpeedDecay;
-        this.shipBlueprint = ship.getBlueprint();
-        this.logger = logger;
-
-        currentBattleSpeed = shipBlueprint.getStartBattleSpeed().getCalculatedValue()
-                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
     }
 
     @Override
-    public void takeAction() {
-        currentBattleSpeed -= battleSpeedDecay;
+    public CombatTarget takeAction() {
+        loseInitiative();
 
         if (maxShield > 0) {
             int regeneration = currentShield + regenerationAmount > maxShield
@@ -40,10 +34,12 @@ public class ShieldInstance implements CombatActor {
             currentShield += regeneration;
             logger.regeneratesShield(this, regeneration, currentShield);
         }
+
+        return null;
     }
 
     public ShipInstance getOwner() {
-        return ship;
+        return owningShipInstance;
     }
 
     public int getCurrentShield() {

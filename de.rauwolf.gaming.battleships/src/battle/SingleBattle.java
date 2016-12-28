@@ -2,6 +2,7 @@ package battle;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -35,7 +36,6 @@ public class SingleBattle {
         for (Fleet fleet : allFleetsFromStarSystem) {
             for (ShipInstance ship : fleet) {
                 participatingEmpires.add(ship.getIdOfOwningEmpire());
-                ship.setCurrentBattle(this);
             }
         }
 
@@ -56,13 +56,20 @@ public class SingleBattle {
 
     private void integrateShipIntoBattle(ShipInstance ship) {
         combatTargets.add(ship);
+        ship.addBattleLog(logger);
+
+        List<CombatActor> combatActorsOfShip = ship.getCombatActorsOfShip();
+        combatActorsOfShip.forEach(combatActor -> combatActor.setCurrentBattle(this));
+        combatActorsOfShip.forEach(combatActor -> combatActor.addBattleLog(logger));
+
         combatActors.addAll(ship.getCombatActorsOfShip());
+        int idOfOwningEmpire = ship.getIdOfOwningEmpire();
         for (int empire : participatingEmpires) {
-            if (empire != ship.getIdOfOwningEmpire()) {
+            if (empire != idOfOwningEmpire) {
                 enemiesOfEmpireX.get(empire).add(ship);
             }
         }
-        ship.addBattleLog(logger);
+
         allShips.add(ship);
 
         for (ShipInstance fighter : ship.getFightersInBay()) {
@@ -75,8 +82,10 @@ public class SingleBattle {
             logger.nextRound();
 
             CombatActor actorWithHighestInit = combatActors.poll();
-            actorWithHighestInit.takeAction();
+            CombatTarget targetOfAction = actorWithHighestInit.takeAction();
             combatActors.add(actorWithHighestInit);
+
+            checkDestruction(targetOfAction);
 
             if (hasPayloadRemaining) {
                 attack(actorWithHighestInit);
@@ -92,6 +101,25 @@ public class SingleBattle {
         for (ShipInstance ship : allShips) {
             ship.endCurrentBattle();
         }
+    }
+
+    private boolean checkDestruction(CombatTarget targetOfAction) {
+        if (targetOfAction.isDestroyed()) {
+            logger.shipDestroyed(targetOfAction);
+            for (Fleet ships : enemiesOfEmpireX.values()) {
+                ships.remove(targetOfAction);
+                if (ships.isEmpty()) {
+                    //Some empire has no more enemies in this battle
+                    continueCombat = false;
+                }
+            }
+            allShips.remove(targetOfAction);
+            for (Fleet fleet : allFleets) {
+                fleet.remove(targetOfAction);
+            }
+            return true;
+        }
+        return false;
     }
 
     Fleet getAllEnemiesOfEmpireX(int empireID) {

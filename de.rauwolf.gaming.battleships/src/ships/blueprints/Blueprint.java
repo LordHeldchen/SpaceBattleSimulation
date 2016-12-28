@@ -97,7 +97,7 @@ public class Blueprint {
         return shieldRegenerationAmount.getCalculatedValue();
     }
 
-    public int getShieldRegenerationSpeed() {
+    public int getShieldInitiativeDecay() {
         return shieldRegenerationSpeed.getCalculatedValue();
     }
 

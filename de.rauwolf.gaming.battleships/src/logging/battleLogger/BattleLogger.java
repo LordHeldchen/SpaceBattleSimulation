@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import battle.CombatActor;
+import battle.CombatTarget;
 import battle.ShieldInstance;
 import battle.ShipInstance;
 import ships.Fleet;
@@ -20,7 +21,7 @@ public interface BattleLogger {
 
     public void endOfSingleAttack(ShipInstance attacker);
 
-    public void beginSingleAttack(final ShipInstance attacker, final ShipInstance target);
+    public void beginSingleAttack(final CombatActor weaponInstance, final CombatTarget target);
 
     public void nextRound();
 
