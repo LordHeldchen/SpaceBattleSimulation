@@ -4,15 +4,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 import logging.battleLogger.BattleLogger;
+import logging.battleLogger.HullDamageType;
 import ships.Fleet;
 import ships.blueprints.Blueprint;
+import ships.blueprints.MutableBaseStat;
 import ships.blueprints.WeaponBlueprint;
 
 public class ShipInstance implements Comparable<ShipInstance>, CombatActor, CombatTarget {
     protected final Blueprint       blueprint;
 
     private ShieldInstance          shieldInstance;
+
     protected int                   currentHullStrength;
+
+    // Holding the threshold as MutableBaseStats again allows e.g. for temporary armor lowering effects and the like. 
+    private final MutableBaseStat   glanceThreshold;
+    private final MutableBaseStat   hitThreshold;
+    private final MutableBaseStat   critThreshold;
 
     private ShipInstance            mothership;
 
@@ -26,6 +34,10 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatActor, Comb
     public ShipInstance(int idOfOwningEmpire, Blueprint blueprint) {
         this.idOfOwningEmpire = idOfOwningEmpire;
         this.blueprint = blueprint;
+
+        this.glanceThreshold = new MutableBaseStat(blueprint.getArmorGlanceThreshold());
+        this.hitThreshold = new MutableBaseStat(blueprint.getArmorHitThreshold());
+        this.critThreshold = new MutableBaseStat(blueprint.getArmorCritThreshold());
     }
 
     public final int getIdOfOwningEmpire() {
@@ -70,55 +82,43 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatActor, Comb
         return currentHullStrength <= 0;
     }
 
-    public final int takeDamage(Shot shot) {
+    public final void takeDamage(Shot shot) {
         final int evasion = blueprint.getEvasion() - BattleConstants.evasionEqualizer
                         + BattleConstants.randomizer.nextInt(BattleConstants.evasionRandomizerMaximum);
 
         //TODO Add a minimum/maximum hit chance (<0,1 and >0,9 perhaps?)
         if (shot.accuracy > evasion) {
             logger.evades(this, false);
-            int shieldDamage = takeShieldDamage(shot.amount, shot.strength);
-            if (currentShield < 0) {
-                currentShield = 0;
-                int hullDamage = takeHullDamage(shieldDamage, shot.strength);
-                return shieldDamage + hullDamage;
-            }
+            int remainingDamage = shieldInstance.takeShieldDamage(shot.amount, shot.armorPenetration);
+            takeHullDamage(remainingDamage, shot.armorPenetration);
         } else {
             logger.evades(this, true);
         }
-        return 0;
     }
 
-    private final int takeShieldDamage(int amount, int strength) {
-        int damage = (int) (BattleConstants.armorMatrix[blueprint.getMaxShieldStrength()][strength] * amount);
+    private final int takeHullDamage(int damage, int armorPenetration) {
+        int hitStrength = (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.penetrationRandomizerMaximum);
 
-        final int shieldBefore = currentShield;
-        currentShield -= damage;
-        damage -= shieldBefore;
-
-        if (shieldBefore > 0) {
-            if (currentShield <= 0) {
-                logger.shieldBreaks(this);
+        if (hitStrength + armorPenetration > glanceThreshold.getCalculatedValue()) {
+            if (hitStrength + armorPenetration > hitThreshold.getCalculatedValue()) {
+                if (hitStrength + armorPenetration > critThreshold.getCalculatedValue()) {
+                    damage *= BattleConstants.critMultiplier;
+                    logger.takesHullDamage(this, damage, HullDamageType.CRIT);
+                } else {
+                    damage *= BattleConstants.hitMultiplier;
+                    logger.takesHullDamage(this, damage, HullDamageType.HIT);
+                }
             } else {
-                logger.takesShieldDamage(this, (shieldBefore - currentShield));
+                damage *= BattleConstants.glanceMultiplier;
+                logger.takesHullDamage(this, damage, HullDamageType.GLANCING);
             }
-        }
+            currentHullStrength -= damage;
+            return damage;
 
-        return damage;
-    }
-
-    private final int takeHullDamage(int amount, int strength) {
-        final float damageFactor = BattleConstants.armorMatrix[blueprint.getArmorStrength()
-                        + blueprint.getArmorHardeningByShields()][strength];
-        int damage = 0;
-        if (BattleConstants.randomizer.nextFloat() <= damageFactor) {
-            damage = (int) (damageFactor * amount);
-            logger.takesArmorDamage(this, damage);
         } else {
             logger.armorDeflectsAllDamage(this);
         }
-        currentHullStrength -= damage;
-        return damage;
+        return 0;
     }
 
     @Override

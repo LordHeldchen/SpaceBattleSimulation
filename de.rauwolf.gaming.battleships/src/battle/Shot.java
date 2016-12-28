@@ -2,12 +2,12 @@ package battle;
 
 public class Shot {
     public final int amount;
-    public final int strength;
+    public final int armorPenetration;
     public final int accuracy;
 
-    public Shot(int amount, int strength, int accuracy) {
+    public Shot(int amount, int armorPenetration, int accuracy) {
         this.amount = amount;
-        this.strength = strength;
+        this.armorPenetration = armorPenetration;
         this.accuracy = accuracy;
     }
 }

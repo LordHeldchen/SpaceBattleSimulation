@@ -30,11 +30,11 @@ public interface BattleLogger {
 
     public void armorDeflectsAllDamage(ShipInstance ship);
 
-    public void takesArmorDamage(ShipInstance ship, int damage);
+    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType glancing);
 
-    public void shieldBreaks(ShipInstance ship);
+    public void shieldBreaks(ShieldInstance shieldInstance);
 
-    public void takesShieldDamage(ShipInstance ship, int i);
+    public void takesShieldDamage(ShieldInstance shieldInstance, int i);
 
     public void regeneratesShield(ShieldInstance ship, int regeneration, int shieldNow);
 

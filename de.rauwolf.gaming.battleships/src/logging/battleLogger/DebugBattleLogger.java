@@ -80,18 +80,18 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void takesArmorDamage(ShipInstance ship, int damage) {
-        System.out.println("Armor of " + ship + " takes " + damage + " points of damage");
+    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType damageType) {
+        System.out.println("Armor of " + ship + " takes " + damage + " points of " + damageType + " damage.");
     }
 
     @Override
-    public void shieldBreaks(ShipInstance ship) {
-        System.out.println("Shield of " + ship + " breaks!");
+    public void shieldBreaks(ShieldInstance shield) {
+        System.out.println("Shield of " + shield.getOwner() + " breaks!");
     }
 
     @Override
-    public void takesShieldDamage(ShipInstance ship, int amount) {
-        System.out.println("Shield of " + ship + " deflects " + amount + " points of damage");
+    public void takesShieldDamage(ShieldInstance shield, int amount) {
+        System.out.println("Shield of " + shield.getOwner() + " deflects " + amount + " points of damage");
     }
 
     @Override

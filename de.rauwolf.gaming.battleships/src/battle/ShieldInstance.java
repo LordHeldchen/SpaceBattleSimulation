@@ -45,4 +45,24 @@ public class ShieldInstance implements CombatActor {
     public ShipInstance getOwner() {
         return ship;
     }
+
+    public int getCurrentShield() {
+        return currentShield;
+    }
+
+    public int takeShieldDamage(int damage, int strength) {
+        final int shieldBefore = currentShield;
+        currentShield = currentShield - damage > 0 ? currentShield - damage : 0;
+        damage = damage - shieldBefore > 0 ? damage - shieldBefore : 0;
+
+        if (shieldBefore > 0) {
+            if (currentShield <= 0) {
+                logger.shieldBreaks(this);
+            } else {
+                logger.takesShieldDamage(this, (shieldBefore - currentShield));
+            }
+        }
+
+        return damage;
+    }
 }
