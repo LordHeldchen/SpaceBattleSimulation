@@ -10,7 +10,7 @@ import ships.blueprints.Blueprint;
 import ships.blueprints.MutableBaseStat;
 import ships.blueprints.WeaponBlueprint;
 
-public class ShipInstance implements Comparable<ShipInstance>, CombatActor, CombatTarget {
+public class ShipInstance implements Comparable<ShipInstance>, CombatTarget {
     protected final Blueprint       blueprint;
 
     private ShieldInstance          shieldInstance;
@@ -97,11 +97,12 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatActor, Comb
     }
 
     private final int takeHullDamage(int damage, int armorPenetration) {
-        int hitStrength = (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.penetrationRandomizerMaximum);
+        int hitStrength = (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.penetrationRandomizerMaximum)
+                        + armorPenetration;
 
-        if (hitStrength + armorPenetration > glanceThreshold.getCalculatedValue()) {
-            if (hitStrength + armorPenetration > hitThreshold.getCalculatedValue()) {
-                if (hitStrength + armorPenetration > critThreshold.getCalculatedValue()) {
+        if (hitStrength > glanceThreshold.getCalculatedValue()) {
+            if (hitStrength > hitThreshold.getCalculatedValue()) {
+                if (hitStrength > critThreshold.getCalculatedValue()) {
                     damage *= BattleConstants.critMultiplier;
                     logger.takesHullDamage(this, damage, HullDamageType.CRIT);
                 } else {
@@ -119,25 +120,6 @@ public class ShipInstance implements Comparable<ShipInstance>, CombatActor, Comb
             logger.armorDeflectsAllDamage(this);
         }
         return 0;
-    }
-
-    @Override
-    public void takeAction() {
-        final Fleet listOfPotentialTargets = enemiesOfEmpireX.get(attacker.getIdOfOwningEmpire());
-        CombatTarget target = attacker.chooseTarget(listOfPotentialTargets);
-
-        logger.beginSingleAttack(attacker, target);
-
-        if (target.reactBeforeAttacker(attacker)) {
-            logger.shipReacts(target);
-            if (checkDestructionOf(attacker)) {
-                logger.shipDestroyed(attacker);
-                return;
-            }
-        }
-
-        target.takeDamage(attacker.getShots());
-        checkDestructionOf(target);
     }
 
     private boolean checkDestructionOf(ShipInstance target) {

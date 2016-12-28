@@ -56,7 +56,6 @@ public class SingleBattle {
 
     private void integrateShipIntoBattle(ShipInstance ship) {
         combatTargets.add(ship);
-        combatActors.add(ship);
         combatActors.addAll(ship.getCombatActorsOfShip());
         for (int empire : participatingEmpires) {
             if (empire != ship.getIdOfOwningEmpire()) {
@@ -93,6 +92,10 @@ public class SingleBattle {
         for (ShipInstance ship : allShips) {
             ship.endCurrentBattle();
         }
+    }
+
+    Fleet getAllEnemiesOfEmpireX(int empireID) {
+        return enemiesOfEmpireX.get(empireID);
     }
 
     private void endBattle() {
