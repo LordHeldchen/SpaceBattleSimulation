@@ -38,8 +38,8 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void shipDestroyed(ShipInstance target) {
-        System.out.println("Ship destroyed: " + target);
+    public void shipDestroyed(CombatTarget target) {
+        System.out.println("Target destroyed: " + target);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void shipReacts(ShipInstance ship) {
-        System.out.println(ship + " reacts successfully!");
+    public void shipReacts(CombatTarget target) {
+        System.out.println(target + " reacts successfully!");
     }
 
     @Override

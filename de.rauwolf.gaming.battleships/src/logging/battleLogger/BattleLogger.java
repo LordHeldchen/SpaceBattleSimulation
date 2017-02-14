@@ -15,7 +15,7 @@ public interface BattleLogger {
                            Map<Integer, Fleet> enemiesOfEmpireX,
                            HashSet<ShipInstance> participatingFighters);
 
-    public void shipDestroyed(ShipInstance target);
+    public void shipDestroyed(CombatTarget targetOfAction);
 
     public void endOfBattle(HashSet<Fleet> allFleets);
 
@@ -25,7 +25,7 @@ public interface BattleLogger {
 
     public void nextRound();
 
-    public void shipReacts(ShipInstance attacker);
+    public void shipReacts(CombatTarget target);
 
     public void evades(ShipInstance ship, boolean doesEvade);
 

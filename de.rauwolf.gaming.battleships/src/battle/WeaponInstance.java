@@ -3,6 +3,7 @@ package battle;
 import java.util.ArrayList;
 import java.util.Map;
 
+import logging.battleLogger.BattleLogger;
 import ships.Fleet;
 import ships.blueprints.Blueprint;
 import ships.blueprints.WeaponBlueprint;
@@ -14,10 +15,10 @@ public class WeaponInstance extends CombatActor {
     //TODO: Not sure yet whether the concept of "payload" will remain.
     private int                   currentPayload;
 
-    public WeaponInstance(WeaponBlueprint weapon, ShipInstance owningShipInstance) {
+    public WeaponInstance(WeaponBlueprint weapon, ShipInstance owningShipInstance, BattleLogger logger) {
         super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
                         + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
-                        weapon.getBattleSpeedDecay());
+                        weapon.getBattleSpeedDecay(), logger);
 
         this.weaponBlueprint = weapon;
         this.owningShipInstance = owningShipInstance;
@@ -35,20 +36,19 @@ public class WeaponInstance extends CombatActor {
 
         logger.beginSingleAttack(this, target);
 
-        if (target.reactBeforeAttacker(attacker)) {
+        if (target.reactBeforeAttacker(owningShipInstance)) {
             logger.shipReacts(target);
-            if (checkDestructionOf(attacker)) {
-                logger.shipDestroyed(attacker);
-                return;
+            if (owningShipInstance.isDestroyed()) {
+                logger.shipDestroyed(owningShipInstance);
+                return target;
             }
         }
 
-        target.takeDamage(attacker.getShots());
-        checkDestructionOf(target);
+        target.takeDamage(getShot());
         return target;
     }
 
-    private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
+	private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
         Map<Class<? extends Blueprint>, Integer> preferredTargets = weaponBlueprint.getPreferredTargets();
         for (Class<? extends Blueprint> preferredType : preferredTargets.keySet()) {
             if (listOfPotentialTargets.containsType(preferredType)

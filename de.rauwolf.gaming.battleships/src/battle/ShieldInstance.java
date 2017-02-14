@@ -9,14 +9,11 @@ public class ShieldInstance extends CombatActor {
 
     private int                currentShield;
 
-    private BattleLogger       logger;
-    private SingleBattle       singleBattle;
-
     public ShieldInstance(ShipInstance owningShipInstance, int maxStrength, int regenerationAmount,
-                    int initiativeDecay) {
+                    int initiativeDecay, BattleLogger logger) {
         super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
                         + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
-                        initiativeDecay);
+                        initiativeDecay, logger);
 
         this.owningShipInstance = owningShipInstance;
         this.maxShield = maxStrength;

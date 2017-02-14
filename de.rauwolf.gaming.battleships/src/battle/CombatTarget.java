@@ -5,6 +5,10 @@ import logging.battleLogger.BattleLogger;
 public interface CombatTarget {
     void addBattleLog(BattleLogger logger);
 
-    void takeDamage(Shot list);
     boolean isDestroyed();
+
+    void takeDamage(Shot list);
+	boolean reactBeforeAttacker(ShipInstance attacker);
+
+	void endCurrentBattle();
 }

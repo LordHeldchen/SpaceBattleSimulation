@@ -84,18 +84,9 @@ public class SingleBattle {
             CombatActor actorWithHighestInit = combatActors.poll();
             CombatTarget targetOfAction = actorWithHighestInit.takeAction();
             combatActors.add(actorWithHighestInit);
-
             checkDestruction(targetOfAction);
-
-            if (hasPayloadRemaining) {
-                attack(actorWithHighestInit);
-            } else if (!actorWithHighestInit.hasPayloadRemaining()) {
-                ++shipsRanOutOfPayload;
-            }
-
-            logger.checkPayloadAfterAttack(actorWithHighestInit);
-
-            continueCombat &= shipsRanOutOfPayload < allShips.size() / 2;
+            
+            enemiesOfEmpireX.values().forEach((Fleet f) -> continueCombat &= f.size() > 0);
         }
 
         for (ShipInstance ship : allShips) {
