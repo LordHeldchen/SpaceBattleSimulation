@@ -2,22 +2,24 @@ package ships.blueprints;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import battle.BattleConstants;
+import battle.WeaponInstance;
 import ships.basicShips.HullType;
+import ships.basicShips.SizeEnum;
 
 public class Blueprint {
     // For all following elements: May be reduced from Lists to single elements if Ships may not contain more than one.
     private final HullType        hullType;
 
-    private List<WeaponBlueprint> weapons;
+    private Map<SizeEnum, List<WeaponBlueprint>> weapons;
     private List<Component>       components;
-    private ArmorLayout           armor;
-    private ShieldLayout          shields;
     private PropulsionLayout      propulsion;
 
     private final String          name;
     private final String          description;
-
+    
     // Shields
     private final MutableBaseStat maxShieldStrength;
     private final MutableBaseStat shieldRegenerationAmount;
@@ -38,21 +40,21 @@ public class Blueprint {
         this.description = description;
         this.hullType = hullType;
 
-        maxShieldStrength = new MutableBaseStat(hullType.getMaxShieldStrength());
-        shieldRegenerationAmount = new MutableBaseStat(hullType.getShieldRegenerationAmount());
-        shieldRegenerationSpeed = new MutableBaseStat(hullType.getShieldRegenerationSpeed());
+        maxShieldStrength = new MutableBaseStat(0);
+        shieldRegenerationAmount = new MutableBaseStat(0);
+        shieldRegenerationSpeed = new MutableBaseStat(0);
+        evasion = new MutableBaseStat(0);
 
         //TODO: Boni zu bestimmten Waffenkategorien/-größen etc.
-        evasion = new MutableBaseStat(hullType.getMaxShieldStrength());
 
-        glanceThreshold = new MutableBaseStat(hullType.getGlanceThreshold());
-        hitThreshold = new MutableBaseStat(hullType.getHitThreshold());
-        critThreshold = new MutableBaseStat(hullType.getCritThreshold());
-        maxHullStrength = new MutableBaseStat(hullType.getHullStrength());
+        glanceThreshold = new MutableBaseStat(hullType.getBaseGlanceThreshold());
+        hitThreshold = new MutableBaseStat(hullType.getBaseHitThreshold());
+        critThreshold = new MutableBaseStat(hullType.getBaseCritThreshold());
+        maxHullStrength = new MutableBaseStat(hullType.getBaseHullStrength());
 
-        startBattleSpeed = new MutableBaseStat(0);
+        startBattleSpeed = new MutableBaseStat(hullType.getBaseStartBattleSpeed());
     }
-
+    
     public HullType getHullType() {
         return hullType;
     }
@@ -65,24 +67,12 @@ public class Blueprint {
         return description;
     }
 
-    public List<WeaponBlueprint> getWeapons() {
-        return weapons;
-    }
-
     public List<Component> getComponents() {
         return components;
     }
 
     public PropulsionLayout getPropulsion() {
         return propulsion;
-    }
-
-    public ArmorLayout getArmor() {
-        return armor;
-    }
-
-    public ShieldLayout getShields() {
-        return shields;
     }
 
     public int getEvasion() {
@@ -125,4 +115,26 @@ public class Blueprint {
         //TODO: Define, allow configuration, ...
         return new LinkedList<Blueprint>();
     }
+
+	public void addWeapon(WeaponBlueprint weaponBlueprint) throws NotEnoughtSlotsException {
+		SizeEnum size = weaponBlueprint.getSize();
+		List<WeaponBlueprint> weaponsForSize = weapons.get(size);
+		if (weaponsForSize.size() < hullType.getAvailableWeaponSlotsForSize(size)) {
+			weaponsForSize.add(weaponBlueprint);
+		} else {
+			throw new NotEnoughtSlotsException();
+		}
+	}
+
+	public List<WeaponInstance> getWeaponInstances() {
+		int startingBattleSpeed = startBattleSpeed.getCalculatedValue() + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
+		
+		List<WeaponInstance> weaponInstances = new LinkedList<WeaponInstance>();
+		for (List<WeaponBlueprint> weaponBlueprintList: this.weapons.values()) {
+			for (WeaponBlueprint weaponBlueprint: weaponBlueprintList) {
+				weaponInstances.add(weaponBlueprint.getInstance(startingBattleSpeed));
+			}
+		}
+		return weaponInstances;
+	}
 }

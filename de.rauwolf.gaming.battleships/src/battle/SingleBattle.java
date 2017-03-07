@@ -60,7 +60,7 @@ public class SingleBattle {
 
         List<CombatActor> combatActorsOfShip = ship.getCombatActorsOfShip();
         combatActorsOfShip.forEach(combatActor -> combatActor.setCurrentBattle(this));
-        combatActorsOfShip.forEach(combatActor -> combatActor.addBattleLog(logger));
+        combatActorsOfShip.forEach(combatActor -> combatActor.addBattleLoger(logger));
 
         combatActors.addAll(ship.getCombatActorsOfShip());
         int idOfOwningEmpire = ship.getIdOfOwningEmpire();

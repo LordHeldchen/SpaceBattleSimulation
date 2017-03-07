@@ -3,19 +3,15 @@ package battle;
 import logging.battleLogger.BattleLogger;
 
 public class ShieldInstance extends CombatActor {
-    private final ShipInstance owningShipInstance;
     private final int          maxShield;
     private final int          regenerationAmount;
 
+    private ShipInstance owningShipInstance;
     private int                currentShield;
 
-    public ShieldInstance(ShipInstance owningShipInstance, int maxStrength, int regenerationAmount,
-                    int initiativeDecay, BattleLogger logger) {
-        super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
-                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
-                        initiativeDecay, logger);
+    public ShieldInstance(int maxStrength, int regenerationAmount, int startInitiative, int initiativeDecay) {
+        super(startInitiative, initiativeDecay);
 
-        this.owningShipInstance = owningShipInstance;
         this.maxShield = maxStrength;
         this.regenerationAmount = regenerationAmount;
     }

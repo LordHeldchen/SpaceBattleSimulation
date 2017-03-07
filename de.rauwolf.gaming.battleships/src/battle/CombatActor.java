@@ -10,8 +10,7 @@ public abstract class CombatActor implements Comparable<CombatActor> {
     protected SingleBattle currentBattle;
     protected BattleLogger logger;
 
-    protected CombatActor(int startInitiative, int initiativeDecay, BattleLogger logger) {
-    	this.logger = logger;
+    protected CombatActor(int startInitiative, int initiativeDecay) {
         this.currentInitiative = startInitiative;
         this.initiativeDecay = initiativeDecay;
     }
@@ -24,7 +23,7 @@ public abstract class CombatActor implements Comparable<CombatActor> {
         this.currentBattle = singleBattle;
     }
 
-    public final void addBattleLog(BattleLogger battleLogger) {
+    public final void addBattleLoger(BattleLogger battleLogger) {
         this.logger = battleLogger;
     }
 

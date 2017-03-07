@@ -1,34 +1,54 @@
 package universe;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import battle.ShipInstance;
 import ships.Fleet;
-import ships.blueprints.ArmorLayout;
+import ships.basicShips.HullType;
+import ships.basicShips.SizeEnum;
 import ships.blueprints.Blueprint;
-import ships.blueprints.PropulsionLayout;
+import ships.blueprints.NotEnoughtSlotsException;
 import ships.blueprints.WeaponBlueprint;
 
 public class StarSystem {
     private static final int participatingEmpireA = 1;
     private static final int participatingEmpireB = 2;
+    
+    private static HullType getBasicFighterHullType() {
+    	int baseGlanceThreshold = 5;
+        int baseHitThreshold = 30;
+        int baseCritThreshold = 50;
+        int baseHullStrength = 100;
+        int baseStartInitiative = 100;
+        
+        HullType fighterType = new HullType(baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseStartInitiative);
+        fighterType.setAvailableWeaponSlotsForSize(SizeEnum.XXS, 2);
+        fighterType.setAvailableComponentSlotsForSize(SizeEnum.XXS, 1);
+        return fighterType;
+    }
+    
+    private static WeaponBlueprint getBasicVulcanBlueprint() {
+    	String weaponName = "'Vulcan' Close Combat Laser Guns";
+        int accuracy = 75;
+        int damage = 20;
+        int ap = 10;
+        int timeCost = 4;
+        SizeEnum size = SizeEnum.XXS;
+        return new WeaponBlueprint(weaponName, size, accuracy, damage, ap, timeCost);
+    }
 
     private static Blueprint getStandardFighterBlueprint() {
-        WeaponBlueprint weaponLayout = new WeaponBlueprint("'Vulcan' Close Combat Laser Guns", 100, 50, 3, 5);
-        ArmorLayout armorLayout = new ArmorLayout("Basic Fighter Armor", 75, 2);
-        PropulsionLayout propulsionLayout = new PropulsionLayout("Basic Fighter Turbine", 100, 15, 100, 0);
+    	HullType fighterType = getBasicFighterHullType();
 
-        LinkedList<WeaponBlueprint> weaponList = new LinkedList<WeaponBlueprint>();
-        weaponList.add(weaponLayout);
-        LinkedList<ArmorLayout> armorList = new LinkedList<ArmorLayout>();
-        armorList.add(armorLayout);
-        LinkedList<PropulsionLayout> propulsionList = new LinkedList<PropulsionLayout>();
-        propulsionList.add(propulsionLayout);
-
-        Blueprint fighterBlueprint = new Blueprint("Standard Fighter", "SomeDescription",
-                        weaponList, armorList, null, propulsionList, null);
+        Blueprint fighterBlueprint = new Blueprint("Standard Fighter", "SomeDescription", fighterType);
+        
+        try {
+			fighterBlueprint.addWeapon(getBasicVulcanBlueprint());
+			fighterBlueprint.addWeapon(getBasicVulcanBlueprint());
+		} catch (NotEnoughtSlotsException e) {
+			e.printStackTrace();
+		}
 
         return fighterBlueprint;
     }

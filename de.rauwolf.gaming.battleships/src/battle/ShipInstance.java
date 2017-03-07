@@ -7,7 +7,6 @@ import logging.battleLogger.BattleLogger;
 import logging.battleLogger.HullDamageType;
 import ships.blueprints.Blueprint;
 import ships.blueprints.MutableBaseStat;
-import ships.blueprints.WeaponBlueprint;
 
 public class ShipInstance implements CombatTarget {
 	protected final Blueprint blueprint;
@@ -45,12 +44,14 @@ public class ShipInstance implements CombatTarget {
 	public List<CombatActor> getCombatActorsOfShip() {
 		if (combatActorsOfShip == null) {
 			combatActorsOfShip = new LinkedList<CombatActor>();
-			for (WeaponBlueprint weapon : blueprint.getWeapons()) {
-				WeaponInstance weaponInstance = new WeaponInstance(weapon, this, logger);
+			for (WeaponInstance weaponInstance : blueprint.getWeaponInstances()) {
 				combatActorsOfShip.add(weaponInstance);
 			}
-			shieldInstance = new ShieldInstance(this, blueprint.getMaxShieldStrength(),
-					blueprint.getShieldRegenerationAmount(), blueprint.getShieldInitiativeDecay(), logger);
+			
+			//XXX Übersichtlicher gestalten!
+			shieldInstance = new ShieldInstance(blueprint.getMaxShieldStrength(),
+					blueprint.getShieldRegenerationAmount(), blueprint.getStartBattleSpeed().getCalculatedValue(), blueprint.getShieldInitiativeDecay());
+			shieldInstance.addBattleLoger(logger);
 		}
 		return combatActorsOfShip;
 	}

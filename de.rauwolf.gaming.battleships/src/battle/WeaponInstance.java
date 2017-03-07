@@ -9,21 +9,24 @@ import ships.blueprints.Blueprint;
 import ships.blueprints.WeaponBlueprint;
 
 public class WeaponInstance extends CombatActor {
-    private final ShipInstance    owningShipInstance;
-    private final WeaponBlueprint weaponBlueprint;
+    private ShipInstance    owningShipInstance;
+    private WeaponBlueprint weaponBlueprint;
 
     //TODO: Not sure yet whether the concept of "payload" will remain.
-    private int                   currentPayload;
+    //private int                   currentPayload;
 
-    public WeaponInstance(WeaponBlueprint weapon, ShipInstance owningShipInstance, BattleLogger logger) {
-        super(owningShipInstance.getBlueprint().getStartBattleSpeed().getCalculatedValue()
-                        + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum),
-                        weapon.getBattleSpeedDecay(), logger);
+    public WeaponInstance(WeaponBlueprint weapon, int startInitiative, int initiativeDecay) {
+        super(startInitiative, initiativeDecay);
 
         this.weaponBlueprint = weapon;
-        this.owningShipInstance = owningShipInstance;
-
-        this.currentPayload = weapon.getMaxPayload();
+    }
+    
+    public void setOwningShipInstace(ShipInstance instance) {
+    	this.owningShipInstance = instance;
+    }
+    
+    public void setLogger(BattleLogger battleLogger) {
+    	super.addBattleLoger(battleLogger);
     }
 
     @Override
