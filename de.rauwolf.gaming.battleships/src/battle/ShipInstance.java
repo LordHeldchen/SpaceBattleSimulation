@@ -13,8 +13,9 @@ public class ShipInstance implements CombatTarget {
 
 	private ShieldInstance shieldInstance;
 
-	protected int currentHullStrength;
-
+	private final MutableBaseStat maxHullStrength;
+	private int currentHullStrength;
+                  
 	// Holding the threshold as MutableBaseStats again allows e.g. for temporary
 	// armor lowering effects and the like.
 	private final MutableBaseStat glanceThreshold;
@@ -35,6 +36,9 @@ public class ShipInstance implements CombatTarget {
 		this.glanceThreshold = new MutableBaseStat(blueprint.getArmorGlanceThreshold());
 		this.hitThreshold = new MutableBaseStat(blueprint.getArmorHitThreshold());
 		this.critThreshold = new MutableBaseStat(blueprint.getArmorCritThreshold());
+		
+		this.maxHullStrength = new MutableBaseStat(blueprint.getMaxHullStrength());
+		currentHullStrength = this.maxHullStrength.getCalculatedValue();
 	}
 
 	public final int getIdOfOwningEmpire() {
@@ -44,13 +48,13 @@ public class ShipInstance implements CombatTarget {
 	public List<CombatActor> getCombatActorsOfShip() {
 		if (combatActorsOfShip == null) {
 			combatActorsOfShip = new LinkedList<CombatActor>();
-			for (WeaponInstance weaponInstance : blueprint.getWeaponInstances()) {
+			for (WeaponInstance weaponInstance : blueprint.getWeaponInstances(this)) {
 				combatActorsOfShip.add(weaponInstance);
 			}
 			
 			//XXX Übersichtlicher gestalten!
 			shieldInstance = new ShieldInstance(blueprint.getMaxShieldStrength(),
-					blueprint.getShieldRegenerationAmount(), blueprint.getStartBattleSpeed().getCalculatedValue(), blueprint.getShieldInitiativeDecay());
+					blueprint.getShieldRegenerationAmount(), blueprint.getStartBattleSpeed(), blueprint.getShieldInitiativeDecay());
 			shieldInstance.addBattleLoger(logger);
 		}
 		return combatActorsOfShip;

@@ -1,57 +1,55 @@
 package battle;
 
-import logging.battleLogger.BattleLogger;
-
 public class ShieldInstance extends CombatActor {
-    private final int          maxShield;
-    private final int          regenerationAmount;
+	private final int maxShield;
+	private final int regenerationAmount;
 
-    private ShipInstance owningShipInstance;
-    private int                currentShield;
+	private ShipInstance owningShipInstance;
+	private int currentShield;
 
-    public ShieldInstance(int maxStrength, int regenerationAmount, int startInitiative, int initiativeDecay) {
-        super(startInitiative, initiativeDecay);
+	public ShieldInstance(int maxStrength, int regenerationAmount, int startInitiative, int initiativeDecay) {
+		super(startInitiative, initiativeDecay);
 
-        this.maxShield = maxStrength;
-        this.regenerationAmount = regenerationAmount;
-    }
+		this.maxShield = maxStrength;
+		this.regenerationAmount = regenerationAmount;
+	}
 
-    @Override
-    public CombatTarget takeAction() {
-        loseInitiative();
+	@Override
+	public CombatTarget takeAction() {
+		loseInitiative();
 
-        if (maxShield > 0) {
-            int regeneration = currentShield + regenerationAmount > maxShield
-                            ? maxShield - currentShield
-                            : regenerationAmount;
-            currentShield += regeneration;
-            logger.regeneratesShield(this, regeneration, currentShield);
-        }
+		if (maxShield > 0) {
+			int regeneration = currentShield + regenerationAmount > maxShield ? maxShield - currentShield
+					: regenerationAmount;
+			currentShield += regeneration;
+			logger.regeneratesShield(this, regeneration, currentShield);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public ShipInstance getOwner() {
-        return owningShipInstance;
-    }
+	public ShipInstance getOwner() {
+		return owningShipInstance;
+	}
 
-    public int getCurrentShield() {
-        return currentShield;
-    }
+	public int getCurrentShield() {
+		return currentShield;
+	}
 
-    public int takeShieldDamage(int damage, int strength) {
-        final int shieldBefore = currentShield;
-        currentShield = currentShield - damage > 0 ? currentShield - damage : 0;
-        damage = damage - shieldBefore > 0 ? damage - shieldBefore : 0;
+	public int takeShieldDamage(int damage, int strength) {
+		final int shieldBefore = currentShield;
+		currentShield = currentShield - damage;
 
-        if (shieldBefore > 0) {
-            if (currentShield <= 0) {
-                logger.shieldBreaks(this);
-            } else {
-                logger.takesShieldDamage(this, (shieldBefore - currentShield));
-            }
-        }
+		int remainingDamage = 0;
+		if (currentShield <= 0) {
+			remainingDamage = -currentShield;
+			if (shieldBefore > 0) {
+				logger.shieldBreaks(this);
+			}
+		} else {
+			logger.takesShieldDamage(this, (shieldBefore - currentShield));
+		}
 
-        return damage;
-    }
+		return remainingDamage;
+	}
 }

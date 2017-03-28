@@ -1,10 +1,12 @@
 package ships.blueprints;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import battle.BattleConstants;
+import battle.ShipInstance;
 import battle.WeaponInstance;
 import ships.basicShips.HullType;
 import ships.basicShips.SizeEnum;
@@ -14,6 +16,7 @@ public class Blueprint {
     private final HullType        hullType;
 
     private Map<SizeEnum, List<WeaponBlueprint>> weapons;
+    
     private List<Component>       components;
     private PropulsionLayout      propulsion;
 
@@ -53,6 +56,11 @@ public class Blueprint {
         maxHullStrength = new MutableBaseStat(hullType.getBaseHullStrength());
 
         startBattleSpeed = new MutableBaseStat(hullType.getBaseStartBattleSpeed());
+        
+        weapons = new HashMap<SizeEnum, List<WeaponBlueprint>>();
+        for (SizeEnum size: SizeEnum.values()) {
+        	weapons.put(size, new LinkedList<WeaponBlueprint>());
+        }
     }
     
     public HullType getHullType() {
@@ -103,12 +111,12 @@ public class Blueprint {
         return critThreshold.getCalculatedValue();
     }
 
-    public MutableBaseStat getMaxHullStrength() {
-        return maxHullStrength;
+    public int getMaxHullStrength() {
+        return maxHullStrength.getCalculatedValue();
     }
 
-    public MutableBaseStat getStartBattleSpeed() {
-        return startBattleSpeed;
+    public int getStartBattleSpeed() {
+        return startBattleSpeed.getCalculatedValue();
     }
 
     public List<Blueprint> getFighterTypesInBay() {
@@ -126,13 +134,15 @@ public class Blueprint {
 		}
 	}
 
-	public List<WeaponInstance> getWeaponInstances() {
+	public List<WeaponInstance> getWeaponInstances(ShipInstance shipInstance) {
 		int startingBattleSpeed = startBattleSpeed.getCalculatedValue() + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
 		
 		List<WeaponInstance> weaponInstances = new LinkedList<WeaponInstance>();
 		for (List<WeaponBlueprint> weaponBlueprintList: this.weapons.values()) {
 			for (WeaponBlueprint weaponBlueprint: weaponBlueprintList) {
-				weaponInstances.add(weaponBlueprint.getInstance(startingBattleSpeed));
+				WeaponInstance instance = weaponBlueprint.getInstance(startingBattleSpeed);
+				instance.setOwningShipInstace(shipInstance);
+				weaponInstances.add(instance);
 			}
 		}
 		return weaponInstances;

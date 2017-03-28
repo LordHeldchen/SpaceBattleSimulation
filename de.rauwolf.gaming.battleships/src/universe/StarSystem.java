@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import battle.ShipInstance;
+import battle.SingleBattle;
+import logging.battleLogger.DebugBattleLogger;
 import ships.Fleet;
 import ships.basicShips.HullType;
 import ships.basicShips.SizeEnum;
@@ -73,4 +75,10 @@ public class StarSystem {
         listOfFleets.add(fleetB);
         return listOfFleets;
     }
+    
+    public static void main(String[] args) {
+		Set<Fleet> allFleetsFromStarSystem = getAllFleetsFromStarSystem();
+		SingleBattle sb = new SingleBattle(allFleetsFromStarSystem, DebugBattleLogger.getNewDebugBattleLogger());
+		sb.fight();
+	}
 }

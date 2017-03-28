@@ -25,7 +25,7 @@ public class SingleBattle {
     HashSet<ShipInstance>              participatingFighters = new HashSet<ShipInstance>();
 
     private PriorityQueue<CombatActor> combatActors          = new PriorityQueue<CombatActor>();
-    private HashSet<CombatTarget>      combatTargets;
+    private HashSet<CombatTarget>      combatTargets 		 = new HashSet<CombatTarget>();
 
     final BattleLogger                 logger;
 
