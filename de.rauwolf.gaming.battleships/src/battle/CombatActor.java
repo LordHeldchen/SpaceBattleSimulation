@@ -11,12 +11,12 @@ public abstract class CombatActor implements Comparable<CombatActor> {
     protected BattleLogger logger;
 
     protected CombatActor(int startInitiative, int initiativeDecay) {
-        this.currentInitiative = startInitiative;
+        this.setCurrentInitiative(startInitiative);
         this.initiativeDecay = initiativeDecay;
     }
 
     protected final void loseInitiative() {
-        currentInitiative -= initiativeDecay;
+        setCurrentInitiative(getCurrentInitiative() - initiativeDecay);
     }
 
     public final void setCurrentBattle(SingleBattle singleBattle) {
@@ -31,6 +31,14 @@ public abstract class CombatActor implements Comparable<CombatActor> {
 
     @Override
     public int compareTo(CombatActor other) {
-        return this.currentInitiative - other.currentInitiative;
+        return other.getCurrentInitiative() - this.getCurrentInitiative();
     }
+
+	public int getCurrentInitiative() {
+		return currentInitiative;
+	}
+
+	public void setCurrentInitiative(int currentInitiative) {
+		this.currentInitiative = currentInitiative;
+	}
 }

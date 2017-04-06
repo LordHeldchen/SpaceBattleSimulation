@@ -2,6 +2,7 @@ package logging.battleLogger;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import battle.CombatActor;
 import battle.CombatTarget;
@@ -12,6 +13,7 @@ import ships.Fleet;
 public interface BattleLogger {
     public void showFormup(HashSet<Fleet> allFleets,
                            HashSet<ShipInstance> allShips,
+                           PriorityQueue<CombatActor> combatActors,
                            Map<Integer, Fleet> enemiesOfEmpireX,
                            HashSet<ShipInstance> participatingFighters);
 

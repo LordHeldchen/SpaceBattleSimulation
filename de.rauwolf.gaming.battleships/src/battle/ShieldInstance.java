@@ -46,6 +46,7 @@ public class ShieldInstance extends CombatActor {
 			if (shieldBefore > 0) {
 				logger.shieldBreaks(this);
 			}
+			currentShield = 0;
 		} else {
 			logger.takesShieldDamage(this, (shieldBefore - currentShield));
 		}

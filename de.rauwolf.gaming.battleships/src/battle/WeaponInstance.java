@@ -48,6 +48,7 @@ public class WeaponInstance extends CombatActor {
         }
 
         target.takeDamage(getShot());
+        
         return target;
     }
 

@@ -2,6 +2,7 @@ package logging.battleLogger;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import battle.CombatActor;
 import battle.CombatTarget;
@@ -21,6 +22,7 @@ public class DebugBattleLogger implements BattleLogger {
     @Override
     public void showFormup(HashSet<Fleet> allFleets,
                            HashSet<ShipInstance> allShips,
+                           PriorityQueue<CombatActor> combatActors, 
                            Map<Integer, Fleet> enemiesOfEmpireX,
                            HashSet<ShipInstance> participatingFighters) {
         System.out.println("Formup: ");
@@ -34,7 +36,8 @@ public class DebugBattleLogger implements BattleLogger {
         }
         System.out.println();
         System.out.println("Participating Fighters: " + participatingFighters.size());
-        System.out.println("Size of AllShips: " + allShips.size());
+        System.out.println("Amount of participating Ships: " + allShips.size());
+        System.out.println("Amount of active actors: " + combatActors.size());
     }
 
     @Override
