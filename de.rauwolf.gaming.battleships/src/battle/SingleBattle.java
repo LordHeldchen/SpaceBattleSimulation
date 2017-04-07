@@ -75,17 +75,21 @@ public class SingleBattle {
 	}
 
 	public void fight() {
-		final int highestStartingInitiative = combatActors.peek().getCurrentInitiative();
-		while (continueCombat) {
-			logger.nextRound();
+		if (combatActors.size() > 0) {
+			final int highestStartingInitiative = combatActors.peek().getCurrentInitiative();
+			while (continueCombat) {
+				logger.nextRound();
 
-			CombatActor actorWithHighestInit = combatActors.poll();
-			CombatTarget targetOfAction = actorWithHighestInit.takeAction();
-			combatActors.add(actorWithHighestInit);
-			checkDestruction(targetOfAction);
+				CombatActor actorWithHighestInit = combatActors.poll();
+				CombatTarget targetOfAction = actorWithHighestInit.takeAction();
+				combatActors.add(actorWithHighestInit);
+				checkDestruction(targetOfAction);
 
-			enemiesOfEmpireX.values().forEach((Fleet f) -> continueCombat &= f.size() > 0
-					&& actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
+				enemiesOfEmpireX.values().forEach((Fleet f) -> continueCombat &= f.size() > 0
+						&& actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
+			}
+		} else {
+			logger.noActiveParticipantsInCombat();
 		}
 
 		for (ShipInstance ship : allShips) {

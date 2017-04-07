@@ -44,4 +44,6 @@ public interface BattleLogger {
     public void preysOnPreferredTargetType(CombatActor ship);
 
     public void hasResupplied(ShipInstance ship, ShipInstance mothership);
+
+	public void noActiveParticipantsInCombat();
 }

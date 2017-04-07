@@ -18,44 +18,44 @@ public class WeaponBlueprint {
 	// private final int maxPayload;
 
 	// TODO: Introduce reload time e.g. for BurstFire of several rounds?
-	private final int initiativeDecay;
+	private final int timeCost;
 
 	protected Map<Class<? extends Blueprint>, Integer> preferredTargets;
 
 
-	public WeaponBlueprint(String name, SizeEnum size, int accuracy, int damage, int armorPenetration, int battlespeedDecay) {
+	public WeaponBlueprint(String name, SizeEnum size, int accuracy, int damage, int armorPenetration, int timeCost) {
 		this.name = name;
 		this.size = size;
 		this.accuracy = accuracy;
 		this.damage = damage;
 		this.armorPenetration = armorPenetration;
-		this.initiativeDecay = battlespeedDecay;
+		this.timeCost = timeCost;
 
 		this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
 	}
 
 	public Map<Class<? extends Blueprint>, Integer> getPreferredTargets() {
-		return preferredTargets;
+		return this.preferredTargets;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public int getAccuracy() {
-		return accuracy;
+		return this.accuracy;
 	}
 
 	public int getDamage() {
-		return damage;
+		return this.damage;
 	}
 
 	public int getArmorPenetration() {
-		return armorPenetration;
+		return this.armorPenetration;
 	}
 
 	public int getBattleSpeedDecay() {
-		return initiativeDecay;
+		return this.timeCost;
 	}
 
 	public SizeEnum getSize() {
@@ -63,6 +63,10 @@ public class WeaponBlueprint {
 	}
 
 	public WeaponInstance getInstance(int startingInitiative) {
-		return new WeaponInstance(this, startingInitiative, initiativeDecay);
+		return new WeaponInstance(this, startingInitiative, timeCost);
+	}
+	
+	public String toString() {
+		return name + " (" + size + ") -->  DMG " + damage + ", AP " + armorPenetration + ", TC " + timeCost;
 	}
 }

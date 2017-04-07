@@ -112,4 +112,9 @@ public class DebugBattleLogger implements BattleLogger {
     public void hasResupplied(ShipInstance ship, ShipInstance mothership) {
         System.out.println(ship + ": Resupplied at " + mothership);
     }
+
+	@Override
+	public void noActiveParticipantsInCombat() {
+		System.out.println("No participants take an active part in this battle.");
+	}
 }
