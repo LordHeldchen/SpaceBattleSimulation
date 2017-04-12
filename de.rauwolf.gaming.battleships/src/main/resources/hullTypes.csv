@@ -1,0 +1,19 @@
+# CSV-values per hull in order:
+### 1. shorthand
+### 2. name
+### 3. baseStartInitiative
+### 4. baseEvasion
+### 5. baseHullStrength
+### 6. baseGlanceThreshold
+### 7. baseHitThreshold
+### 8. baseCritThreshold
+### 9. available weapon slots (XXS to XXL, 7 values overall)
+### 10. available component slots (A, D, E, P), i.e. allround, defense, electronics, propulsion
+### 11. description
+
+fighter;     Fighter;       100; 120; 100;  5; 30;  60;   1 0 0 0 0 0 0;   1 0 0 0;   All-time useful basic fighter hull. Quite hard to hit and therefore pretty pesky, especially against ships with mainly big weapons.
+hfighter;    Heavy Fighter;  90; 110; 140; 10; 30;  65;   2 0 0 0 0 0 0;   1 0 0 0;   Heavier version of the fighter. Provides two times the firepower for about one and a half times the cost. Not as viable for direct combat as the standard fighter though, since its armor has only been upgraded marginally.
+bomber;      Bomber;         85; 100; 200; 15; 40;  70;   0 1 0 0 0 0 0;   2 0 0 0;   Bombers are meant to be fitted as anti capital ships. While able to carry potent bombs close to target while withering countless point defense barrages, the only other role bombers are suitable for are as eWar platforms.
+frigate;     Frigate;        75; 100; 350; 20; 50;  80;   0 0 2 0 0 0 0;   1 0 1 0;   Frigates are the ship of choice when the mission is about harrassing enemy ships or taking apart small fleets fast. Considerable firepower, solid armor (versus fighters at least) and high speed makes Frigates the ideal raiding and escort ships.
+destroyer;   Destroyer;      70; 80;  500; 30; 65; 100;   0 0 4 0 0 0 0;   0 1 1 0;   Destroyers are ships dedicated to spread out firepower with average stats in every respect, which is the reason why they are mainly used for escort duty.
+ 

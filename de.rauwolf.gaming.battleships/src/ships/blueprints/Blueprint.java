@@ -1,28 +1,30 @@
 package ships.blueprints;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import battle.BattleConstants;
 import battle.ShipInstance;
-import battle.WeaponInstance;
-import ships.basicShips.HullType;
-import ships.basicShips.SizeEnum;
+import ships.resourceLoader.ComponentResourceLoader;
+import ships.resourceLoader.WeaponResourceLoader;
+import ships.shipHulls.ComponentType;
+import ships.shipHulls.HullType;
+import ships.shipHulls.WeaponSize;
 
 public class Blueprint {
-    // For all following elements: May be reduced from Lists to single elements if Ships may not contain more than one.
-    private final HullType        hullType;
+    private final HullType hullType;
 
-    private Map<SizeEnum, List<WeaponBlueprint>> weapons;
-    
-    private List<Component>       components;
-    private PropulsionLayout      propulsion;
+    private Map<WeaponSize, List<WeaponBlueprint>> weapons;
 
-    private final String          name;
-    private final String          description;
-    
+    private Map<ComponentType, List<ComponentBlueprint>> components;
+    private PropulsionLayout propulsion;
+
+    private final String name;
+    private final String description;
+
     // Shields
     private final MutableBaseStat maxShieldStrength;
     private final MutableBaseStat shieldRegenerationAmount;
@@ -46,9 +48,9 @@ public class Blueprint {
         maxShieldStrength = new MutableBaseStat(0);
         shieldRegenerationAmount = new MutableBaseStat(0);
         shieldRegenerationSpeed = new MutableBaseStat(0);
-        evasion = new MutableBaseStat(0);
+        evasion = new MutableBaseStat(hullType.getBaseEvasion());
 
-        //TODO: Boni zu bestimmten Waffenkategorien/-größen etc.
+        // TODO: Boni zu bestimmten Waffenkategorien/-größen etc.?
 
         glanceThreshold = new MutableBaseStat(hullType.getBaseGlanceThreshold());
         hitThreshold = new MutableBaseStat(hullType.getBaseHitThreshold());
@@ -56,13 +58,18 @@ public class Blueprint {
         maxHullStrength = new MutableBaseStat(hullType.getBaseHullStrength());
 
         startBattleSpeed = new MutableBaseStat(hullType.getBaseStartBattleSpeed());
-        
-        weapons = new HashMap<SizeEnum, List<WeaponBlueprint>>();
-        for (SizeEnum size: SizeEnum.values()) {
-        	weapons.put(size, new LinkedList<WeaponBlueprint>());
+
+        weapons = new HashMap<WeaponSize, List<WeaponBlueprint>>();
+        for (WeaponSize size : WeaponSize.values()) {
+            weapons.put(size, new LinkedList<WeaponBlueprint>());
+        }
+
+        components = new HashMap<ComponentType, List<ComponentBlueprint>>();
+        for (ComponentType type : ComponentType.values()) {
+            components.put(type, new LinkedList<ComponentBlueprint>());
         }
     }
-    
+
     public HullType getHullType() {
         return hullType;
     }
@@ -75,10 +82,6 @@ public class Blueprint {
         return description;
     }
 
-    public List<Component> getComponents() {
-        return components;
-    }
-
     public PropulsionLayout getPropulsion() {
         return propulsion;
     }
@@ -87,64 +90,128 @@ public class Blueprint {
         return evasion.getCalculatedValue();
     }
 
+    MutableBaseStat getBaseEvasion() {
+        return evasion;
+    }
+
     public int getMaxShieldStrength() {
         return maxShieldStrength.getCalculatedValue();
+    }
+
+    MutableBaseStat getBaseMaxShieldStrength() {
+        return maxShieldStrength;
     }
 
     public int getShieldRegenerationAmount() {
         return shieldRegenerationAmount.getCalculatedValue();
     }
 
+    MutableBaseStat getBaseShieldRegenerationAmount() {
+        return shieldRegenerationAmount;
+    }
+
     public int getShieldInitiativeDecay() {
         return shieldRegenerationSpeed.getCalculatedValue();
+    }
+
+    MutableBaseStat getBaseShieldInitiativeDecay() {
+        return shieldRegenerationSpeed;
     }
 
     public int getArmorGlanceThreshold() {
         return glanceThreshold.getCalculatedValue();
     }
 
+    MutableBaseStat getBaseArmorGlanceThreshold() {
+        return glanceThreshold;
+    }
+
     public int getArmorHitThreshold() {
         return hitThreshold.getCalculatedValue();
+    }
+
+    MutableBaseStat getBaseHitGlanceThreshold() {
+        return hitThreshold;
     }
 
     public int getArmorCritThreshold() {
         return critThreshold.getCalculatedValue();
     }
 
+    MutableBaseStat getBaseArmorCritThreshold() {
+        return critThreshold;
+    }
+
     public int getMaxHullStrength() {
         return maxHullStrength.getCalculatedValue();
+    }
+
+    MutableBaseStat getBaseMaxHullStrength() {
+        return maxHullStrength;
     }
 
     public int getStartBattleSpeed() {
         return startBattleSpeed.getCalculatedValue();
     }
 
+    MutableBaseStat getBaseStartBattleSpeed() {
+        return startBattleSpeed;
+    }
+
     public List<Blueprint> getFighterTypesInBay() {
-        //TODO: Define, allow configuration, ...
+        // TODO: Define, allow configuration, ...
         return new LinkedList<Blueprint>();
     }
 
-	public void addWeapon(WeaponBlueprint weaponBlueprint) throws NotEnoughtSlotsException {
-		SizeEnum size = weaponBlueprint.getSize();
-		List<WeaponBlueprint> weaponsForSize = weapons.get(size);
-		if (weaponsForSize.size() < hullType.getAvailableWeaponSlotsForSize(size)) {
-			weaponsForSize.add(weaponBlueprint);
-		} else {
-			throw new NotEnoughtSlotsException();
-		}
-	}
+    public void addWeapon(WeaponBlueprint weaponBlueprint) throws NotEnoughtSlotsException {
+        WeaponSize size = weaponBlueprint.getSize();
+        List<WeaponBlueprint> weaponsForSize = weapons.get(size);
+        if (weaponsForSize.size() < hullType.getAvailableWeaponSlotsForSize(size)) {
+            weaponsForSize.add(weaponBlueprint);
+        } else {
+            throw new NotEnoughtSlotsException("Not enough weapon slots for " + weaponBlueprint + "(" + size + ") in hull of " + hullType);
+        }
+    }
 
-	public List<WeaponInstance> getWeaponInstances(ShipInstance shipInstance) {
-		int startingBattleSpeed = startBattleSpeed.getCalculatedValue() + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
-		
-		List<WeaponInstance> weaponInstances = new LinkedList<WeaponInstance>();
-		for (List<WeaponBlueprint> weaponBlueprintList: this.weapons.values()) {
-			for (WeaponBlueprint weaponBlueprint: weaponBlueprintList) {
-				WeaponInstance instance = weaponBlueprint.getInstance(startingBattleSpeed);
-				instance.setOwningShipInstace(shipInstance);
-				weaponInstances.add(instance);
-			}
-		}
-		return weaponInstances;
-	}
+    public void addStandardWeapon(String weaponBlueprintName) throws NotEnoughtSlotsException, NumberFormatException, IOException {
+        addWeapon(WeaponResourceLoader.getStandardWeaponBlueprint(weaponBlueprintName));
+    }
+
+    public void addComponent(ComponentBlueprint componentBlueprint) throws NotEnoughtSlotsException {
+        ComponentType type = componentBlueprint.getType();
+        List<ComponentBlueprint> componentsForType = components.get(type);
+
+        if (componentsForType.size() < hullType.getAvailableComponentSlotsForType(type)) {
+            componentsForType.add(componentBlueprint);
+        } else {
+            List<ComponentBlueprint> allroundComponents = components.get(ComponentType.ALLROUND);
+            if (allroundComponents.size() < hullType.getAvailableComponentSlotsForType(ComponentType.ALLROUND)) {
+                allroundComponents.add(componentBlueprint);
+            } else {
+                throw new NotEnoughtSlotsException("Not enough component slots for " + componentBlueprint + "(" + type + ") in hull of " + hullType);
+            }
+        }
+    }
+
+    public void addStandardComponent(String componentBlueprintName)
+            throws NotEnoughtSlotsException, NumberFormatException, InstantiationException, IOException {
+        addComponent(ComponentResourceLoader.getStandardComponentBlueprint(componentBlueprintName));
+    }
+
+    public ShipInstance createInstance(int owningEmpire) {
+        return new ShipInstance(owningEmpire, null, this);
+    }
+
+    public List<ComponentBlueprint> getComponents() {
+        return components.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    }
+
+    public List<WeaponBlueprint> getWeapons() {
+        return this.weapons.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return name + "(" + hullType + ")";
+    }
 }

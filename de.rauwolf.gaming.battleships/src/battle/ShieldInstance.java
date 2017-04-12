@@ -1,5 +1,7 @@
 package battle;
 
+import ships.blueprints.MutableBaseStat;
+
 public class ShieldInstance extends CombatActor {
 	private final int maxShield;
 	private final int regenerationAmount;
@@ -7,8 +9,8 @@ public class ShieldInstance extends CombatActor {
 	private ShipInstance owningShipInstance;
 	private int currentShield;
 
-	public ShieldInstance(int maxStrength, int regenerationAmount, int startInitiative, int initiativeDecay) {
-		super(startInitiative, initiativeDecay);
+	public ShieldInstance(int maxStrength, int regenerationAmount, int startInitiative, int timeCost) {
+		super(startInitiative, new MutableBaseStat(timeCost));
 
 		this.maxShield = maxStrength;
 		this.regenerationAmount = regenerationAmount;

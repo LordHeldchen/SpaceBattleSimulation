@@ -1,0 +1,7 @@
+#shorthand; name; accuracy; damage; armor penetration; time cost; slot size
+vulc; 'Vulcan' Figher Cannon; 75; 20; 10; 4; XXS
+predator; 'Predator' Laser Cannon; 90; 25; 0; 4; XXS
+jaeger; 'Jäger' Light Missiles; 60; 120; 20; 20; XXS
+ncrack; 'Nutcracker' Plasma Bombs; 0; 300; 90; 50; XS
+rapier; 'Rapier' Particle Lance; 30; 80; 120; 30; XS
+ripper; 'Ripper' Light Autocannon; 60; 45; 20; 4; S

@@ -1,22 +1,25 @@
 package battle;
 
 import logging.battleLogger.BattleLogger;
+import ships.blueprints.MutableBaseStat;
 
 public abstract class CombatActor implements Comparable<CombatActor> {
-    private final int      initiativeDecay;
+	private final MutableBaseStat      timeCost;
 
     private int            currentInitiative;
 
     protected SingleBattle currentBattle;
     protected BattleLogger logger;
 
-    protected CombatActor(int startInitiative, int initiativeDecay) {
+    protected CombatActor(int startInitiative, MutableBaseStat timeCost) {
         this.setCurrentInitiative(startInitiative);
-        this.initiativeDecay = initiativeDecay;
+        this.timeCost = timeCost;
     }
 
-    protected final void loseInitiative() {
-        setCurrentInitiative(getCurrentInitiative() - initiativeDecay);
+    protected final int loseInitiative() {
+        int currentIni = getCurrentInitiative();
+        setCurrentInitiative(currentIni - timeCost.getCalculatedValue());
+        return currentIni;
     }
 
     public final void setCurrentBattle(SingleBattle singleBattle) {

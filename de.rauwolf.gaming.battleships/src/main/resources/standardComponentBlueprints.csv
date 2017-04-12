@@ -1,0 +1,19 @@
+# shorthand; name; slot size; x times: (modified stat: modifier)
+# "modifer" can be a a flat bonus (denoted as \d+) or a factor (denoted as \d+(.\d+)?%).
+# Flat bonuses are applied before factors. Modifiers of the same type (stat and value) are added before they are applied.
+# Possible "modifed stats" are:
+### acc --> accuracy
+### ini --> initiative at battle start
+### glan --> Glance Threshold
+### hit --> Hit Threshold
+### crit --> Crit Threshold
+### eva --> Evade
+
+##### Targeting
+tcomp; Targeting Computer; E; acc: 10%
+
+##### Initiative
+aburn; Afterburner; P; ini: 10
+
+##### Armor
+harmor; Heavy Armor; D; glan: 10; hit: 5; eva: -10

@@ -1,5 +1,7 @@
 package battle;
 
+import java.util.List;
+
 import logging.battleLogger.BattleLogger;
 
 public interface CombatTarget {
@@ -11,4 +13,6 @@ public interface CombatTarget {
 	boolean reactBeforeAttacker(ShipInstance attacker);
 
 	void endCurrentBattle();
+
+	List<CombatActor> getCombatActors();
 }

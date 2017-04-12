@@ -1,10 +1,11 @@
-package ships.basicShips;
+package ships.shipHulls;
 
-public enum SizeEnum {
+public enum WeaponSize {
 	XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL");
 	
 	private final String value;
-	SizeEnum(String value) {
+	
+	WeaponSize(String value) {
 		this.value = value;
 	}
 

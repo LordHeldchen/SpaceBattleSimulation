@@ -1,0 +1,9 @@
+#shorthand; name; hullType shorthand; x times weapon shorthand (separator ","); x times component shorthand (separator ","); description
+sfighter; Standard Fighter; fighter; vulc; tcomp; Stock close combat fighter. Cheap and effective in taking out other Fighters and poorly armored Frigates.
+interceptor; Interceptor; fighter; predator; aburn; Fast Interceptor, specifically designed to hunt down and obliterate other Fighters. Low Armor penetration capabilities lower its effectiveness in all other fields.
+gboat; Heavy Fighter; hfighter; vulc, vulc; tcomp; Modified fighter with a strong weapon layout. Mainly useful as anti-Frigate solution.
+hunter; Hunter; hfighter; jaeger, jaeger; aburn; Missile Loadout for the Heavy fighter. Decent allround stats make this type of fighter a viable solution for most fights.
+pbomb; Bomber; bomber; ncrack; aburn, tcomp; The stock fleet bomber. The 'Nutracker' plasma bomb is a decent option against all heavily armored targets.
+lbomb; Lancer; bomber; rapier; tcomp, tcomp; A less-specialized, more-allrounder variant of the standard bomber. The particle lance has extreme armor piercing capabilities while still providing reasonable tracking, though it lacks in damage.
+assfrig; Assault Frigate; frigate; ripper, ripper; aburn, tcomp; Fast and precise loadout for the frigate hull. Ideal for surgical strikes against poorly defended fleets or as anti fighter screen.
+defender; Defender; destroyer; ripper, ripper, ripper, ripper; harmor, tcomp; Stock escort ship. Suited ideally for defense against swarms of smaller ships.

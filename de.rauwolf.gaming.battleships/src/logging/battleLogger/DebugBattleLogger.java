@@ -47,7 +47,7 @@ public class DebugBattleLogger implements BattleLogger {
 
     @Override
     public void endOfBattle(HashSet<Fleet> allFleets) {
-        System.out.println("End of battle! Ships remaining: ");
+        System.out.println("\nEnd of battle! Ships remaining: ");
         for (Fleet fleet : allFleets) {
             System.out.println(fleet);
         }
@@ -57,8 +57,8 @@ public class DebugBattleLogger implements BattleLogger {
     public void endOfSingleAttack(ShipInstance attacker) {}
 
     @Override
-    public void beginSingleAttack(final CombatActor attacker, final CombatTarget target) {
-        System.out.println("Round " + round + ": " + attacker + " goes against " + target);
+    public void beginSingleAttack(final CombatActor attacker, final CombatTarget target, int currentIni) {
+        System.out.println("Round " + round + " (ini " + currentIni + "): " + attacker + " goes against " + target);
     }
 
     @Override
@@ -72,20 +72,22 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void evades(ShipInstance ship, boolean doesEvade) {
+    public void evades(ShipInstance ship, boolean doesEvade, int acc, int evade) {
         if (doesEvade) {
-            System.out.println(ship + " evades all damage");
+            System.out.println(ship + " evades all damage (" + acc + "<=" + evade + ")");
+        } else {
+            System.out.println(ship + " is hit (" + acc + ">" + evade + ")");
         }
     }
 
     @Override
-    public void armorDeflectsAllDamage(ShipInstance ship) {
-        System.out.println("Armor of " + ship + " deflects all Damage!");
+    public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold) {
+        System.out.println("Armor of " + ship + " deflects all Damage! (" + hitStrength + "<=" + glanceThreshold + ")");
     }
 
     @Override
-    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType damageType) {
-        System.out.println("Armor of " + ship + " takes " + damage + " points of " + damageType + " damage.");
+    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType damageType, int hitStrength, int threshold) {
+        System.out.println(ship + " takes " + damage + " points of " + damageType + " damage  (" + hitStrength + ">" + threshold + ")");
     }
 
     @Override

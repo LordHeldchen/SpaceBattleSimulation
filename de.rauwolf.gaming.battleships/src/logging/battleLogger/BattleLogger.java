@@ -23,17 +23,17 @@ public interface BattleLogger {
 
     public void endOfSingleAttack(ShipInstance attacker);
 
-    public void beginSingleAttack(final CombatActor weaponInstance, final CombatTarget target);
+    public void beginSingleAttack(final CombatActor weaponInstance, final CombatTarget target, int currentIni);
 
     public void nextRound();
 
     public void shipReacts(CombatTarget target);
 
-    public void evades(ShipInstance ship, boolean doesEvade);
+    public void evades(ShipInstance ship, boolean doesEvade, int acc, int evade);
 
-    public void armorDeflectsAllDamage(ShipInstance ship);
+    public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold);
 
-    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType glancing);
+    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType glancing, int hitStrength, int threshold);
 
     public void shieldBreaks(ShieldInstance shieldInstance);
 

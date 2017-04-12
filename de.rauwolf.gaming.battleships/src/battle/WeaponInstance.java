@@ -1,73 +1,84 @@
 package battle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import logging.battleLogger.BattleLogger;
 import ships.Fleet;
 import ships.blueprints.Blueprint;
-import ships.blueprints.WeaponBlueprint;
+import ships.blueprints.MutableBaseStat;
 
 public class WeaponInstance extends CombatActor {
-    private ShipInstance    owningShipInstance;
-    private WeaponBlueprint weaponBlueprint;
+	private final ShipInstance owningShipInstance;
+	private String name;
+	private final MutableBaseStat accuracy;
+	private final MutableBaseStat damage;
+	private final MutableBaseStat armorPenetration;
 
-    //TODO: Not sure yet whether the concept of "payload" will remain.
-    //private int                   currentPayload;
+	private final Map<Class<? extends Blueprint>, Integer> preferredTargets;
 
-    public WeaponInstance(WeaponBlueprint weapon, int startInitiative, int initiativeDecay) {
-        super(startInitiative, initiativeDecay);
+	// TODO: Not sure yet whether the concept of "payload" will remain.
+	// private int currentPayload;
 
-        this.weaponBlueprint = weapon;
-    }
-    
-    public void setOwningShipInstace(ShipInstance instance) {
-    	this.owningShipInstance = instance;
-    }
-    
-    public void setLogger(BattleLogger battleLogger) {
-    	super.addBattleLoger(battleLogger);
-    }
+	// TODO: More encapsulation so that the mutableBaseStats are only visible during construction?
+	public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, MutableBaseStat timeCost, MutableBaseStat damage, MutableBaseStat accuracy, MutableBaseStat armorPenetration) {
+		super(startInitiative, timeCost);
+		this.owningShipInstance = owningShipInstance;
+        this.name = name;
+		this.damage = damage;
+		this.accuracy = accuracy;
+		this.armorPenetration = armorPenetration;
+		
+		this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
+	}
 
-    @Override
-    public CombatTarget takeAction() {
-        loseInitiative();
+	public void setLogger(BattleLogger battleLogger) {
+		super.addBattleLoger(battleLogger);
+	}
 
-        final Fleet listOfPotentialTargets = currentBattle
-                        .getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
-        CombatTarget target = chooseTarget(listOfPotentialTargets);
+	@Override
+	public CombatTarget takeAction() {
+		int iniBeforeAction = loseInitiative();
 
-        logger.beginSingleAttack(this, target);
+		final Fleet listOfPotentialTargets = currentBattle
+				.getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
+		CombatTarget target = chooseTarget(listOfPotentialTargets);
 
-        if (target.reactBeforeAttacker(owningShipInstance)) {
-            logger.shipReacts(target);
-            if (owningShipInstance.isDestroyed()) {
-                logger.shipDestroyed(owningShipInstance);
-                return target;
-            }
-        }
+		logger.beginSingleAttack(this, target, iniBeforeAction);
 
-        target.takeDamage(getShot());
-        
-        return target;
-    }
+		if (target.reactBeforeAttacker(owningShipInstance)) {
+			logger.shipReacts(target);
+			if (owningShipInstance.isDestroyed()) {
+				logger.shipDestroyed(owningShipInstance);
+				return target;
+			}
+		}
+
+		target.takeDamage(getShot());
+
+		return target;
+	}
 
 	private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
-        Map<Class<? extends Blueprint>, Integer> preferredTargets = weaponBlueprint.getPreferredTargets();
-        for (Class<? extends Blueprint> preferredType : preferredTargets.keySet()) {
-            if (listOfPotentialTargets.containsType(preferredType)
-                            && BattleConstants.randomizer.nextInt() < preferredTargets.get(preferredType)) {
-                final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfType(preferredType);
-                logger.preysOnPreferredTargetType(this);
-                return targets.get((int) (targets.size() * Math.random()));
-            }
-        }
-        return listOfPotentialTargets
-                        .get((int) (listOfPotentialTargets.size() * BattleConstants.randomizer.nextFloat()));
-    }
+		for (Class<? extends Blueprint> preferredType : preferredTargets.keySet()) {
+			if (listOfPotentialTargets.containsType(preferredType)
+					&& BattleConstants.randomizer.nextInt() < preferredTargets.get(preferredType)) {
+				final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfType(preferredType);
+				logger.preysOnPreferredTargetType(this);
+				return targets.get((int) (targets.size() * Math.random()));
+			}
+		}
+		return listOfPotentialTargets
+				.get((int) (listOfPotentialTargets.size() * BattleConstants.randomizer.nextFloat()));
+	}
 
-    private Shot getShot() {
-        return new Shot(weaponBlueprint.getDamage(), weaponBlueprint.getArmorPenetration(),
-                        weaponBlueprint.getAccuracy());
+	private Shot getShot() {
+		return new Shot(damage.getCalculatedValue(), armorPenetration.getCalculatedValue(), accuracy.getCalculatedValue());
+	}
+	
+    @Override
+    final public String toString() {
+        return name + " of " + owningShipInstance;
     }
 }

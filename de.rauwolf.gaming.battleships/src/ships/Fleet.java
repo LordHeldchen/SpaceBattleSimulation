@@ -89,11 +89,13 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
     }
 
     @Override
-    public boolean remove(Object ship) {
-        if (classesOfShipsInFleet.containsKey(ship.getClass())) {
-            classesOfShipsInFleet.get(ship.getClass()).remove(ship);
-            if (classesOfShipsInFleet.get(ship.getClass()).isEmpty()) {
-                classesOfShipsInFleet.remove(ship.getClass());
+    public boolean remove(Object obj) {
+        ShipInstance ship = (ShipInstance) obj;
+        Blueprint blueprint = ship.getBlueprint();
+        if (classesOfShipsInFleet.containsKey(blueprint)) {
+            classesOfShipsInFleet.get(blueprint).remove(ship);
+            if (classesOfShipsInFleet.get(blueprint).isEmpty()) {
+                classesOfShipsInFleet.remove(blueprint);
             }
         }
         return allShipsInFleet.remove(ship);
