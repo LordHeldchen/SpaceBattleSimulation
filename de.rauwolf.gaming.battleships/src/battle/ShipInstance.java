@@ -153,7 +153,14 @@ public class ShipInstance implements CombatTarget {
             if (hitStrength > hitThreshold.getCalculatedValue()) {
                 if (hitStrength > critThreshold.getCalculatedValue()) {
                     damage *= BattleConstants.critMultiplier;
-                    logger.takesHullDamage(this, damage, HullDamageType.CRIT, hitStrength, critThreshold.getCalculatedValue());
+                    double explodeChance = damage < currentHullStrength ? ((double) damage / (double) currentHullStrength) * BattleConstants.maxChanceExplodeOnCrit : -1;
+                    double rand = BattleConstants.randomizer.nextDouble();
+                    if (explodeChance > rand) {
+                        damage = currentHullStrength;
+                        logger.explodes(this, explodeChance, hitStrength, critThreshold.getCalculatedValue());
+                    } else {
+                        logger.takesHullDamage(this, damage, HullDamageType.CRIT, hitStrength, critThreshold.getCalculatedValue());
+                    }
                 } else {
                     damage *= BattleConstants.hitMultiplier;
                     logger.takesHullDamage(this, damage, HullDamageType.HIT, hitStrength, hitThreshold.getCalculatedValue());

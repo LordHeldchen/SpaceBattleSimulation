@@ -11,14 +11,15 @@ import ships.blueprints.MutableBaseStat;
 
 public class WeaponInstance extends CombatActor {
 	private final ShipInstance owningShipInstance;
-	private String name;
+
+	private final String name;
 	private final MutableBaseStat accuracy;
 	private final MutableBaseStat damage;
 	private final MutableBaseStat armorPenetration;
 
 	private final Map<Class<? extends Blueprint>, Integer> preferredTargets;
 
-	// TODO: Not sure yet whether the concept of "payload" will remain.
+	// TODO: Not sure yet whether the concept of "payload" will remain. Probably replacable by "burst fire" mechanic.
 	// private int currentPayload;
 
 	// TODO: More encapsulation so that the mutableBaseStats are only visible during construction?

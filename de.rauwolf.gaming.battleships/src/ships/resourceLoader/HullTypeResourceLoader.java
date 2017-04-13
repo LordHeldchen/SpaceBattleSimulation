@@ -29,7 +29,6 @@ public class HullTypeResourceLoader {
 			if (i >= slots.length) {
 				throw new InstantiationException("Too many slots speficied for hull type '" + shorthand + "'");
 			}
-			System.out.println("Fill " + type + " with " + slots[i]);
 			setter.fillSlot(type, new Integer(slots[i]).intValue());
 			valueCount++;
 			i++;

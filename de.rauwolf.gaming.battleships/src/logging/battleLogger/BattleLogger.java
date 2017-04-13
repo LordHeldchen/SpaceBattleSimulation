@@ -46,4 +46,6 @@ public interface BattleLogger {
     public void hasResupplied(ShipInstance ship, ShipInstance mothership);
 
 	public void noActiveParticipantsInCombat();
+
+    public void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue);
 }
