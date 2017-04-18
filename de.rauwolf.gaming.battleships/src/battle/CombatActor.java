@@ -11,9 +11,9 @@ public abstract class CombatActor implements Comparable<CombatActor> {
     protected SingleBattle currentBattle;
     protected BattleLogger logger;
 
-    protected CombatActor(int startInitiative, MutableBaseStat timeCost) {
+    protected CombatActor(int startInitiative, int timeCost) {
         this.setCurrentInitiative(startInitiative);
-        this.timeCost = timeCost;
+        this.timeCost = new MutableBaseStat(timeCost);
     }
 
     protected final int loseInitiative() {

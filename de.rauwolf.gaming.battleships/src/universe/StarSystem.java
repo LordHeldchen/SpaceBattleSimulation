@@ -68,7 +68,7 @@ public class StarSystem {
         Fleet fleetA = new Fleet();
         Fleet fleetB = new Fleet();
 
-        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireD, lightFleetCruiserBP, 30);
+        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireD, supportArtilleryCruiserBP, 20);
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireA, closeCombatBattleshipBP, 10);
 
         listOfFleets.add(fleetA);
@@ -78,15 +78,15 @@ public class StarSystem {
     }
 
     public static Set<Fleet> getAllFleetsFromStarSystem() throws InstantiationException, NotEnoughtSlotsException, IOException {
-        standardFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("sfighter");
-        interceptorBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("interceptor");
-        heavyFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("gboat");
-        hunterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("hunter");
-        lancerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("lbomb");
-        assFrigBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("assfrig");
-        defenderBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("defender");
-        combatDestroyerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("cdest");
-        lightFleetCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("lfcrui");
+//        standardFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("sfighter");
+//        interceptorBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("interceptor");
+//        heavyFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("gboat");
+//        hunterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("hunter");
+//        lancerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("lbomb");
+//        assFrigBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("assfrig");
+//        defenderBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("defender");
+//        combatDestroyerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("cdest");
+//        lightFleetCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("lfcrui");
         supportArtilleryCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("sacruiser");
         closeCombatBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("brbship");
 

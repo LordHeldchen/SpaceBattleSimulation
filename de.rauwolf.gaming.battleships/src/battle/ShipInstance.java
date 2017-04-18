@@ -32,8 +32,7 @@ public class ShipInstance implements CombatTarget {
 
     private LinkedList<CombatActor> combatActorsOfShip;
 
-
-    private MutableBaseStat retrieveFinalValueFor(int baseValue, String value) {
+    private int calculateFinalValueFor(int baseValue, String value) {
         List<Integer> flatModifiers = new LinkedList<Integer>();
         List<Double> factorModifiers = new LinkedList<Double>();
         for (ComponentBlueprint component : blueprint.getComponents()) {
@@ -46,14 +45,13 @@ public class ShipInstance implements CombatTarget {
                 factorModifiers.add(factor);
             }
         }
-        MutableBaseStat mutableValue = new MutableBaseStat(baseValue);
         for (Integer flatModifier : flatModifiers) {
-            mutableValue.addFlatBonus("", flatModifier);
+            baseValue += flatModifier;
         }
         for (Double factor : factorModifiers) {
-            mutableValue.addFactor("", factor);
+            baseValue *= factor;
         }
-        return mutableValue;
+        return baseValue;
     }
 
     public ShipInstance(int idOfOwningEmpire, ShipInstance mothership, Blueprint blueprint) {
@@ -61,10 +59,10 @@ public class ShipInstance implements CombatTarget {
         this.blueprint = blueprint;
         this.mothership = mothership;
 
-        this.glanceThreshold = retrieveFinalValueFor(blueprint.getArmorGlanceThreshold(), "glan");
-        this.hitThreshold = retrieveFinalValueFor(blueprint.getArmorHitThreshold(), "hit");
-        this.critThreshold = retrieveFinalValueFor(blueprint.getArmorCritThreshold(), "crit");
-        this.evasion = retrieveFinalValueFor(blueprint.getEvasion(), "eva");
+        this.glanceThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorGlanceThreshold(), "glan"));
+        this.hitThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorHitThreshold(), "hit"));
+        this.critThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorCritThreshold(), "crit"));
+        this.evasion = new MutableBaseStat(calculateFinalValueFor(blueprint.getEvasion(), "eva"));
 
         this.maxHullStrength = new MutableBaseStat(blueprint.getMaxHullStrength());
         this.currentHullStrength = this.maxHullStrength.getCalculatedValue();
@@ -78,16 +76,15 @@ public class ShipInstance implements CombatTarget {
         List<WeaponInstance> weaponInstances = new LinkedList<WeaponInstance>();
 
         for (WeaponBlueprint weaponBlueprint : blueprint.getWeapons()) {
-            MutableBaseStat damage = new MutableBaseStat(weaponBlueprint.getDamage());
-            MutableBaseStat armorPenetration = new MutableBaseStat(weaponBlueprint.getArmorPenetration());
-
-            MutableBaseStat accuracy = retrieveFinalValueFor(weaponBlueprint.getAccuracy(), "acc");
-
-            MutableBaseStat timeCost = new MutableBaseStat(weaponBlueprint.getTimeCost());
+            int damage = weaponBlueprint.getDamage();
+            int armorPenetration = weaponBlueprint.getArmorPenetration();
+            int accuracy = calculateFinalValueFor(weaponBlueprint.getAccuracy(), "acc");
+            int timeCost = weaponBlueprint.getTimeCost();
+            int weaponInitiative = startingInitiative + weaponBlueprint.getInitiativeBonus();
 
             String name = weaponBlueprint.getName();
 
-            WeaponInstance weaponInstance = new WeaponInstance(this, name, startingInitiative, timeCost, damage, accuracy, armorPenetration);
+            WeaponInstance weaponInstance = new WeaponInstance(this, name, weaponInitiative, timeCost, damage, accuracy, armorPenetration);
 
             weaponInstances.add(weaponInstance);
         }
@@ -96,7 +93,7 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     public List<CombatActor> getCombatActors() {
-        int startingInitiative = retrieveFinalValueFor(blueprint.getStartBattleSpeed(), "ini").getCalculatedValue()
+        int startingInitiative = calculateFinalValueFor(blueprint.getStartBattleSpeed(), "ini")
                 + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
 
         if (combatActorsOfShip == null) {

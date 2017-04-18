@@ -27,12 +27,13 @@ public class WeaponResourceLoader {
                 String[] elements = line.split(";");
                 String shorthand = elements[0].trim();
                 String name = elements[1].trim();
-                WeaponSize size = WeaponSize.valueOf(elements[6].trim());
                 int accuracy = new Integer(elements[2].trim()).intValue();
                 int damage = new Integer(elements[3].trim()).intValue();
                 int armorPenetration = new Integer(elements[4].trim()).intValue();
                 int timeCost = new Integer(elements[5].trim()).intValue();
-                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(name, size, accuracy, damage, armorPenetration, timeCost));
+                WeaponSize size = WeaponSize.valueOf(elements[6].trim());
+                int iniBonus = new Integer(elements[7].trim()).intValue();
+                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(name, size, accuracy, damage, armorPenetration, timeCost, iniBonus));
             }
         }
 

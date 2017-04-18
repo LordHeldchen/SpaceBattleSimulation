@@ -19,17 +19,17 @@ public class WeaponInstance extends CombatActor {
 
 	private final Map<Class<? extends Blueprint>, Integer> preferredTargets;
 
-	// TODO: Not sure yet whether the concept of "payload" will remain. Probably replacable by "burst fire" mechanic.
+	// TODO: Not sure yet whether the concept of "payload" will remain. Probably replacable/augmentable by some "burst fire" mechanic?
 	// private int currentPayload;
 
-	// TODO: More encapsulation so that the mutableBaseStats are only visible during construction?
-	public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, MutableBaseStat timeCost, MutableBaseStat damage, MutableBaseStat accuracy, MutableBaseStat armorPenetration) {
+	// TODO: More encapsulation so that the MutableBaseStats are only visible during construction?
+	public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration) {
 		super(startInitiative, timeCost);
 		this.owningShipInstance = owningShipInstance;
         this.name = name;
-		this.damage = damage;
-		this.accuracy = accuracy;
-		this.armorPenetration = armorPenetration;
+		this.damage = new MutableBaseStat(damage);
+		this.accuracy = new MutableBaseStat(accuracy);
+		this.armorPenetration = new MutableBaseStat(armorPenetration);
 		
 		this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
 	}

@@ -12,6 +12,7 @@ public class WeaponBlueprint {
     private final int accuracy;
 	private final int damage;
 	private final int armorPenetration;
+	private final int initiativeBonus;
 
 	// TODO: Payload remains a questionable concept.
 	// private final int maxPayload;
@@ -21,13 +22,14 @@ public class WeaponBlueprint {
 
 	protected Map<Class<? extends Blueprint>, Integer> preferredTargets;
 
-	public WeaponBlueprint(String name, WeaponSize size, int accuracy, int damage, int armorPenetration, int timeCost) {
+	public WeaponBlueprint(String name, WeaponSize size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus) {
         this.name = name;
         this.size = size;
 		this.damage = damage;
 		this.accuracy = accuracy;
 		this.armorPenetration = armorPenetration;
 		this.timeCost = timeCost;
+        this.initiativeBonus = initiativeBonus;
 
 		this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
 	}
@@ -68,4 +70,8 @@ public class WeaponBlueprint {
 	public int getTimeCost() {
 		return timeCost;
 	}
+
+    public int getInitiativeBonus() {
+        return initiativeBonus;
+    }
 }
