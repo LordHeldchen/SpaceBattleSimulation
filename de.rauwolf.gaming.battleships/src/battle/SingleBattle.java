@@ -23,7 +23,7 @@ public class SingleBattle {
     Map<Integer, Fleet> enemiesOfEmpireX = new HashMap<Integer, Fleet>();
     HashSet<Fleet> allFleets = new HashSet<Fleet>();
     HashSet<ShipInstance> allShips = new HashSet<ShipInstance>();
-    HashSet<ShipInstance> participatingFighters = new HashSet<ShipInstance>();
+    int numParticipatingFighters = 0;
 
     private PriorityQueue<CombatActor> combatActors = new PriorityQueue<CombatActor>();
     private HashSet<CombatTarget> combatTargets = new HashSet<CombatTarget>();
@@ -50,7 +50,7 @@ public class SingleBattle {
             }
         }
 
-        logger.showFormup(allFleets, allShips, combatActors, enemiesOfEmpireX, participatingFighters);
+        logger.showFormup(allFleets, allShips, combatActors, enemiesOfEmpireX, numParticipatingFighters);
     }
 
     private void integrateShipIntoBattle(ShipInstance ship) {
@@ -72,6 +72,7 @@ public class SingleBattle {
         allShips.add(ship);
 
         for (ShipInstance fighter : ship.getFightersInBay()) {
+            numParticipatingFighters++;
             integrateShipIntoBattle(fighter);
         }
     }

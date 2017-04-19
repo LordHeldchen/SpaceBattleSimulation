@@ -24,7 +24,7 @@ public class DebugBattleLogger implements BattleLogger {
                            HashSet<ShipInstance> allShips,
                            PriorityQueue<CombatActor> combatActors, 
                            Map<Integer, Fleet> enemiesOfEmpireX,
-                           HashSet<ShipInstance> participatingFighters) {
+                           int numParticipatingFighters) {
         System.out.println("Formup: ");
         for (Fleet fleet : allFleets) {
             System.out.println(fleet);
@@ -35,9 +35,10 @@ public class DebugBattleLogger implements BattleLogger {
             System.out.println("Enemies of empire " + empireID + ": " + enemiesOfEmpireX.get(empireID).size());
         }
         System.out.println();
-        System.out.println("Participating Fighters: " + participatingFighters.size());
+        System.out.println("Participating Fighters from carriers: " + numParticipatingFighters);
         System.out.println("Amount of participating Ships: " + allShips.size());
         System.out.println("Amount of active actors: " + combatActors.size());
+        System.out.println();
     }
 
     @Override
@@ -91,8 +92,8 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void explodes(ShipInstance ship, double explodeChance, int hitStrength, int critThreshold) {
-        System.out.println("  " + ship + " explodes!!! Chance was " + String.format("%1$.2f", explodeChance * 100) + "% (" + hitStrength + ">" + critThreshold + ")");
+    public void explodes(ShipInstance ship, double explodeChance, int hitStrength, int critThreshold, int containment) {
+        System.out.println("  " + ship + " explodes!!! Chance was " + String.format("%1$.2f", explodeChance * 100) + "% (" + hitStrength + ">" + critThreshold + ", " + containment + ")");
     }
 
     @Override

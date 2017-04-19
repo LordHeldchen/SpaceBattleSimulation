@@ -20,14 +20,18 @@ public class StandardConfigurationResourceLoader {
                     .getResourceAsStream("main/resources/standardConfigurations.csv");
             standardConfigurations = new HashMap<String, Blueprint>();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(weaponBlueprintsResource));
+
+            Map<Blueprint, String[]> baysToFill = new HashMap<Blueprint, String[]>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.startsWith("#") || line.trim().equals("")) {
                     continue;
                 }
-                // #shorthand; name; hullType shorthand; x times weapon
-                // shorthand (separator ","); x times component shorthand
-                // (separator ","); description
+                // shorthand; name; hullType-shorthand;
+                // x times weapon shorthand (separator ",");
+                // x times component shorthand (separator ",");
+                // x times ships in bay (separator ",", format
+                // "hullType-shorthand: num"); description
                 String[] elements = line.split(";");
                 String shorthand = elements[0].trim();
                 String name = elements[1].trim();
@@ -37,16 +41,35 @@ public class StandardConfigurationResourceLoader {
 
                 String[] weaponShorthands = elements[3].split(",");
                 String[] componentShorthands = elements[4].split(",");
-                String description = elements[5].trim();
+                String[] shipsInBay = elements[5].split(",");
+
+                String description = elements[6].trim();
 
                 Blueprint blueprint = new Blueprint(name, description, hullType);
+                baysToFill.put(blueprint, shipsInBay);
+
                 for (String weaponShorthand : weaponShorthands) {
-                    blueprint.addStandardWeapon(weaponShorthand.trim());
+                    if (!weaponShorthand.equals("")) {
+                        blueprint.addStandardWeapon(weaponShorthand.trim());
+                    }
                 }
                 for (String componentShorthand : componentShorthands) {
-                    blueprint.addStandardComponent(componentShorthand.trim());
+                    if (!componentShorthand.equals("")) {
+                        blueprint.addStandardComponent(componentShorthand.trim());
+                    }
                 }
                 standardConfigurations.put(shorthand, blueprint);
+            }
+
+            for (Blueprint blueprint : baysToFill.keySet()) {
+                for (String shipsInBay : baysToFill.get(blueprint)) {
+                    String[] split = shipsInBay.split(":");
+                    if (split.length != 2) {
+                        continue;
+                    }
+                    Blueprint fighterBlueprint = standardConfigurations.get(split[0].trim());
+                    blueprint.addFightersToBay(fighterBlueprint, new Integer(split[1].trim()).intValue());
+                }
             }
         }
 

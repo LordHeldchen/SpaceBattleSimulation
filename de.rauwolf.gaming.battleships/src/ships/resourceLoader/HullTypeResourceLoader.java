@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ships.shipHulls.ComponentType;
+import ships.shipHulls.HullSize;
 import ships.shipHulls.HullType;
 import ships.shipHulls.WeaponSize;
 
@@ -62,15 +63,30 @@ public class HullTypeResourceLoader {
 					int baseGlanceThreshold = new Integer(elements[elementNr++].trim()).intValue();
 					int baseHitThreshold = new Integer(elements[elementNr++].trim()).intValue();
 					int baseCritThreshold = new Integer(elements[elementNr++].trim()).intValue();
+					int baseContainment = new Integer(elements[elementNr++].trim()).intValue();
 
 					String[] weaponSlots = elements[elementNr++].split(" ");
 					String[] componentSlots = elements[elementNr++].split(" ");
+
+	                HullSize sizeCategory = HullSize.valueOf(elements[elementNr++].trim());
+                    String[] bays = elements[elementNr++].split(",");
 					
 					String description = elements[elementNr++].trim();
-					HullType hullType = new HullType(name, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseStartInitiative, baseEvasion, description);
+					HullType hullType = new HullType(name, sizeCategory, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseContainment, baseStartInitiative, baseEvasion, description);
 					
 					fillSlots(shorthand, weaponSlots, hullType::setAvailableWeaponSlotsForSize, WeaponSize.values());
 					fillSlots(shorthand, componentSlots, hullType::setAvailableComponentSlotsForType, ComponentType.values());
+                    
+                    for (String bay: bays) {
+                        if (bay.trim().equals("")) {
+                            continue;
+                        }
+                        String[] bayDefinition = bay.trim().split(":");
+                        HullSize baySizeCategory = HullSize.valueOf(bayDefinition[0].trim());
+                        int bayAmount = new Integer(bayDefinition[1].trim()).intValue();
+                        
+                        hullType.setAvailableShipBaysForSize(baySizeCategory, bayAmount);
+                    }
 					
 					basicHullTypes.put(shorthand, hullType);
 				}

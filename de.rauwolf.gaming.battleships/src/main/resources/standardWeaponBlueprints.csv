@@ -1,28 +1,35 @@
-# shorthand; name;                      accuracy; damage; Armor Pen.; time cost; slot size; start ini bonus for self (range and stuff)
+# shorthand; name;                        accuracy; damage; Armor Pen.; time cost; slot size; start ini bonus for self (range and stuff)
+# D Weapons (Drone Weapons)
+
+
 # XXS Weapons (Fighter Weapons)
-vulc;        'Vulcan' Figher Cannon;          75;     20;         10;         4;       XXS; 0
-predator;    'Predator' Laser Cannon;         90;     25;          0;         4;       XXS; 0
-jaeger;      'Jäger' Light Missiles;          60;    100;         30;        20;       XXS; 0
+vulc;        'Vulcan' Figher Cannon;            75;     20;         10;         4;       XXS; 0
+predator;    'Predator' Laser Cannon;           90;     25;          0;         4;       XXS; 0
+jaeger;      'Jäger' Light Missiles;            60;    100;         30;        20;       XXS; 0
 
 # XS Weapons (Bomber Weapons)
-ncrack;      'Nutcracker' Plasma Bombs;        0;    300;         90;        50;        XS; 0
-rapier;      'Rapier' Particle Lance;         30;     80;        120;        30;        XS; 0
+ncrack;      'Nutcracker' Plasma Bombs;          0;    300;         90;        50;        XS; 0
+rapier;      'Rapier' Particle Lance;           40;     80;        120;        30;        XS; 0
 
 # S Weapons
-ripper;      'Ripper' Light Autocannon;       60;     45;         20;         4;         S; 0
-spike;       'Spike' Combat Laser Array;      70;     80;         10;         6;         S; 0
-dagger;      'Dagger' Light Railgun;          50;    150;        100;        30;         S; 10
+ripper;      'Ripper' Light Autocannon;         60;     45;         20;         4;         S; 0
+spike;       'Spike' Combat Laser Array;        70;     80;         10;         6;         S; 0
+dagger;      'Dagger' Light Railgun;            50;    150;        100;        30;         S; 10
 
 # M Weapons
-blaze;       'Blaze' Light Pulse Laser;       60;    140;         20;         6;         M; 0
-lance;       'Lance' Laser Beam;              40;     20;         30;         1;         M; 5
-greyhound;   'Greyound' Standard Missiles;    35;    200;         80;        20;         M; 10
-howitzer;    'Howitzer' Support Artillery;    15;    650;         50;        30;         M; 30
+blaze;       'Blaze' Light Pulse Laser;         60;    140;         20;         6;         M; 0
+lance;       'Lance' Laser Beam;                40;     20;         30;         1;         M; 5
+greyhound;   'Greyound' Standard Missiles;      35;    200;         80;        20;         M; 10
+howitzer;    'Howitzer' Support Artillery;      15;    650;         50;        30;         M; 30
 
 # L Weapons
-stampede;    'Stampede' Heavy Autocannon;     40;    250;         40;         6;         L; 0
-hornet;      'Hornet' Swarm Missile Launcher; 70;    120;         25;         3;         L; 0
-javelin;     'Javelin' Heavy Railgun;         25;    800;        120;        50;         L; 25
+stampede;    'Stampede' Heavy Autocannon;       40;    250;         40;         6;         L; 0
+hornet;      'Hornet' Swarm Missile Launcher;   70;    120;         25;         3;         L; 0
+javelin;     'Javelin' Heavy Railgun;           25;    800;        120;        50;         L; 25
 
 # XL Weapons
-doorkeeper;  'Doorkeeper' Tachyon Lance;      10;   1500;        100;        50;        XL; 50
+doorkeeper;  'Doorkeeper' Tachyon Lance;        10;   1200;        150;        50;        XL; 50
+avalanche;   'Avalanche' Superheavy Autocannon; 30;    350;         70;         8;        XL; 0
+
+# XXL Weapons
+apocalypse;  'Apocalypse' Giga Laser;            0;  10000;        500;       100;       XXL; 100

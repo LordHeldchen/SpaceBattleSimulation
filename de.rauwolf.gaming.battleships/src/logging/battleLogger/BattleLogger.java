@@ -15,7 +15,7 @@ public interface BattleLogger {
                            HashSet<ShipInstance> allShips,
                            PriorityQueue<CombatActor> combatActors,
                            Map<Integer, Fleet> enemiesOfEmpireX,
-                           HashSet<ShipInstance> participatingFighters);
+                           int numParticipatingFighters);
 
     public void shipDestroyed(CombatTarget targetOfAction);
 
@@ -47,5 +47,5 @@ public interface BattleLogger {
 
 	public void noActiveParticipantsInCombat();
 
-    public void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue);
+    public void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment);
 }

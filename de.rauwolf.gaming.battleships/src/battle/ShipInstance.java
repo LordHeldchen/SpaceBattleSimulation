@@ -2,6 +2,7 @@ package battle;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import logging.battleLogger.BattleLogger;
 import logging.battleLogger.HullDamageType;
@@ -23,6 +24,7 @@ public class ShipInstance implements CombatTarget {
     private final MutableBaseStat glanceThreshold;
     private final MutableBaseStat hitThreshold;
     private final MutableBaseStat critThreshold;
+    private final MutableBaseStat containment;
     private final MutableBaseStat evasion;
 
     private final ShipInstance mothership;
@@ -62,6 +64,7 @@ public class ShipInstance implements CombatTarget {
         this.glanceThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorGlanceThreshold(), "glan"));
         this.hitThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorHitThreshold(), "hit"));
         this.critThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorCritThreshold(), "crit"));
+        this.containment = new MutableBaseStat(calculateFinalValueFor((blueprint.getContainment()), "cont"));
         this.evasion = new MutableBaseStat(calculateFinalValueFor(blueprint.getEvasion(), "eva"));
 
         this.maxHullStrength = new MutableBaseStat(blueprint.getMaxHullStrength());
@@ -114,11 +117,13 @@ public class ShipInstance implements CombatTarget {
     }
 
     public LinkedList<ShipInstance> getFightersInBay() {
-        List<? extends Blueprint> fighterTypesInBay = blueprint.getFighterTypesInBay();
+        Map<Blueprint, Integer> fighterTypesInBay = blueprint.getFighterTypesInBay();
         LinkedList<ShipInstance> fighters = new LinkedList<ShipInstance>();
-        for (Blueprint fighterType : fighterTypesInBay) {
-            ShipInstance fighter = new ShipInstance(idOfOwningEmpire, this, fighterType);
-            fighters.add(fighter);
+        for (Map.Entry<Blueprint, Integer> fighterType : fighterTypesInBay.entrySet()) {
+            for (int i = 0; i < fighterType.getValue(); i++) {
+                ShipInstance fighterInstance = new ShipInstance(idOfOwningEmpire, this, fighterType.getKey());
+                fighters.add(fighterInstance);
+            }
         }
         return fighters;
     }
@@ -150,11 +155,13 @@ public class ShipInstance implements CombatTarget {
             if (hitStrength > hitThreshold.getCalculatedValue()) {
                 if (hitStrength > critThreshold.getCalculatedValue()) {
                     damage *= BattleConstants.critMultiplier;
-                    double explodeChance = damage < currentHullStrength ? ((double) damage / (double) currentHullStrength) * BattleConstants.maxChanceExplodeOnCrit : -1;
+                    double explodeChance = damage < currentHullStrength
+                            ? ((double) (damage - containment.getCalculatedValue()) / (double) currentHullStrength) * BattleConstants.maxChanceExplodeOnCrit
+                            : -1;
                     double rand = BattleConstants.randomizer.nextDouble();
                     if (explodeChance > rand) {
                         damage = currentHullStrength;
-                        logger.explodes(this, explodeChance, hitStrength, critThreshold.getCalculatedValue());
+                        logger.explodes(this, explodeChance, hitStrength, critThreshold.getCalculatedValue(), containment.getCalculatedValue());
                     } else {
                         logger.takesHullDamage(this, damage, HullDamageType.CRIT, hitStrength, critThreshold.getCalculatedValue());
                     }

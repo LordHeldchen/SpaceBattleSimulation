@@ -7,12 +7,13 @@
 ### glan --> Glance Threshold
 ### hit --> Hit Threshold
 ### crit --> Crit Threshold
+### cont --> Containment (lowers Chance of instant explosion)
 ### eva --> Evade
 
 ##### D - Defense
 harmor; Heavy Armor; D; glan: 10; hit: 5; eva: -10
 larmor; Liquid Armor; D; glan: -10; hit: 10; crit: 10
-rbulk; Reinforced Bulkheads; D; crit: 20
+rbulk; Reinforced Bulkheads; D; crit: 10; cont: 50%
 
 ##### E - Electronics
 tcomp; Targeting Computer; E; acc: 10%

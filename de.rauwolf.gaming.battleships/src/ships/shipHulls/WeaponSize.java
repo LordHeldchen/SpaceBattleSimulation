@@ -1,7 +1,7 @@
 package ships.shipHulls;
 
 public enum WeaponSize {
-	XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL");
+	XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL"), D("D");
 	
 	private final String value;
 	
