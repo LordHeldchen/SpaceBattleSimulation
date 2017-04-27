@@ -1,7 +1,7 @@
 package ships.shipHulls;
 
 public enum ComponentType {
-    ALLROUND("Allround"), DEFENSE("Defense"), ELECTRONICS("Electronics"), PROPULSION("Propulsion");
+    ALLROUND("Allround"), DEFENSE("Defense"), ELECTRONICS("Electronics"), PROPULSION("Propulsion"), EWAR("EWar");
 
     private final String value;
 
@@ -19,6 +19,8 @@ public enum ComponentType {
             return ELECTRONICS;
         case "P":
             return PROPULSION;
+        case "W":
+            return EWAR;
         };
         throw new InstantiationException("Value cannot be translated to any ComponentType enum value: " + val);
     }

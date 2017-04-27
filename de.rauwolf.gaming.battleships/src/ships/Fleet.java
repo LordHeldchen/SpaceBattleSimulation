@@ -140,9 +140,12 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
 
     public String toString() {
         String ret = allShipsInFleet.size() + " Ships in this fleet:\n";
+        int fleetValue = 0;
         for (Blueprint shipClass : classesOfShipsInFleet.keySet()) {
             ret += "# " + shipClass.getName() + " --> " + classesOfShipsInFleet.get(shipClass).size() + "\n";
+            fleetValue += shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass).size();
         }
+        ret += " --> Fleet value: " + fleetValue + "\n";
         return ret;
     }
 }

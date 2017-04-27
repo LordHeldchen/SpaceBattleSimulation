@@ -1,35 +1,46 @@
-# shorthand; name;                        accuracy; damage; Armor Pen.; time cost; slot size; start ini bonus for self (range and stuff)
+# Available secondary effect types (see below, if duration is applicable, it is stated explicitly):
+### spiercepercent: Shield pierce percentage
+### spierceflat: Shield pierce amount (applied after shieldpiercepercent)
+### tickloss: Makes the target lose initiative. Value is used to calculate the chance to apply the loss (see "epm"), duration is the amout of ticks lost on success.
+
+# shorthand; name;                        accuracy; damage; Armor Pen.; time cost; slot size; ini bonus; value; secondary effects (type:value:duration, type:value(:duration), ...)
 # D Weapons (Drone Weapons)
 
 
 # XXS Weapons (Fighter Weapons)
-vulc;        'Vulcan' Figher Cannon;            75;     20;         10;         4;       XXS; 0
-predator;    'Predator' Laser Cannon;           90;     25;          0;         4;       XXS; 0
-jaeger;      'Jäger' Light Missiles;            60;    100;         30;        20;       XXS; 0
+vulc;        'Vulcan' Figher Cannon;             75;     20;         10;         4;       XXS; 0;           30; 
+predator;    'Predator' Laser Cannon;            90;     25;          0;         4;       XXS; 0;           30; 
+jaeger;      'Jäger' Light Missiles;             60;    100;         30;        20;       XXS; 0;           50; 
 
 # XS Weapons (Bomber Weapons)
-ncrack;      'Nutcracker' Plasma Bombs;          0;    300;         90;        50;        XS; 0
-rapier;      'Rapier' Particle Lance;           40;     80;        120;        30;        XS; 0
+ncrack;      'Nutcracker' Plasma Bombs;           0;    300;         90;        50;        XS; 0;          100; 
+rapier;      'Rapier' Particle Lance;            40;     80;        120;        30;        XS; 0;          100; 
 
 # S Weapons
-ripper;      'Ripper' Light Autocannon;         60;     45;         20;         4;         S; 0
-spike;       'Spike' Combat Laser Array;        70;     80;         10;         6;         S; 0
-dagger;      'Dagger' Light Railgun;            50;    150;        100;        30;         S; 10
+ripper;      'Ripper' Light Autocannon;          60;     45;         20;         4;         S; 0;          100; 
+spike;       'Spike' Combat Laser Array;         70;     80;         10;         6;         S; 0;          120; 
+dagger;      'Dagger' Light Railgun;             50;    150;        100;        30;         S; 10;         150; spiercepercent:50
+current;     'Current' Light Ion Beam;           80;      5;         40;         1;         S; 0;          150; tickloss:10:1
 
 # M Weapons
-blaze;       'Blaze' Light Pulse Laser;         60;    140;         20;         6;         M; 0
-lance;       'Lance' Laser Beam;                40;     20;         30;         1;         M; 5
-greyhound;   'Greyound' Standard Missiles;      35;    200;         80;        20;         M; 10
-howitzer;    'Howitzer' Support Artillery;      15;    650;         50;        30;         M; 30
+blaze;       'Blaze' Light Pulse Laser;          60;    140;         20;         6;         M; 0;          250; 
+lance;       'Lance' Laser Beam;                 40;     20;         30;         1;         M; 5;          200; 
+greyhound;   'Greyound' Standard Missiles;       35;    200;         80;        20;         M; 10;         300; 
+howitzer;    'Howitzer' Support Artillery;       15;    650;         50;        30;         M; 30;         200; 
+tide;        'Tide' Ion Cannon;                  50;     75;         60;        10;         M; 0;          300; tickloss:50:3
 
 # L Weapons
-stampede;    'Stampede' Heavy Autocannon;       40;    250;         40;         6;         L; 0
-hornet;      'Hornet' Swarm Missile Launcher;   70;    120;         25;         3;         L; 0
-javelin;     'Javelin' Heavy Railgun;           25;    800;        120;        50;         L; 25
+stampede;    'Stampede' Heavy Autocannon;        40;    250;         40;         6;         L; 0;          500; 
+hornet;      'Hornet' Swarm Missile Launcher;    70;    120;         25;         3;         L; 0;          650; 
+javelin;     'Javelin' Heavy Railgun;            30;    600;        120;        40;         L; 25;         750; spiercepercent:50
+reaper;      'Reaper' Cruise Missiles;           20;   1200;        100;        50;         L; 50;         900; 
 
 # XL Weapons
-doorkeeper;  'Doorkeeper' Tachyon Lance;        10;   1200;        150;        50;        XL; 50
-avalanche;   'Avalanche' Superheavy Autocannon; 30;    350;         70;         8;        XL; 0
+doorkeeper;  'Doorkeeper' Tachyon Lance;         10;   1200;        150;        50;        XL; 50;        1200; 
+avalanche;   'Avalanche' Superheavy Autocannon;  30;    350;         70;         8;        XL; 0;         1000; 
+overlord;    'Overlord' Heavy Pulse Laser;       40;    500;         60;        12;        XL; 0;         1050; 
 
 # XXL Weapons
-apocalypse;  'Apocalypse' Giga Laser;            0;  10000;        500;       100;       XXL; 100
+apocalypse;  'Apocalypse' Giga Laser;             0;  10000;       1000;       100;       XXL; 100;      20000; 
+sunfire;     'Sunfire' Corona Projector;       1000;    200;          0;         1;       XXL; 50;       20000; tickloss:20:1
+terminator;  'Terminator' Graviton Devastator;   50;    100;         80;         1;       XXL; 50;       20000; spiercepercent:100

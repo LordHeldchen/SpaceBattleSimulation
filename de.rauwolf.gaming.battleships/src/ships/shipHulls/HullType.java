@@ -13,14 +13,16 @@ public class HullType {
     private final int baseCritThreshold;
     private final int baseHullStrength;
     private final int baseContainment;
+    private final int baseEPM;
     private final int baseStartInitiative;
     private final int baseEvasion;
+    private final int value;
     private final String description;
     private final String name;
     private final HullSize sizeCategory;
 
     public HullType(String name, HullSize sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold, int baseHullStrength,
-            int baseContainment, int baseStartInitiative, int baseEvasion, String description) {
+            int baseContainment, int baseEPM, int baseStartInitiative, int baseEvasion, int value, String description) {
         this.name = name;
         this.sizeCategory = sizeCategory;
         this.baseGlanceThreshold = baseGlanceThreshold;
@@ -28,9 +30,15 @@ public class HullType {
         this.baseCritThreshold = baseCritThreshold;
         this.baseHullStrength = baseHullStrength;
         this.baseContainment = baseContainment;
+        this.baseEPM = baseEPM;
         this.baseStartInitiative = baseStartInitiative;
         this.baseEvasion = baseEvasion;
+        this.value = value;
         this.description = description;
+    }
+
+    public String toString() {
+        return name;
     }
 
     public int getBaseGlanceThreshold() {
@@ -89,10 +97,6 @@ public class HullType {
         return name;
     }
 
-    public String toString() {
-        return name;
-    }
-
     public int getBaseContainment() {
         return baseContainment;
     }
@@ -103,5 +107,13 @@ public class HullType {
 
     public HullSize getHullSize() {
         return sizeCategory;
+    }
+
+    public int getBaseEPM() {
+        return baseEPM;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

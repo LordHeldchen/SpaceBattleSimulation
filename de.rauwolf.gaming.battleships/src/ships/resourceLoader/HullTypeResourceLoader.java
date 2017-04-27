@@ -57,22 +57,24 @@ public class HullTypeResourceLoader {
 					String[] elements = line.split(";");
 					String shorthand = elements[elementNr++].trim();
 					String name = elements[elementNr++].trim();
-					int baseStartInitiative = new Integer(elements[elementNr++].trim()).intValue();
-					int baseEvasion = new Integer(elements[elementNr++].trim()).intValue();
-					int baseHullStrength = new Integer(elements[elementNr++].trim()).intValue();
-					int baseGlanceThreshold = new Integer(elements[elementNr++].trim()).intValue();
-					int baseHitThreshold = new Integer(elements[elementNr++].trim()).intValue();
-					int baseCritThreshold = new Integer(elements[elementNr++].trim()).intValue();
-					int baseContainment = new Integer(elements[elementNr++].trim()).intValue();
+					int baseStartInitiative = new Integer(elements[elementNr++].trim());
+					int baseEvasion = new Integer(elements[elementNr++].trim());
+					int baseHullStrength = new Integer(elements[elementNr++].trim());
+					int baseGlanceThreshold = new Integer(elements[elementNr++].trim());
+					int baseHitThreshold = new Integer(elements[elementNr++].trim());
+					int baseCritThreshold = new Integer(elements[elementNr++].trim());
+					int baseContainment = new Integer(elements[elementNr++].trim());
+                    int baseEPM = new Integer(elements[elementNr++].trim());
 
 					String[] weaponSlots = elements[elementNr++].split(" ");
 					String[] componentSlots = elements[elementNr++].split(" ");
 
 	                HullSize sizeCategory = HullSize.valueOf(elements[elementNr++].trim());
                     String[] bays = elements[elementNr++].split(",");
-					
+
+                    int value = new Integer(elements[elementNr++].trim());
 					String description = elements[elementNr++].trim();
-					HullType hullType = new HullType(name, sizeCategory, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseContainment, baseStartInitiative, baseEvasion, description);
+					HullType hullType = new HullType(name, sizeCategory, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseContainment, baseEPM, baseStartInitiative, baseEvasion, value, description);
 					
 					fillSlots(shorthand, weaponSlots, hullType::setAvailableWeaponSlotsForSize, WeaponSize.values());
 					fillSlots(shorthand, componentSlots, hullType::setAvailableComponentSlotsForType, ComponentType.values());

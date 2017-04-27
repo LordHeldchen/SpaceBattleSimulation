@@ -29,17 +29,17 @@ public interface BattleLogger {
 
     public void shipReacts(CombatTarget target);
 
-    public void evades(ShipInstance ship, boolean doesEvade, int acc, int evade);
+    public void evades(ShipInstance ship, boolean doesEvade, int acc, int evade, int addedAccuracy);
 
     public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold);
 
-    public void takesHullDamage(ShipInstance ship, int damage, HullDamageType glancing, int hitStrength, int threshold);
+    public void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageType glancing, int hitStrength, int threshold);
 
-    public void shieldBreaks(ShieldInstance shieldInstance);
+    public void shieldBreaks(ShieldInstance shieldInstance, int breakDuration);
 
-    public void takesShieldDamage(ShieldInstance shieldInstance, int i);
+    public void takesShieldDamage(ShieldInstance shieldInstance, double d);
 
-    public void regeneratesShield(ShieldInstance ship, int regeneration, int shieldNow);
+    public void regeneratesShield(ShieldInstance ship, double regeneration, double currentShield);
 
     public void preysOnPreferredTargetType(CombatActor ship);
 
@@ -48,4 +48,6 @@ public interface BattleLogger {
 	public void noActiveParticipantsInCombat();
 
     public void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment);
+
+    public void shipLosesTicks(ShipInstance shipInstance, int lostTicks, int chanceInPermill);
 }

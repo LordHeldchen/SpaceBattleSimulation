@@ -27,25 +27,25 @@ public class ComponentResourceLoader {
                 }
                 String[] elements = line.split(";");
 
-                // # shorthand; name; slot size; x times: (modified stat:
-                // modifier)
+                // # shorthand; name; slot size; x times: (modified stat: modifier)
                 String shorthand = elements[elementNr++].trim();
                 String name = elements[elementNr++].trim();
                 ComponentType type = ComponentType.getEnumFromString(elements[elementNr++].trim());
+                int value = new Integer(elements[elementNr++].trim());
 
                 Map<String, Double> factors = new HashMap<String, Double>();
                 Map<String, Integer> flatBonuses = new HashMap<String, Integer>();
 
                 while (elementNr < elements.length) {
                     String[] modifier = elements[elementNr++].split(":");
-                    if (modifier[1].endsWith("%")) {
+                    if (modifier[1].trim().endsWith("%")) {
                         factors.put(modifier[0].trim(), (new Double(modifier[1].replaceAll("%", "").trim()) / 100) + 1);
                     } else {
                         flatBonuses.put(modifier[0].trim(), new Integer(modifier[1].trim()));
                     }
                 }
 
-                standardComponentBlueprints.put(shorthand, new ComponentBlueprint(name, type, factors, flatBonuses));
+                standardComponentBlueprints.put(shorthand, new ComponentBlueprint(name, type, value, factors, flatBonuses));
             }
         }
 

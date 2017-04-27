@@ -4,12 +4,12 @@ import logging.battleLogger.BattleLogger;
 import ships.blueprints.MutableBaseStat;
 
 public abstract class CombatActor implements Comparable<CombatActor> {
-	private final MutableBaseStat      timeCost;
+	private final MutableBaseStat   timeCost;
 
-    private int            currentInitiative;
+    private int                     currentInitiative;
 
-    protected SingleBattle currentBattle;
-    protected BattleLogger logger;
+    protected SingleBattle          currentBattle;
+    protected BattleLogger          logger;
 
     protected CombatActor(int startInitiative, int timeCost) {
         this.setCurrentInitiative(startInitiative);
@@ -19,6 +19,12 @@ public abstract class CombatActor implements Comparable<CombatActor> {
     protected final int loseInitiative() {
         int currentIni = getCurrentInitiative();
         setCurrentInitiative(currentIni - timeCost.getCalculatedValue());
+        return currentIni;
+    }
+
+    protected final int loseInitiative(int val) {
+        int currentIni = getCurrentInitiative();
+        setCurrentInitiative(currentIni - val);
         return currentIni;
     }
 

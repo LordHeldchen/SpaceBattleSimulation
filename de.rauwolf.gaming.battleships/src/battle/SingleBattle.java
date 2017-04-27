@@ -85,7 +85,7 @@ public class SingleBattle {
 
                 CombatActor actorWithHighestInit = combatActors.poll();
                 CombatTarget targetOfAction = actorWithHighestInit.takeAction();
-                if (targetOfAction.isDestroyed()) {
+                if (targetOfAction != null && targetOfAction.isDestroyed()) {
                     handleDestructionOf(targetOfAction);
                 }
                 combatActors.add(actorWithHighestInit);

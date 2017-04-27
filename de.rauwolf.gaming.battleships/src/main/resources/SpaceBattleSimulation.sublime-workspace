@@ -1,0 +1,1343 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"O",
+				"O802"
+			],
+			[
+				"DA0-PRODUKTSA",
+				"DA0-PRODUKTSATZ-1"
+			],
+			[
+				"Wieder",
+				"Wiederinkraftsetzung"
+			],
+			[
+				"main",
+				"main\tmain()"
+			],
+			[
+				"F-GE",
+				"F-GEB-DAT"
+			],
+			[
+				"Z-GEB-DAT",
+				"Z-GEB-DAT-JJJJ"
+			],
+			[
+				"if",
+				"ifdef"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "hullTypes.csv",
+			"settings":
+			{
+				"buffer_size": 5849,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "standardConfigurations.csv",
+			"settings":
+			{
+				"buffer_size": 4053,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "standardComponentBlueprints.csv",
+			"settings":
+			{
+				"buffer_size": 4181,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "standardWeaponBlueprints.csv",
+			"settings":
+			{
+				"buffer_size": 3528,
+				"encoding": "Western (Windows 1252)",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					""
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"JSON"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"Property List"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"YAML (Block Style)"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"YAML (Default Style)"
+				]
+			],
+			[
+				"Packages/PackageDev/Support/Convert to ....sublime-build",
+				"YAML (Default Style)"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 35.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"packagere",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: re",
+				"Package Control: Remove Package"
+			],
+			[
+				"package control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: co",
+				"Package Control: Discover Packages"
+			],
+			[
+				"package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 480.0
+	},
+	"console":
+	{
+		"height": 125.0,
+		"history":
+		[
+			"view.encoding()",
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardWeaponBlueprints.csv",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardComponentBlueprints.csv",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/hullTypes.csv",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardConfigurations.csv",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/OR60020",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/.project",
+		"/C/Users/Philip Rauwolf/AppData/Roaming/Sublime Text 3/Packages/User/Notizen.sublime-syntax",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/Z802",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/O807",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO11625",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/BF60000",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO33553",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72005",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/O684",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO11292",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/LRZAX_PLI",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO14706",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO70240",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO00941",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO05370",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/hullType.csv",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/Komposit/3-Design/S-Port/Analyse/jobnetze.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/O802",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Entwicklung/MERGED.pli",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/New Text Document.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/LRZAX",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72210",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11010",
+		"/C/Users/Philip Rauwolf/Downloads/snippet.js",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/O620",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/LO13706",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72230",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO33553W",
+		"/C/Users/Philip Rauwolf/Downloads/id_rsa.pub",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/Z702",
+		"/C/Users/Philip Rauwolf/AppData/Roaming/Sublime Text 3/Packages/User/PLI.sublime-syntax",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11050",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11055",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11017",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11017B",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO14701",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO14010",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/LO13705",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11035",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/Includes/O522",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11020",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11030",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72205",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11025",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO70260",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO11290",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO14020",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11040",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO70215",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO70205",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/AO33553",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72212",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/AO72211",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/LO13710",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/JCLs/LO11090",
+		"/C/Users/Philip Rauwolf/AppData/Roaming/Sublime Text 3/Packages/User/Color Scheme - Superb/superb.tmTheme",
+		"/C/Users/Philip Rauwolf/AppData/Roaming/Sublime Text 3/Packages/User/SDSF-OUT.sublime-syntax",
+		"/C/Users/Philip Rauwolf/AppData/Roaming/Sublime Text 3/Packages/User/JCL.sublime-syntax",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/SE00504",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/Komposit/3-Design/S-Port/Durchführung/20170306_Bestandteile_der_Analyse.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O573K",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/BF60000",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/AO14707",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO14703C",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO14703",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/AO14701",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O405",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O509",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO14200",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB 628.note",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB 626.note",
+		"/C/Users/Philip Rauwolf/Downloads/PTNEU",
+		"/C/Users/Philip Rauwolf/Downloads/VET",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/X-Wissen/Prozesse/150518_Jobnetze",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/X-Wissen/Prozesse/150615_Produktschlüssel-und-Haftungsgruppen",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO11600",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O584",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O524",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/O700",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB 647.note",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/Komposit/3-Design/S-Port/Durchführung/20161117_Gespräch_mit_Ingo.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/1 - Anpassung Schnittstelle zwischen AO14200 und ICM/Vorbesprechung.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/X-ProjectManagement/Todos.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/X-Wissen/ICM-Fakten.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/X-Wissen/Prozesse/150903_Test-Provisionsberechnung-Manuell-auf-E.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/VET",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PTNEU",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PROVIN",
+		"/C/Users/Philip Rauwolf/AppData/Local/Temp/7zOD203.tmp/PROVIN",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PROVOUT",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PT-neu.note",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PTNEU.cbl",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/PT-neu.cbl",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/WinCent/ZVS/src/UGV630.cbl",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO91030",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO33817",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/3 - Gewerbepolice Asspario/VERSTAMM",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O920",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O500",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O580",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O573MPV",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/O573KB",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO11610",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB647/PRODHIST",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB558/AO11595",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/tel Hr. Jerrentrup.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/AO14703O",
+		"/C/Users/Philip Rauwolf/Downloads/rauwolf@itestra.de (0x30CCD264) rev.asc",
+		"/C/Users/PHILIP~1/AppData/Local/Temp/Urlaub.eml",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB647/ALL3",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/solution.cpp",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/kessler_ptuning.cpp",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/JD.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB647/OWNHIST",
+		"/C/Users/Philip Rauwolf/Desktop/Private Planning/Neuronal Networks/tensorflow",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/4 - Technische Verbesserung EProv/Notizen.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/4 - Technische Verbesserung EProv/outdat/Protokoll_vom_20170202_125448.txt",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/4 - Technische Verbesserung EProv/outdat/ABRE.out",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB626/l1.cbl",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO11940",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/src/AO91050",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/VVS - Feedbackbearbeitung.sublime-project",
+		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/5-Feedbackbearbeitung/FB558/AO14200"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"*"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"reaper",
+			"javelin",
+			"rail",
+			"larmor",
+			"acc",
+			"javelin",
+			"cbcruiser",
+			"D901-BESTVM",
+			"PB-CSV-INDEX",
+			"PBSATZW",
+			"fd",
+			"phase",
+			"csv",
+			"copy",
+			"Z5-03-31-PB-FUELLEN",
+			"pb",
+			"konvertierungPB",
+			"konvertierung",
+			"pb",
+			"DAO0096",
+			"summe",
+			"11625",
+			"Z5-03-31-99",
+			"Z5-03-29-O802-FUELLEN",
+			"DAO0802W",
+			"DOK",
+			"DAO0802W",
+			"Z-XAO0800-LG",
+			"K-O802-LG",
+			"Z-XAO0800-LG",
+			"DAO0802",
+			"Z5-80-DAO0802-WRITE",
+			"Z5-03-29-O802-FUELLEN",
+			"o802",
+			"ve-nr.key",
+			"plu",
+			"802",
+			"lz",
+			"mon",
+			"zahl",
+			"zw",
+			"SUM",
+			"beg",
+			"h-bis",
+			"mon",
+			"dauer",
+			"beitr",
+			"CORTMP2",
+			"CORTMP1",
+			" *\\d{8}$",
+			"tec",
+			"beg",
+			"t-beg",
+			"u99-dump",
+			"K-IDX",
+			"KONTROLL-TAB",
+			"COR-FELDER",
+			"beg",
+			"tech",
+			"U99-DUMP",
+			"106",
+			"beg",
+			"COR-FELDER",
+			"KONTROLL-TAB",
+			"KONTROLLNAME",
+			"COR-FELDER",
+			"beg",
+			"TECH_BEGINN",
+			"beg",
+			"vers",
+			"Z-P1-BETR-SUM",
+			"vers",
+			"Z-MMMMM-DAUER",
+			"dauer",
+			"bzd",
+			"beitr",
+			"zahl",
+			"beitr",
+			"bzd",
+			"gez-mon",
+			"sum",
+			"Z-RIS-MB",
+			"-GEZ-MON",
+			"laufz",
+			"lz",
+			"schl",
+			"prods",
+			"Z-VTGNBT-JB",
+			"Z-VTGNBT-JBA",
+			"Z-VTGNBT-JBB",
+			"Z-VTGNBT-GES",
+			"O802-B-GESAMT-EINZEL",
+			"B-GESAMT-EINZEL",
+			"O802F013",
+			"o802",
+			"o807",
+			"DAO0807",
+			"Z5-81-DAO0807-WRITE",
+			"Z-VTGNBT-GES",
+			"o807",
+			"betr",
+			"o807",
+			"betr",
+			"beitr",
+			"prov.*betr",
+			"prov",
+			"betr",
+			"beitr",
+			"Z-VTGNBT-JBA",
+			"Z-BZD-FAKTOR",
+			"Z-VTGNBT-JBB",
+			"compute",
+			"beitr",
+			"bzd",
+			"prod",
+			"prods",
+			"eig",
+			"tkz",
+			"beitr",
+			"ver.*sum",
+			"vsu",
+			"h.*bis",
+			"vtgn",
+			"compute",
+			"add",
+			"betr",
+			"einh",
+			"Basis"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": true,
+		"replace_history":
+		[
+			"lqarmor",
+			"",
+			" ",
+			"",
+			" ",
+			"",
+			"\\n",
+			", ",
+			"",
+			"\\1 <-> \\2",
+			"      ",
+			"",
+			"      ",
+			"390",
+			"",
+			"BPRZ",
+			"VET",
+			"VERSICHERUNGSTYP",
+			"VERTRAGSTYP",
+			"VTYP",
+			"PRB",
+			"\\1\\2-x. EXIT.",
+			"ZUGANG",
+			"ZUGANG-40",
+			"",
+			"BEWERTUNGSEINHEITEN (s.u.)",
+			"",
+			"      ",
+			"\\1\\2*(-1)\\4",
+			"\\1\\2*\\3*(-1)\\4",
+			"\\1\\n",
+			"\\1 ",
+			"",
+			"      ",
+			"",
+			"prtest        move \\1(IND-I) to UMRECHNER\\nprtest        display \"- \\1 : \" IND-I \": \" UMRECHNER",
+			"",
+			"I-PRO",
+			"J-PRO",
+			"I-PRO",
+			"I-TMP",
+			"",
+			"\\1: \" DA2-BELPROZ-PROV(I-PRO) \", \" I-PRO",
+			"",
+			"\\nprtest        display \"blub\"\\1",
+			"\\n            display \"blub\"\\1",
+			"",
+			"\\1.\\n",
+			"      ",
+			"",
+			"12814",
+			"0",
+			"10000000",
+			"1000",
+			"12814",
+			"0",
+			"10000000",
+			"1000",
+			"12814",
+			"",
+			"       \\1",
+			"",
+			"\\1'\\n            '\\2",
+			"\\1\\n\\2\\n            display 'HIER: \\1'\\n            \\3",
+			"\\1'\\n            '\\2",
+			"\\1'\\n            '\\2'",
+			"\\1\\n\\2\\n            display 'HIER: \\1'\\n            \\3",
+			"\\2\\n            display 'HIER: \\1'\\n            \\3",
+			"",
+			"\\1\\n",
+			"\\1\\n\\3",
+			"",
+			" ",
+			"\\1\\n",
+			"\\1 \\2",
+			" ",
+			"\\1 \\2",
+			"\\1",
+			"",
+			"      ",
+			"      * ",
+			"*",
+			"      *",
+			"",
+			"      ",
+			"\\1",
+			"",
+			"      ",
+			"",
+			"\\1",
+			"      ",
+			"",
+			"\\1",
+			"\\n",
+			"",
+			"\\1",
+			"",
+			"\\1",
+			"",
+			"\\1",
+			"",
+			"\\1",
+			"      ",
+			"\\n",
+			"",
+			"\\1",
+			"      ",
+			"",
+			"\\1",
+			"      ",
+			"",
+			"§\\1",
+			"",
+			"qs",
+			"&",
+			">",
+			"<",
+			"",
+			"§\\1",
+			"",
+			"§\\1",
+			"",
+			"§\\1",
+			"--X--\\1",
+			"X\\1",
+			"",
+			"X\\1",
+			"\\2;\\1"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "hullTypes.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5849,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1182,
+								1182
+							]
+						],
+						"settings":
+						{
+							"ruler":
+							[
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "standardConfigurations.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4053,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3003,
+								3003
+							]
+						],
+						"settings":
+						{
+							"ruler":
+							[
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "standardComponentBlueprints.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4037,
+								4037
+							]
+						],
+						"settings":
+						{
+							"ruler":
+							[
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "standardWeaponBlueprints.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3528,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3508,
+								3508
+							]
+						],
+						"settings":
+						{
+							"ruler":
+							[
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 88.0
+	},
+	"output.package_dev":
+	{
+		"height": 88.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"ao11625",
+				"PGMs\\AO11625"
+			],
+			[
+				"lo11025",
+				"JCLs\\LO11025"
+			],
+			[
+				"bf60000",
+				"PGMs\\BF60000"
+			],
+			[
+				"o684",
+				"Includes\\O684"
+			],
+			[
+				"ao11292",
+				"PGMs\\AO11292"
+			],
+			[
+				"ao72005",
+				"JCLs\\AO72005"
+			],
+			[
+				"ao11290",
+				"PGMs\\AO11290"
+			],
+			[
+				"ao14710",
+				"PGMs\\AO14710"
+			],
+			[
+				"o802",
+				"Includes\\O802_COB"
+			],
+			[
+				"or60020",
+				"PGMs\\OR60020"
+			],
+			[
+				"o807",
+				"Includes\\O807"
+			],
+			[
+				"lo1101",
+				"JCLs\\LO11017"
+			],
+			[
+				"or",
+				"PGMs\\OR60020"
+			],
+			[
+				"ao14703",
+				"Entwicklung\\AO14703"
+			],
+			[
+				"ao14707",
+				"Entwicklung\\AO14707"
+			],
+			[
+				"ao00941",
+				"PGMs\\AO00941"
+			],
+			[
+				"lrza",
+				"Includes\\LRZAX_PLI"
+			],
+			[
+				"lz",
+				"Includes\\LRZAX"
+			],
+			[
+				"ao72210",
+				"JCLs\\AO72210"
+			],
+			[
+				"ao14706",
+				"PGMs\\AO14706"
+			],
+			[
+				"lo11010",
+				"JCLs\\LO11010"
+			],
+			[
+				"ao05370",
+				"PGMs\\AO05370"
+			],
+			[
+				"ao70240",
+				"JCLs\\AO70240"
+			],
+			[
+				"o620",
+				"Includes\\O620"
+			],
+			[
+				"o62",
+				"Includes\\O620"
+			],
+			[
+				"ao72230",
+				"JCLs\\AO72230"
+			],
+			[
+				"ao33553",
+				"JCLs\\AO33553"
+			],
+			[
+				"ao33553w",
+				"JCLs\\AO33553W"
+			],
+			[
+				"lo11030",
+				"JCLs\\LO11030"
+			],
+			[
+				"z802",
+				"Includes\\Z802"
+			],
+			[
+				"z702",
+				"Includes\\Z702"
+			],
+			[
+				"lo11017",
+				"JCLs\\LO11017"
+			],
+			[
+				"lo11035",
+				"JCLs\\LO11035"
+			],
+			[
+				"lo11050",
+				"JCLs\\LO11050"
+			],
+			[
+				"lo11055",
+				"JCLs\\LO11055"
+			],
+			[
+				"ao14701",
+				"PGMs\\AO14701"
+			],
+			[
+				"lo11017b",
+				"JCLs\\LO11017B"
+			],
+			[
+				"bf600",
+				"PGMs\\BF60000"
+			],
+			[
+				"bf6000",
+				"PGMs\\BF60000"
+			],
+			[
+				"lo13",
+				"PGMs\\LO13706"
+			],
+			[
+				"lo1370",
+				"PGMs\\LO13705"
+			],
+			[
+				"ao14010",
+				"PGMs\\AO14010"
+			],
+			[
+				"lo13705",
+				"PGMs\\LO13705"
+			],
+			[
+				"lr",
+				"Includes\\LRZAX"
+			],
+			[
+				"o",
+				"Includes\\O522"
+			],
+			[
+				"o522",
+				"Includes\\O522"
+			],
+			[
+				"lo11020",
+				"JCLs\\LO11020"
+			],
+			[
+				"ao72205",
+				"JCLs\\AO72205"
+			],
+			[
+				"ao70260",
+				"JCLs\\AO70260"
+			],
+			[
+				"ao14020",
+				"PGMs\\AO14020"
+			],
+			[
+				"lo13706",
+				"PGMs\\LO13706"
+			],
+			[
+				"ao053",
+				"PGMs\\AO05370"
+			],
+			[
+				"ao70215",
+				"JCLs\\AO70215"
+			],
+			[
+				"ao70205",
+				"JCLs\\AO70205"
+			],
+			[
+				"ao72212",
+				"JCLs\\AO72212"
+			],
+			[
+				"ao72211",
+				"JCLs\\AO72211"
+			],
+			[
+				"lo13710",
+				"PGMs\\LO13710"
+			],
+			[
+				"ao720",
+				"JCLs\\AO72005"
+			],
+			[
+				"sup",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Color Scheme - Superb\\superb.tmTheme"
+			],
+			[
+				"ao14703c",
+				"src\\AO14703C"
+			],
+			[
+				"o524",
+				"src\\O524"
+			],
+			[
+				"o700",
+				"FB626\\O700"
+			],
+			[
+				"se00504",
+				"src\\SE00504"
+			],
+			[
+				"notizen",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Notizen.sublime-syntax"
+			],
+			[
+				"o573",
+				"src\\O573K"
+			],
+			[
+				"super",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Color Scheme - Superb\\superb.tmTheme"
+			],
+			[
+				"notiz",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Notizen.sublime-syntax"
+			],
+			[
+				"o584",
+				"src\\O584"
+			],
+			[
+				"ao11600",
+				"src\\AO11600"
+			],
+			[
+				"o509",
+				"src\\O509"
+			],
+			[
+				"ao14200",
+				"src\\AO14200"
+			],
+			[
+				"ao91030",
+				"src\\AO91030"
+			],
+			[
+				"o405",
+				"src\\O405"
+			],
+			[
+				"ao33",
+				"src\\AO33817"
+			],
+			[
+				"ao14703o",
+				"FB626\\AO14703O"
+			],
+			[
+				"note",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Notizen.sublime-syntax"
+			],
+			[
+				"ao12400",
+				"src\\AO14200"
+			],
+			[
+				"ao11610",
+				"src\\AO11610"
+			],
+			[
+				"pli",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\PLI.sublime-syntax"
+			],
+			[
+				"ao",
+				"src\\AO14200"
+			],
+			[
+				"ao11595",
+				"FB558\\AO11595"
+			],
+			[
+				"noti",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Notizen.sublime-syntax"
+			],
+			[
+				"o920",
+				"src\\O920"
+			],
+			[
+				"ao11940",
+				"src\\AO11940"
+			],
+			[
+				"not",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Notizen.sublime-syntax"
+			],
+			[
+				"11600",
+				"src\\AO11600"
+			],
+			[
+				"14200",
+				"src\\AO14200"
+			],
+			[
+				"sueer",
+				"C:\\Users\\Philip Rauwolf\\AppData\\Roaming\\Sublime Text 3\\Packages\\User\\Color Scheme - Superb\\superb.tmTheme"
+			],
+			[
+				"ao142",
+				"src\\AO14200"
+			],
+			[
+				"o580",
+				"src\\O580"
+			],
+			[
+				"o500",
+				"src\\O500"
+			],
+			[
+				"ao91050",
+				"src\\AO91050"
+			],
+			[
+				"ao9100",
+				"src\\AO91030"
+			],
+			[
+				"o573kb",
+				"src\\O573KB"
+			],
+			[
+				"o573k",
+				"src\\O573K"
+			],
+			[
+				"ao11",
+				"src\\AO11600"
+			],
+			[
+				"v01",
+				"V10FILT"
+			],
+			[
+				"v09",
+				"V09FILT"
+			],
+			[
+				"o485",
+				"O485"
+			],
+			[
+				"pai010",
+				"src - save\\PAI010"
+			],
+			[
+				"lo11510",
+				"Abzug Joblib\\LO11510"
+			],
+			[
+				"ao70560",
+				"Abzug Joblib\\AO70560"
+			],
+			[
+				"ao5502",
+				"Abzug Joblib\\AO5502"
+			],
+			[
+				"ao11630",
+				"AO11630"
+			],
+			[
+				"ao91070",
+				"AO91070"
+			],
+			[
+				"ao91080",
+				"AO91080"
+			],
+			[
+				"bu5031",
+				"Sourcen\\BU503100.cob"
+			],
+			[
+				"bu50300",
+				"Sourcen\\BU503000.cob"
+			],
+			[
+				"bu502000",
+				"Sourcen\\BU502000.cob"
+			],
+			[
+				"$pr.b.jt70l7e6",
+				"$PR.B.JT70L7E6.txt"
+			],
+			[
+				"$pr.b.j70lx1",
+				"$PR.B.J70LX1.txt"
+			],
+			[
+				"$pr.b.au4752",
+				"$PR.B.AU4752.txt"
+			],
+			[
+				"$pr.b.au4598",
+				"$PR.B.AU4598.txt"
+			],
+			[
+				"$pr.b.au4590",
+				"$PR.B.AU4590.txt"
+			],
+			[
+				"$pr.e.ora500",
+				"$PR.E.ORA500.txt"
+			],
+			[
+				"$pr.b.ora400fm",
+				"$PR.B.ORA400FM.txt"
+			],
+			[
+				"$pr.e.ora400fm",
+				"$PR.E.ORA400FM.txt"
+			],
+			[
+				"$pr.b.ora3020s.apm",
+				"$PR.B.ORA3020S.APM.txt"
+			],
+			[
+				"$pr.b.ora302m.apm",
+				"$PR.B.ORA302M.APM.txt"
+			],
+			[
+				"$pr.e.ora302",
+				"$PR.E.ORA302.txt"
+			],
+			[
+				"$pr.b.mw4030.apm",
+				"$PR.B.MW4030.APM.txt"
+			],
+			[
+				"$pr.b.plan48",
+				"$PR.B.PLAN48.txt"
+			],
+			[
+				"$pr.b.f2077n.apm",
+				"$PR.B.F2077N.APM.txt"
+			],
+			[
+				"$pr.b.mw6002",
+				"$PR.B.MW6002.txt"
+			],
+			[
+				"$pr.b.mw6001",
+				"$PR.B.MW6001.txt"
+			],
+			[
+				"$pr.b.mw6011",
+				"$PR.B.MW6011.txt"
+			],
+			[
+				"$pr.b.mw6015",
+				"$PR.B.MW6015.txt"
+			],
+			[
+				"$pr.b.mw6010.apm",
+				"$PR.B.MW6010.APM.txt"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\Philip Rauwolf\\Desktop\\Projekte\\Delvin\\3-LS2-KnowHowAufbau\\VVS-Sourcen Stand 1404\\VVSR_sources.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 35.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 205.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

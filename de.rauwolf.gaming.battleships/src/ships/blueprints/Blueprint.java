@@ -2,11 +2,13 @@ package ships.blueprints;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import battle.BattleConstants;
 import battle.ShipInstance;
 import ships.resourceLoader.ComponentResourceLoader;
 import ships.resourceLoader.WeaponResourceLoader;
@@ -30,7 +32,7 @@ public class Blueprint {
     // Shields
     private final MutableBaseStat maxShieldStrength;
     private final MutableBaseStat shieldRegenerationAmount;
-    private final MutableBaseStat shieldRegenerationSpeed;
+    private final MutableBaseStat shieldBreakDuration;
 
     // Speed
     private final MutableBaseStat startBattleSpeed;
@@ -53,7 +55,8 @@ public class Blueprint {
 
         maxShieldStrength = new MutableBaseStat(0);
         shieldRegenerationAmount = new MutableBaseStat(0);
-        shieldRegenerationSpeed = new MutableBaseStat(0);
+        shieldBreakDuration = new MutableBaseStat(0);
+        
         evasion = new MutableBaseStat(hullType.getBaseEvasion());
 
         // TODO: Boni zu bestimmten Waffenkategorien/-größen etc.?
@@ -107,8 +110,8 @@ public class Blueprint {
         return shieldRegenerationAmount.getCalculatedValue();
     }
 
-    public int getShieldInitiativeDecay() {
-        return shieldRegenerationSpeed.getCalculatedValue();
+    public int getShieldBreakDuration() {
+        return shieldBreakDuration.getCalculatedValue();
     }
 
     public int getArmorGlanceThreshold() {
@@ -139,6 +142,13 @@ public class Blueprint {
         return fightersInBay;
     }
     
+    public int getValueOfShipInstance() {
+        int value = hullType.getValue();
+        value += getWeapons().stream().collect(Collectors.summarizingInt(e -> e.getValue())).getSum();
+        value += (getComponents().stream().collect(Collectors.summarizingInt(e -> e.getValue())).getSum() * BattleConstants.shipSizeScaling.get(hullType.getHullSize()));
+        return value;
+    }
+    
     public void addFightersToBay(Blueprint fighter, int num) throws InstantiationException {
         int availableShipBaysForSize = hullType.getAvailableShipBaysForSize(fighter.getHullSize());
         for (Blueprint fighterInBay: fightersInBay.keySet()) {
@@ -166,7 +176,7 @@ public class Blueprint {
         }
     }
 
-    public void addStandardWeapon(String weaponBlueprintName) throws NotEnoughtSlotsException, NumberFormatException, IOException {
+    public void addStandardWeapon(String weaponBlueprintName) throws NotEnoughtSlotsException, NumberFormatException, IOException, InstantiationException {
         addWeapon(WeaponResourceLoader.getStandardWeaponBlueprint(weaponBlueprintName));
     }
 

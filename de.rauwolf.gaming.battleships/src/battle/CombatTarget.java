@@ -9,7 +9,7 @@ public interface CombatTarget {
 
     boolean isDestroyed();
 
-    void takeDamage(Shot list);
+    void receiveAttack(Shot list);
 	boolean reactBeforeAttacker(ShipInstance attacker);
 
 	void endCurrentBattle();

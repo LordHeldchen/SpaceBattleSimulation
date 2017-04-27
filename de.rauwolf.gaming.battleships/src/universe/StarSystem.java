@@ -24,9 +24,11 @@ public class StarSystem {
     private static Blueprint assFrigBlueprint;
     private static Blueprint defenderBlueprint;
     private static Blueprint combatDestroyerBlueprint;
-    private static Blueprint supportArtilleryCruiserBP;
     private static Blueprint lightFleetCruiserBP;
-    private static Blueprint closeCombatBattleshipBP;
+    private static Blueprint supportArtilleryCruiserBP;
+    private static Blueprint combatBattleCruiserBP;
+    private static Blueprint stunBattlecruiserBP;
+    private static Blueprint brawlerBattleshipBP;
     private static Blueprint screenBattleshipBP;
     private static Blueprint fireSupportDreadnoughtBP;
     private static Blueprint mixedCarrierBP;
@@ -46,21 +48,25 @@ public class StarSystem {
         Fleet fleetD = new Fleet();
 
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, standardFighterBlueprint, 100);
-        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, hunterBlueprint, 100);
+        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, heavyFighterBlueprint, 100);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, lancerBlueprint, 100);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, lightFleetCruiserBP, 20);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, supportArtilleryCruiserBP, 10);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, fireSupportDreadnoughtBP, 3);
 
-        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, heavyFighterBlueprint, 300);
+        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, bomberBlueprint, 100);
+        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, interceptorBlueprint, 200);
+        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, hunterBlueprint, 200);
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, defenderBlueprint, 50);
-        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, combatDestroyerBlueprint, 20);
+        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, combatDestroyerBlueprint, 30);
+        addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, combatBattleCruiserBP, 10);
 
         addNumOfShipsFromBlueprintToFleet(fleetC, participatingEmpireC, mixedCarrierBP, 3);
         addNumOfShipsFromBlueprintToFleet(fleetC, participatingEmpireC, assFrigBlueprint, 100);
 
         addNumOfShipsFromBlueprintToFleet(fleetD, participatingEmpireD, screenBattleshipBP, 10);
-        addNumOfShipsFromBlueprintToFleet(fleetD, participatingEmpireD, closeCombatBattleshipBP, 5);
+        addNumOfShipsFromBlueprintToFleet(fleetD, participatingEmpireD, brawlerBattleshipBP, 10);
+        addNumOfShipsFromBlueprintToFleet(fleetD, participatingEmpireD, stunBattlecruiserBP, 20);
 
         listOfFleets.add(fleetA);
         listOfFleets.add(fleetB);
@@ -82,7 +88,9 @@ public class StarSystem {
         combatDestroyerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("cdest");
         lightFleetCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("lfcrui");
         supportArtilleryCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("sacruiser");
-        closeCombatBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("brbship");
+        combatBattleCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("cbcruiser");
+        stunBattlecruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("stbcruiser");
+        brawlerBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("brbship");
         screenBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("scbship");
         fireSupportDreadnoughtBP = StandardConfigurationResourceLoader.getStandardConfiguration("fsdnought");
         mixedCarrierBP = StandardConfigurationResourceLoader.getStandardConfiguration("mixcarrier");

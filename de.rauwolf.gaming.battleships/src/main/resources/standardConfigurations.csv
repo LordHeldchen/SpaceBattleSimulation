@@ -1,16 +1,26 @@
-#shorthand; name; hullType-shorthand; x times weapon shorthand (separator ","); x times component shorthand (separator ","); x times ships in bay (separator ",", format "hullType-shorthand: num"); description
+# CSV-values per configuration in order:
+### shorthand
+### name
+### hullType-shorthand
+### x times weapon shorthand (separator ",")
+### x times component shorthand (separator ",")
+### x times ships in bay (separator ",", format "hullType-shorthand: num")
+### description
+
 sfighter; Standard Fighter; fighter; vulc; tcomp;; Stock close combat fighter. Cheap and effective in taking out other Fighters and poorly armored Frigates.
-interceptor; Interceptor; fighter; predator; aburn;; Fast Interceptor, specifically designed to hunt down and obliterate other Fighters. Low Armor penetration capabilities lower its effectiveness in all other fields.
+interceptor; Interceptor; fighter; predator; larmor;; Fast Interceptor, specifically designed to hunt down and obliterate other Fighters. Low Armor penetration capabilities lower its effectiveness in all other fields.
 gboat; Heavy Fighter; hfighter; vulc, vulc; tcomp;; Modified fighter with a strong weapon layout. Mainly useful as anti-Frigate solution.
 hunter; Hunter; hfighter; jaeger, jaeger; aburn;; Missile Loadout for the Heavy fighter. Decent allround stats make this type of fighter a viable solution for most fights.
 pbomb; Bomber; bomber; ncrack; aburn, cloak;; The stock fleet bomber. The 'Nutracker' plasma bomb is a decent option against all heavily armored targets.
-lbomb; Lancer; bomber; rapier; tcomp, tcomp;; A less-specialized, more-allrounder variant of the standard bomber. The particle lance has extreme armor piercing capabilities while still providing reasonable tracking, though it lacks in damage.
+lbomb; Lancer; bomber; rapier; tcomp, lshield;; A less-specialized, more-allrounder variant of the standard bomber. The particle lance has extreme armor piercing capabilities while still providing reasonable tracking, though it lacks in damage.
 assfrig; Assault Frigate; frigate; ripper, ripper; aburn, tcomp;; Fast and precise loadout for the frigate hull. Ideal for surgical strikes against poorly defended fleets or as anti fighter screen.
-defender; Defender; destroyer; ripper, ripper, ripper, ripper; larmor, tcomp;; Stock escort ship. Suited ideally for defense against swarms of smaller ships.
-cdest; Combat Destroyer; destroyer; dagger, dagger, spike, spike; larmor, tcomp;; Allround destroyer for limited combat operations in unknown territory. Fitted with reasonable defenses against fighters as well as highly armor piercing ordnance for anti-capital warfare.
-lfcrui; Light Fleet Cruiser; lcruiser; blaze, greyhound, spike, spike; rbulk, tcomp, aburn;; Standard Fleet Cruiser, fitted for a multitude of roles. Meant as mainstay of a small fleet, not as suitable (though still viable) for larger fleet operations.
+defender; Defender; destroyer; ripper, ripper, ripper, ripper; lqarmor, tcomp;; Stock escort ship. Suited ideally for defense against swarms of smaller ships.
+cdest; Combat Destroyer; destroyer; dagger, dagger, spike, spike; lqarmor, tcomp;; Allround destroyer for limited combat operations in unknown territory. Fitted with reasonable defenses against fighters as well as highly armor piercing ordnance for anti-capital warfare.
+lfcrui; Light Fleet Cruiser; lcruiser; blaze, greyhound, spike, spike; lshield, tcomp, aburn;; Standard Fleet Cruiser, fitted for a multitude of roles. Meant as mainstay of a small fleet, not as suitable (though still viable) for larger fleet operations.
 sacruiser; Support Artillery Cruiser; acruiser; doorkeeper; tcomp, rbulk;; Brittle Cruiser providing hefty artillery Support. Do not use without escort.
-brbship; Brawler Battleship; bship; stampede, stampede, blaze, blaze, greyhound, greyhound; tcomp, tcomp, cloak, rbulk, harmor, aburn;; Battleship designed for brutal front line engagement. With a weapon loadout suitable to crush everything up to its own weight class, this ship dominates every mid-sized engagement.
-scbship; Screen Battleship; bship; hornet, hornet, blaze, blaze, blaze, blaze; tcomp, tcomp, tcomp, tcomp, rbulk, harmor;; Specialized Battleship to keep the small fry at bay. Any fighter will run in fear (if it is still able to) when this monstrosity unleashes volley after volley of highly accurate and deadly ordnance.
+cbcruiser; Combat Battle Cruiser; bcruiser; spike, spike, greyhound, greyhound, blaze, blaze; mjets, tcomp, lshield;; All-purpose-cruiser, suitable for limited engagement. Best used as part of a fast response fleet.
+stbcruiser; Stun Battle Cruiser; bcruiser; current, current, tide, tide, tide, tide; pshield, cloak, aburn;; Battlecruiser specifically designed to shut down all electronics on small to medium targets. One of these cruisers is able to keep several enemies at bay, though he likely will not be the one to land the finishing blow.
+brbship; Brawler Battleship; bship; stampede, stampede, stampede, blaze, blaze, greyhound, greyhound; tcomp, tcomp, cloak, rbulk, harmor, aburn;; Battleship designed for brutal front line engagement. With a weapon loadout suitable to crush everything up to its own weight class, this ship dominates every mid-sized engagement.
+scbship; Screen Battleship; bship; hornet, hornet, hornet, blaze, blaze, blaze, blaze; lshield, lshield, scap, tcomp, rbulk, harmor;; Specialized Battleship to keep the small fry at bay. Any fighter will run in fear (if it is still able to) when this monstrosity unleashes volley after volley of highly accurate and deadly ordnance.
 fsdnought; Fire Support Dreadnought; dnought; avalanche, avalanche, avalanche, avalanche; rbulk, harmor, tcomp;; Dreadnought for heavy fire support. Rips apart everything thats sluggish or slow enough to be hit by its superheavy auto cannons.
-mixcarrier; Mixed Carrier; carrier;; cloak, cloak, cloak, harmor, harmor, rbulk; sfighter: 25, interceptor: 25, hunter: 25, pbomb: 25; Carrier with a bit of everything for every situation in its hangar bays.
+mixcarrier; Mixed Carrier; carrier;; lshield, lshield, lshield, harmor, harmor, rbulk; sfighter: 25, interceptor: 25, hunter: 25, pbomb: 25; Carrier with a bit of everything for every situation in its hangar bays.
