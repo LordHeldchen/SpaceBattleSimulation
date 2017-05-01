@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ships.blueprints.ComponentBlueprint;
+import ships.shipHulls.HullStatType;
 import ships.shipHulls.ComponentType;
 
 public class ComponentResourceLoader {
@@ -33,15 +34,16 @@ public class ComponentResourceLoader {
                 ComponentType type = ComponentType.getEnumFromString(elements[elementNr++].trim());
                 int value = new Integer(elements[elementNr++].trim());
 
-                Map<String, Double> factors = new HashMap<String, Double>();
-                Map<String, Integer> flatBonuses = new HashMap<String, Integer>();
+                Map<HullStatType, Double> factors = new HashMap<HullStatType, Double>();
+                Map<HullStatType, Integer> flatBonuses = new HashMap<HullStatType, Integer>();
 
                 while (elementNr < elements.length) {
                     String[] modifier = elements[elementNr++].split(":");
+                    HullStatType modifierType = HullStatType.getEnumFromString(modifier[0].trim());
                     if (modifier[1].trim().endsWith("%")) {
-                        factors.put(modifier[0].trim(), (new Double(modifier[1].replaceAll("%", "").trim()) / 100) + 1);
+                        factors.put(modifierType, (new Double(modifier[1].replaceAll("%", "").trim()) / 100) + 1);
                     } else {
-                        flatBonuses.put(modifier[0].trim(), new Integer(modifier[1].trim()));
+                        flatBonuses.put(modifierType, new Integer(modifier[1].trim()));
                     }
                 }
 

@@ -2,45 +2,55 @@
 ### spiercepercent: Shield pierce percentage
 ### spierceflat: Shield pierce amount (applied after shieldpiercepercent)
 ### tickloss: Makes the target lose initiative. Value is used to calculate the chance to apply the loss (see "epm"), duration is the amout of ticks lost on success.
+### degrade: Degrades armor protection on each hit (not glance or deflect), reducing glance-, hit- and crit-threshold by the given value for the rest of the battle.
+# Available damage types:  HEAT, EM, KINETIC, EXPLOSIVE, ANTIMATTER, PARTICLE
+# Available weapon sizes:  D (Drone), XXS (Fighter), XS (Bomber), S, M, L, XL, XXL
+# shorthand; name;                         accuracy; damage; Armor Pen.; time cost; slot size; ini bonus; value; dmg-type;  secondary effects (type:value(:duration), type:value(:duration), ...)
 
-# shorthand; name;                        accuracy; damage; Armor Pen.; time cost; slot size; ini bonus; value; secondary effects (type:value:duration, type:value(:duration), ...)
-# D Weapons (Drone Weapons)
+### KINETIC     - Autocannons
+vulcan;      'Vulcan' Figher Cannon;             80;     25;         20;         5;       XXS; 0;           30;   KINETIC;
+ripper;      'Ripper' Light Autocannon;          60;     45;         30;         5;         S; 0;          100;   KINETIC;
+mincer;      'Mincer' Autocannon;                50;     90;         45;         6;         M; 0;          200;   KINETIC;
+stampede;    'Stampede' Heavy Autocannon;        40;    230;         60;         7;         L; 0;          500;   KINETIC;
+avalanche;   'Avalanche' Superheavy Autocannon;  30;    350;         80;         8;        XL; 0;         1000;   KINETIC;
+
+### KINETIC     - Artillery
+howitzer;    'Howitzer' Support Artillery;        0;    550;         60;        20;         M; 30;         200;   KINETIC;
+slaughter;   'Slaughter' Heavy Artillery;         0;    900;         80;        20;         L; 50;         500;   KINETIC;
+monstrosity; 'Monstrosity' Siege Artillery;       0;   1200;         90;        20;        XL; 80;        1000;   KINETIC;
+
+### KINETIC     - Railguns
+dagger;      'Dagger' Light Railgun;             50;    160;        100;        40;         S; 10;         150;   KINETIC;  spiercepercent:50
+crossbow;    'Crossbow' Combat Railgun;          40;    320;        120;        40;         M; 15;         400;   KINETIC;  spiercepercent:50
+javelin;     'Javelin' Heavy Railgun;            30;    650;        150;        40;         L; 25;         750;   KINETIC;  spiercepercent:50
+
+### HEAT        - Pulse Lasers
+predator;    'Predator' Laser Cannon;           100;     25;          0;         4;       XXS; 0;           30;      HEAT;
+spike;       'Spike' Combat Laser Array;         70;     80;         10;         6;         S; 0;          120;      HEAT;
+blaze;       'Blaze' Light Pulse Laser;          60;    130;         20;         6;         M; 0;          250;      HEAT;
+firestarter; 'Firestarter' Pulse Laser Array;    50;    260;         40;         7;         L; 0;          600;      HEAT;
+overlord;    'Overlord' Heavy Pulse Laser;       40;    475;         60;        10;        XL; 0;         1050;      HEAT;
+apocalypse;  'Apocalypse' Giga Laser;             0;  10000;       1000;       100;       XXL; 100;      20000;      HEAT;
+
+### HEAT        - Beam Lasers
+lance;       'Lance' Laser Beam;                 40;     20;         30;         1;         M; 5;          200;      HEAT;  degrade:1
+sunfire;     'Sunfire' Corona Projector;       1000;    200;          0;         1;       XXL; 50;       20000;      HEAT;  degrade:2
+
+### EXPLOSIVE   - Missiles
+jaeger;      'Jäger' Light Missiles;             60;    100;         30;        20;       XXS; 0;           50; EXPLOSIVE;
+greyhound;   'Greyound' Standard Missiles;       35;    200;         80;        20;         M; 10;         300; EXPLOSIVE;
+hornet;      'Hornet' Swarm Missile Launcher;    70;    120;         25;         3;         L; 0;          650; EXPLOSIVE;
+reaper;      'Reaper' Cruise Missiles;           20;   1200;        100;        50;         L; 50;         900; EXPLOSIVE;
+
+### EM          - Ion Weapons
+current;     'Current' Light Ion Beam;           80;      5;         40;         1;         S; 0;          150;        EM;  tickloss:10:1
+tide;        'Tide' Ion Cannon;                  50;     75;         60;        10;         M; 0;          300;        EM;  tickloss:50:3
+
+### PARTICLE    - Weapons
+doorkeeper;  'Doorkeeper' Tachyon Lance;         10;   2000;        150;        50;        XL; 50;        1200;  PARTICLE;
+terminator;  'Terminator' Graviton Devastator;   50;    100;         80;         1;       XXL; 50;       20000;  PARTICLE;  spiercepercent:100
 
 
-# XXS Weapons (Fighter Weapons)
-vulc;        'Vulcan' Figher Cannon;             75;     20;         10;         4;       XXS; 0;           30; 
-predator;    'Predator' Laser Cannon;            90;     25;          0;         4;       XXS; 0;           30; 
-jaeger;      'Jäger' Light Missiles;             60;    100;         30;        20;       XXS; 0;           50; 
-
-# XS Weapons (Bomber Weapons)
-ncrack;      'Nutcracker' Plasma Bombs;           0;    300;         90;        50;        XS; 0;          100; 
-rapier;      'Rapier' Particle Lance;            40;     80;        120;        30;        XS; 0;          100; 
-
-# S Weapons
-ripper;      'Ripper' Light Autocannon;          60;     45;         20;         4;         S; 0;          100; 
-spike;       'Spike' Combat Laser Array;         70;     80;         10;         6;         S; 0;          120; 
-dagger;      'Dagger' Light Railgun;             50;    150;        100;        30;         S; 10;         150; spiercepercent:50
-current;     'Current' Light Ion Beam;           80;      5;         40;         1;         S; 0;          150; tickloss:10:1
-
-# M Weapons
-blaze;       'Blaze' Light Pulse Laser;          60;    140;         20;         6;         M; 0;          250; 
-lance;       'Lance' Laser Beam;                 40;     20;         30;         1;         M; 5;          200; 
-greyhound;   'Greyound' Standard Missiles;       35;    200;         80;        20;         M; 10;         300; 
-howitzer;    'Howitzer' Support Artillery;       15;    650;         50;        30;         M; 30;         200; 
-tide;        'Tide' Ion Cannon;                  50;     75;         60;        10;         M; 0;          300; tickloss:50:3
-
-# L Weapons
-stampede;    'Stampede' Heavy Autocannon;        40;    250;         40;         6;         L; 0;          500; 
-hornet;      'Hornet' Swarm Missile Launcher;    70;    120;         25;         3;         L; 0;          650; 
-javelin;     'Javelin' Heavy Railgun;            30;    600;        120;        40;         L; 25;         750; spiercepercent:50
-reaper;      'Reaper' Cruise Missiles;           20;   1200;        100;        50;         L; 50;         900; 
-
-# XL Weapons
-doorkeeper;  'Doorkeeper' Tachyon Lance;         10;   1200;        150;        50;        XL; 50;        1200; 
-avalanche;   'Avalanche' Superheavy Autocannon;  30;    350;         70;         8;        XL; 0;         1000; 
-overlord;    'Overlord' Heavy Pulse Laser;       40;    500;         60;        12;        XL; 0;         1050; 
-
-# XXL Weapons
-apocalypse;  'Apocalypse' Giga Laser;             0;  10000;       1000;       100;       XXL; 100;      20000; 
-sunfire;     'Sunfire' Corona Projector;       1000;    200;          0;         1;       XXL; 50;       20000; tickloss:20:1
-terminator;  'Terminator' Graviton Devastator;   50;    100;         80;         1;       XXL; 50;       20000; spiercepercent:100
+# Bomber Weapons
+ncrack;      'Nutcracker' Plasma Bombs;           0;    300;         90;        50;        XS; 0;          100; EXPLOSIVE;
+rapier;      'Rapier' Particle Lance;            40;     80;        120;        30;        XS; 0;          100;  PARTICLE;

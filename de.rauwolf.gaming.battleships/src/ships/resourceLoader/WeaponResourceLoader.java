@@ -9,6 +9,7 @@ import java.util.Map;
 
 import battle.WeaponSecondaryEffect;
 import ships.blueprints.WeaponBlueprint;
+import ships.shipHulls.DamageType;
 import ships.shipHulls.ValueDurationPair;
 import ships.shipHulls.WeaponSize;
 
@@ -36,24 +37,27 @@ public class WeaponResourceLoader {
                 WeaponSize size = WeaponSize.valueOf(elements[6].trim());
                 int iniBonus = new Integer(elements[7].trim());
                 int value = new Integer(elements[8].trim());
+                DamageType dmgType = DamageType.valueOf(elements[9].trim());
 
-                String[] secondaryEffects = elements[9].trim().split(",");
-                Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects = new HashMap<WeaponSecondaryEffect, ValueDurationPair>(); 
-                for (String effect: secondaryEffects) {
-                    String[] split = effect.split(":");
-                    if (split.length == 1) {
-                        continue;
-                    }
-                    WeaponSecondaryEffect type = WeaponSecondaryEffect.getEnumFromString(split[0].trim());
-                    Integer amount = Integer.valueOf(split[1].replaceAll("%", "").trim());
-                    if (split.length > 2) {
-                        Integer duration = Integer.valueOf(split[2].trim());
-                        weaponEffects.put(type, new ValueDurationPair(amount, duration));
-                    } else {
-                        weaponEffects.put(type, new ValueDurationPair(amount, 0));
+                Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects = new HashMap<WeaponSecondaryEffect, ValueDurationPair>();
+                if (elements.length > 10) {
+                    String[] secondaryEffects = elements[10].trim().split(",");
+                    for (String effect : secondaryEffects) {
+                        String[] split = effect.split(":");
+                        if (split.length == 1) {
+                            continue;
+                        }
+                        WeaponSecondaryEffect type = WeaponSecondaryEffect.getEnumFromString(split[0].trim());
+                        Integer amount = Integer.valueOf(split[1].replaceAll("%", "").trim());
+                        if (split.length > 2) {
+                            Integer duration = Integer.valueOf(split[2].trim());
+                            weaponEffects.put(type, new ValueDurationPair(amount, duration));
+                        } else {
+                            weaponEffects.put(type, new ValueDurationPair(amount, 0));
+                        }
                     }
                 }
-                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(name, size, accuracy, damage, armorPenetration, timeCost, iniBonus, value, weaponEffects));
+                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(name, size, accuracy, damage, armorPenetration, timeCost, iniBonus, value, dmgType, weaponEffects));
             }
         }
 

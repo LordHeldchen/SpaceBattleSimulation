@@ -17,11 +17,13 @@
 ###           Factors are handled differently: An additional component reducing above duration by 50%, i.e. a component that applies a factor of -50%, will result in the otherwise same configuration having a knockout duration of 8.
 ### epm   --> Chance to avoid adverse non-damaging effects, e.g. tickloss or jamming. Formula for the chance to avoid an adverse effect with strength "strength" is
 ###           strength / (epm + strength)
+### r-xxx --> Resistance against specific damage types (lowers AP of weapon before rolling for hit type). Available resistance keys are:
+###           HEAT: heat, EM: em, KINETIC: kin, EXPLOSIVE: exp, ANTIMATTER: anti, PARTICLE: part
 #
-# On Shield mechanics:
-# Shields deflect damage _before_ a hit is determined to be a glancing or a critical blow.
+# Shield mechanics:
+# Shields deflect damage _before_ the hit type is determined (i.e. deflected, glancing hit, normal hit or a critical blow).
 # Therefore shields always take damage if the ship is hit, but they do regenerate quite fast and prevent any critical damage as long as they are up.
-# Even if they finally break, damage is lowered by their remaining strength, again before the remaining damage of a hit is determined to be critical or not and multiplied accordingly.
+# Even if they finally break, damage is lowered by their remaining strength, again before the hit type is determined.
 #
 # Shield hitpoints (shp), shield regeneration (sreg) and EPM do scale with the hull size the component is installed in, as does the value for all components. Factors per hull size class are:
 #   XS:  1
@@ -35,7 +37,7 @@
 
 ##### D - Defense (usually physical defense, e.g. armor)
 larmor;  Light Armor;              D;       0;     glan: -20; hit: -10; crit: -10; eva: 20%; ini: 10
-hardsys; Hardened Systems;         D;      20;     epm: 100%
+hardsys; Hardened Systems;         D;      20;     epm: 100%; r-em: 20
 harmor;  Heavy Armor;              D;      30;     glan: 10; hit: 5; eva: -10
 lqarmor; Liquid Armor;             D;      50;     glan: -10; hit: 10; crit: 10
 rbulk;   Reinforced Bulkheads;     D;      50;     crit: 10; cont: 50%

@@ -87,8 +87,8 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void takesHullDamage(ShipInstance ship, double damage, HullDamageType damageType, int hitStrength, int threshold) {
-        System.out.println("  " + ship + " takes " + (int) damage + " points of " + damageType + " damage  (" + hitStrength + ">" + threshold + ")");
+    public void takesHullDamage(ShipInstance ship, double damage, HullDamageLevel damageLevel, int hitStrength, int threshold) {
+        System.out.println("  " + ship + " takes " + (int) damage + " points of " + damageLevel + " damage  (" + hitStrength + ">" + threshold + ")");
     }
 
     @Override
@@ -129,5 +129,10 @@ public class DebugBattleLogger implements BattleLogger {
     @Override
     public void shipLosesTicks(ShipInstance shipInstance, int lostTicks, int chanceInPermill) {
         System.out.println("  " + shipInstance + " loses " + lostTicks + " ticks due to effect (chance was " + String.format("%1$.2f", ((double) chanceInPermill) / 10) + "%)");
+    }
+
+    @Override
+    public void shipArmorDegrades(ShipInstance shipInstance, int amount) {
+        System.out.println("  " + shipInstance + " loses " + amount + " on all armor thresholds due to effect");
     }
 }

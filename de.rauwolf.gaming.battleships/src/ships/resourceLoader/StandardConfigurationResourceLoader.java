@@ -49,12 +49,12 @@ public class StandardConfigurationResourceLoader {
                 baysToFill.put(blueprint, shipsInBay);
 
                 for (String weaponShorthand : weaponShorthands) {
-                    if (!weaponShorthand.equals("")) {
+                    if (!weaponShorthand.trim().equals("")) {
                         blueprint.addStandardWeapon(weaponShorthand.trim());
                     }
                 }
                 for (String componentShorthand : componentShorthands) {
-                    if (!componentShorthand.equals("")) {
+                    if (!componentShorthand.trim().equals("")) {
                         blueprint.addStandardComponent(componentShorthand.trim());
                     }
                 }

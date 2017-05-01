@@ -52,7 +52,7 @@ public class StarSystem {
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, lancerBlueprint, 100);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, lightFleetCruiserBP, 20);
         addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, supportArtilleryCruiserBP, 10);
-        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, fireSupportDreadnoughtBP, 3);
+        addNumOfShipsFromBlueprintToFleet(fleetA, participatingEmpireA, fireSupportDreadnoughtBP, 10);
 
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, bomberBlueprint, 100);
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, interceptorBlueprint, 200);
@@ -61,7 +61,7 @@ public class StarSystem {
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, combatDestroyerBlueprint, 30);
         addNumOfShipsFromBlueprintToFleet(fleetB, participatingEmpireB, combatBattleCruiserBP, 10);
 
-        addNumOfShipsFromBlueprintToFleet(fleetC, participatingEmpireC, mixedCarrierBP, 3);
+        addNumOfShipsFromBlueprintToFleet(fleetC, participatingEmpireC, mixedCarrierBP, 5);
         addNumOfShipsFromBlueprintToFleet(fleetC, participatingEmpireC, assFrigBlueprint, 100);
 
         addNumOfShipsFromBlueprintToFleet(fleetD, participatingEmpireD, screenBattleshipBP, 10);

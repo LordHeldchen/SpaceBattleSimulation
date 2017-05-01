@@ -2,16 +2,17 @@ package ships.blueprints;
 
 import java.util.Map;
 
+import ships.shipHulls.HullStatType;
 import ships.shipHulls.ComponentType;
 
 public class ComponentBlueprint {
     private final String name;
     private final ComponentType type;
     private final int value;
-    private final Map<String, Double> factors;
-    private final Map<String, Integer> flatBonuses;
+    private final Map<HullStatType, Double> factors;
+    private final Map<HullStatType, Integer> flatBonuses;
 
-    public ComponentBlueprint(String name, ComponentType type, int value, Map<String, Double> factors, Map<String, Integer> flatBonuses) {
+    public ComponentBlueprint(String name, ComponentType type, int value, Map<HullStatType, Double> factors, Map<HullStatType, Integer> flatBonuses) {
         this.name = name;
         this.type = type;
         this.value = value;
@@ -27,11 +28,11 @@ public class ComponentBlueprint {
         return type;
     }
 
-    public Double getFactorFor(String value) {
+    public Double getFactorFor(HullStatType value) {
         return factors.get(value);
     }
 
-    public Integer getFlatBonusFor(String value) {
+    public Integer getFlatBonusFor(HullStatType value) {
         return flatBonuses.get(value);
     }
     

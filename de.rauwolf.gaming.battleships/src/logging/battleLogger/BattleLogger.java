@@ -33,7 +33,7 @@ public interface BattleLogger {
 
     public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold);
 
-    public void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageType glancing, int hitStrength, int threshold);
+    public void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageLevel glancing, int hitStrength, int threshold);
 
     public void shieldBreaks(ShieldInstance shieldInstance, int breakDuration);
 
@@ -50,4 +50,6 @@ public interface BattleLogger {
     public void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment);
 
     public void shipLosesTicks(ShipInstance shipInstance, int lostTicks, int chanceInPermill);
+
+    public void shipArmorDegrades(ShipInstance shipInstance, int val);
 }

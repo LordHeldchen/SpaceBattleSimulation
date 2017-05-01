@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import battle.WeaponSecondaryEffect;
+import ships.shipHulls.DamageType;
 import ships.shipHulls.ValueDurationPair;
 import ships.shipHulls.WeaponSize;
 
@@ -19,12 +20,13 @@ public class WeaponBlueprint {
 
     // TODO: Introduce reload time e.g. for BurstFire of several rounds, and/or a burst fire mechanic?
     private final int                                           timeCost;
+    private final DamageType                                    dmgType;
     private final Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects;
 
     protected Map<Class<? extends Blueprint>, Integer>          preferredTargets;
 
     public WeaponBlueprint(String name, WeaponSize size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus, int value,
-            Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects) {
+            DamageType dmgType, Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects) {
         this.name = name;
         this.size = size;
         this.damage = damage;
@@ -33,6 +35,7 @@ public class WeaponBlueprint {
         this.timeCost = timeCost;
         this.initiativeBonus = initiativeBonus;
         this.value = value;
+        this.dmgType = dmgType;
         this.weaponEffects = weaponEffects;
 
         this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
@@ -62,8 +65,6 @@ public class WeaponBlueprint {
         return weaponEffects;
     }
 
-    // TODO Differentiation per damage type, also for modifiers, might be
-    // desirable.
     public int getDamage() {
         return this.damage;
     }
@@ -86,5 +87,9 @@ public class WeaponBlueprint {
 
     public int getValue() {
         return value;
+    }
+
+    public DamageType getDmgType() {
+        return dmgType;
     }
 }

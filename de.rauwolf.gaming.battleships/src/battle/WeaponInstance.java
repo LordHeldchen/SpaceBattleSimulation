@@ -8,6 +8,7 @@ import logging.battleLogger.BattleLogger;
 import ships.Fleet;
 import ships.blueprints.Blueprint;
 import ships.blueprints.MutableBaseStat;
+import ships.shipHulls.DamageType;
 import ships.shipHulls.ValueDurationPair;
 
 public class WeaponInstance extends CombatActor {
@@ -18,22 +19,25 @@ public class WeaponInstance extends CombatActor {
     private final MutableBaseStat                               damage;
     private final MutableBaseStat                               armorPenetration;
 
+    private final DamageType damageType;
     private final Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects;
 
     private final Map<Class<? extends Blueprint>, Integer>      preferredTargets;
+
 
     // TODO: Introduce burst fire mechanic for certain weapons, e.g. Flak-Cannons?
     
     // TODO: More encapsulation so that the MutableBaseStats are only visible during construction?
     public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
-            Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects2) {
+            DamageType damageType, Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects) {
         super(startInitiative, timeCost);
         this.owningShipInstance = owningShipInstance;
         this.name = name;
         this.damage = new MutableBaseStat(damage);
         this.accuracy = new MutableBaseStat(accuracy);
         this.armorPenetration = new MutableBaseStat(armorPenetration);
-        this.secondaryEffects = secondaryEffects2;
+        this.damageType = damageType;
+        this.secondaryEffects = secondaryEffects;
 
         this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
     }
@@ -76,11 +80,15 @@ public class WeaponInstance extends CombatActor {
     }
 
     private Shot getShot() {
-        return new Shot(damage.getCalculatedValue(), armorPenetration.getCalculatedValue(), accuracy.getCalculatedValue(), secondaryEffects);
+        return new Shot(damage.getCalculatedValue(), armorPenetration.getCalculatedValue(), accuracy.getCalculatedValue(), damageType, secondaryEffects);
     }
 
     @Override
     final public String toString() {
         return name + " of " + owningShipInstance;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
     }
 }

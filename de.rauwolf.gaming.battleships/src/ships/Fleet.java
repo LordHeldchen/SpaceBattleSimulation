@@ -2,8 +2,10 @@ package ships;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Spliterator;
 
 import battle.ShipInstance;
@@ -137,13 +139,34 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
     public <T> T[] toArray(T[] a) {
         return allShipsInFleet.toArray(a);
     }
+    
+    private int getValueOfShipsInBay(Map<Blueprint, Integer> map) {
+        int fleetValue = 0;
+        for (Blueprint shipClass : map.keySet()) {
+            fleetValue += shipClass.getValueOfShipInstance() * map.get(shipClass);
+            fleetValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * map.get(shipClass);
+        }
+        return fleetValue;
+    }
+    
+    private String getTypesOfShipsInBay(Map<Blueprint, Integer> map, int level) {
+        String ret = "";
+        for (Blueprint shipClass : map.keySet()) {
+            ret += String.join("", Collections.nCopies(level, "  ")); 
+            ret += "# " + shipClass.getName() + " --> " + map.get(shipClass) + "\n";
+            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), level + 1);
+        }
+        return ret;
+    }
 
     public String toString() {
         String ret = allShipsInFleet.size() + " Ships in this fleet:\n";
         int fleetValue = 0;
         for (Blueprint shipClass : classesOfShipsInFleet.keySet()) {
             ret += "# " + shipClass.getName() + " --> " + classesOfShipsInFleet.get(shipClass).size() + "\n";
+            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), 1);
             fleetValue += shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass).size();
+            fleetValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * classesOfShipsInFleet.get(shipClass).size();
         }
         ret += " --> Fleet value: " + fleetValue + "\n";
         return ret;

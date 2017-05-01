@@ -39,7 +39,7 @@
 			"file": "hullTypes.csv",
 			"settings":
 			{
-				"buffer_size": 5849,
+				"buffer_size": 5850,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -48,7 +48,7 @@
 			"file": "standardConfigurations.csv",
 			"settings":
 			{
-				"buffer_size": 4053,
+				"buffer_size": 4061,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -57,8 +57,7 @@
 			"file": "standardComponentBlueprints.csv",
 			"settings":
 			{
-				"buffer_size": 4181,
-				"encoding": "UTF-8",
+				"buffer_size": 4389,
 				"line_ending": "Windows"
 			}
 		},
@@ -66,7 +65,7 @@
 			"file": "standardWeaponBlueprints.csv",
 			"settings":
 			{
-				"buffer_size": 3528,
+				"buffer_size": 4856,
 				"encoding": "Western (Windows 1252)",
 				"line_ending": "Windows"
 			}
@@ -178,8 +177,8 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardWeaponBlueprints.csv",
 		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardComponentBlueprints.csv",
+		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardWeaponBlueprints.csv",
 		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/hullTypes.csv",
 		"/C/Users/Philip Rauwolf/git/SpaceBattleSimulation/de.rauwolf.gaming.battleships/src/main/resources/standardConfigurations.csv",
 		"/C/Users/Philip Rauwolf/Desktop/Projekte/Delvin/VVS/4-Projektarbeit/5 - Anpassung Bestandspflegeprovision/PGMs/OR60020",
@@ -324,6 +323,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"exec",
+			"dev",
+			"slaughter",
+			"heat",
+			"vulc",
+			"hardsys",
+			"anti",
 			"reaper",
 			"javelin",
 			"rail",
@@ -444,14 +450,7 @@
 			"tkz",
 			"beitr",
 			"ver.*sum",
-			"vsu",
-			"h.*bis",
-			"vtgn",
-			"compute",
-			"add",
-			"betr",
-			"einh",
-			"Basis"
+			"vsu"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -459,6 +458,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"vulcan",
 			"lqarmor",
 			"",
 			" ",
@@ -585,8 +585,7 @@
 			"--X--\\1",
 			"X\\1",
 			"",
-			"X\\1",
-			"\\2;\\1"
+			"X\\1"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -606,15 +605,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5849,
+						"buffer_size": 5850,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1182,
-								1182
+								1181,
+								1181
 							]
 						],
 						"settings":
@@ -629,7 +628,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -638,15 +637,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4053,
+						"buffer_size": 4061,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3003,
-								3003
+								270,
+								270
 							]
 						],
 						"settings":
@@ -670,47 +669,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4181,
+						"buffer_size": 4389,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4037,
-								4037
-							]
-						],
-						"settings":
-						{
-							"ruler":
-							[
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "standardWeaponBlueprints.csv",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3528,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3508,
-								3508
+								0,
+								0
 							]
 						],
 						"settings":
@@ -722,6 +689,38 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "standardWeaponBlueprints.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4856,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1214,
+								1214
+							]
+						],
+						"settings":
+						{
+							"ruler":
+							[
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 75.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -781,7 +780,7 @@
 	"project": "",
 	"replace":
 	{
-		"height": 40.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":

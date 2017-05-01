@@ -15,7 +15,11 @@ public class MutableBaseStat {
     }
 
     public void addFlatBonus(String id, int bonus) {
-        flatBonusList.put(id, bonus);
+        if (flatBonusList.containsKey(id)) {
+            flatBonusList.put(id, flatBonusList.get(id) + bonus);
+        } else {
+            flatBonusList.put(id, bonus);
+        }
         calculate();
     }
 
@@ -25,7 +29,12 @@ public class MutableBaseStat {
     }
 
     public void addFactor(String id, double factor) {
-        factorList.put(id, factor);
+        if (factorList.containsKey(id)) {
+            factorList.put(id, factorList.get(id) + factor);
+        } else {
+            factorList.put(id, factor);
+        }
+        calculate();
         calculate();
     }
 
