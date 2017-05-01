@@ -25,16 +25,16 @@ crossbow;    'Crossbow' Combat Railgun;          40;    320;        120;        
 javelin;     'Javelin' Heavy Railgun;            30;    650;        150;        40;         L; 25;         750;   KINETIC;  spiercepercent:50
 
 ### HEAT        - Pulse Lasers
-predator;    'Predator' Laser Cannon;           100;     25;          0;         4;       XXS; 0;           30;      HEAT;
-spike;       'Spike' Combat Laser Array;         70;     80;         10;         6;         S; 0;          120;      HEAT;
-blaze;       'Blaze' Light Pulse Laser;          60;    130;         20;         6;         M; 0;          250;      HEAT;
-firestarter; 'Firestarter' Pulse Laser Array;    50;    260;         40;         7;         L; 0;          600;      HEAT;
-overlord;    'Overlord' Heavy Pulse Laser;       40;    475;         60;        10;        XL; 0;         1050;      HEAT;
-apocalypse;  'Apocalypse' Giga Laser;             0;  10000;       1000;       100;       XXL; 100;      20000;      HEAT;
+predator;    'Predator' Laser Cannon;            90;     15;          0;         2;       XXS; 0;           30;      HEAT;
+spike;       'Spike' Combat Laser Array;         70;     40;         10;         3;         S; 0;          120;      HEAT;
+blaze;       'Blaze' Light Pulse Laser;          60;     65;         20;         3;         M; 0;          250;      HEAT;
+firestarter; 'Firestarter' Pulse Laser Array;    50;    160;         40;         4;         L; 0;          600;      HEAT;
+overlord;    'Overlord' Heavy Pulse Laser;       40;    250;         60;         5;        XL; 0;         1050;      HEAT;
 
 ### HEAT        - Beam Lasers
 lance;       'Lance' Laser Beam;                 40;     20;         30;         1;         M; 5;          200;      HEAT;  degrade:1
 sunfire;     'Sunfire' Corona Projector;       1000;    200;          0;         1;       XXL; 50;       20000;      HEAT;  degrade:2
+apocalypse;  'Apocalypse' Giga Laser;             0;  10000;       1000;       100;       XXL; 100;      20000;      HEAT;  degrade:100
 
 ### EXPLOSIVE   - Missiles
 jaeger;      'Jäger' Light Missiles;             60;    100;         30;        20;       XXS; 0;           50; EXPLOSIVE;
