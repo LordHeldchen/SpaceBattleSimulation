@@ -1,4 +1,4 @@
-package ships.resourceLoader;
+package ships.components;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import ships.blueprints.ComponentBlueprint;
-import ships.shipHulls.HullStatType;
 import ships.shipHulls.ComponentType;
+import ships.stats.HullStatType;
 
 public class ComponentResourceLoader {
     private static Map<String, ComponentBlueprint> standardComponentBlueprints;

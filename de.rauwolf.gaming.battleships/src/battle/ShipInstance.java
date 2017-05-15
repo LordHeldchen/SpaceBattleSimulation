@@ -5,15 +5,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import logging.battleLogger.BattleLogger;
-import logging.battleLogger.HullDamageLevel;
+import battle.CombatActions.ApplyTicklossAction;
+import battle.CombatActions.CheckEvasionAction;
+import battle.CombatActions.CheckExplodeAction;
+import battle.CombatActions.DegradeArmorAction;
+import battle.CombatActions.DetermineHullDamageLevelAction;
+import battle.CombatActions.CombatAction;
+import battle.CombatActions.TakeDamageAction;
+import battle.CombatActions.TakeShieldDamageAction;
 import ships.blueprints.Blueprint;
-import ships.blueprints.ComponentBlueprint;
-import ships.blueprints.MutableBaseStat;
-import ships.blueprints.WeaponBlueprint;
-import ships.shipHulls.HullStatType;
+import ships.components.ComponentBlueprint;
+import ships.hulls.HullSize;
 import ships.shipHulls.DamageType;
-import ships.shipHulls.ValueDurationPair;
+import ships.stats.HullStatType;
+import ships.stats.MutableBaseStat;
+import ships.weapons.WeaponBlueprint;
+import ships.weapons.WeaponSecondaryEffect;
 
 public class ShipInstance implements CombatTarget {
     protected final Blueprint                        blueprint;
@@ -25,8 +32,7 @@ public class ShipInstance implements CombatTarget {
 
     // Holding the threshold as MutableBaseStats again allows e.g. for temporary
     // armor lowering effects and the like.
-    // TODO: Werte hier auf Map von "BaseHullStat" umstellen, machts vsl.
-    // übersichtlicher.
+    // TODO: Werte hier auf Map von "BaseHullStat" umstellen, machts vsl. übersichtlicher.
     // Sollte auch init per loop ermöglichen.
     private final MutableBaseStat                    glanceThreshold;
     private final MutableBaseStat                    hitThreshold;
@@ -38,12 +44,30 @@ public class ShipInstance implements CombatTarget {
     private final ShipInstance                       mothership;
 
     private final int                                idOfOwningEmpire;
-    private BattleLogger                             logger;
 
     private LinkedList<CombatActor>                  combatActorsOfShip;
 
-    // Derzeit nur Resistances
+    // Derzeit nur Widerstände
     private final Map<HullStatType, MutableBaseStat> hullStats;
+
+    private final int                                startingInitiative;
+
+    private LinkedList<CombatActor> weaponInstances;
+
+    private int lostTicks = 0;
+
+    private static final List<CombatAction> actionList;
+
+    static {
+        actionList = new LinkedList<CombatAction>();
+        actionList.add(new CheckEvasionAction());
+        actionList.add(new ApplyTicklossAction());
+        actionList.add(new TakeShieldDamageAction());
+        actionList.add(new DetermineHullDamageLevelAction());
+        actionList.add(new CheckExplodeAction());
+        actionList.add(new TakeDamageAction());
+        actionList.add(new DegradeArmorAction());
+    }
 
     private int calculateFinalValueFor(int baseValue, HullStatType value, boolean scalesWithSize) {
         List<Integer> flatModifiers = new LinkedList<Integer>();
@@ -78,6 +102,7 @@ public class ShipInstance implements CombatTarget {
         this.glanceThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorGlanceThreshold(), HullStatType.GLANCE_THRESHOLD, false));
         this.hitThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorHitThreshold(), HullStatType.HIT_THRESHOLD, false));
         this.critThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorCritThreshold(), HullStatType.CRIT_THRESHOLD, false));
+        
         this.containment = new MutableBaseStat(calculateFinalValueFor(blueprint.getContainment(), HullStatType.CONTAINMENT, false));
         this.epm = new MutableBaseStat(calculateFinalValueFor(blueprint.getHullType().getBaseEPM(), HullStatType.EPM, true));
         this.evasion = new MutableBaseStat(calculateFinalValueFor(blueprint.getEvasion(), HullStatType.EVASION, false));
@@ -88,71 +113,75 @@ public class ShipInstance implements CombatTarget {
         }
 
         this.maxHullStrength = new MutableBaseStat(blueprint.getMaxHullStrength());
-        this.currentHullStrength = this.maxHullStrength.getCalculatedValue();
+        this.setCurrentHullStrength(this.maxHullStrength.getCalculatedValue());
+        
+        this.startingInitiative = calculateFinalValueFor(blueprint.getStartBattleSpeed(), HullStatType.INITIATIVE, false)
+                + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
     }
 
     public final int getIdOfOwningEmpire() {
         return idOfOwningEmpire;
     }
 
-    private List<CombatActor> getWeaponInstances(int startingInitiative) {
-        List<CombatActor> weaponInstances = new LinkedList<CombatActor>();
+    private List<CombatActor> getWeaponInstances() {
+        if (weaponInstances == null) {
+            weaponInstances = new LinkedList<CombatActor>();
 
-        for (WeaponBlueprint weaponBlueprint : blueprint.getWeapons()) {
-            int damage = weaponBlueprint.getDamage();
-            int armorPenetration = weaponBlueprint.getArmorPenetration();
-            int accuracy = calculateFinalValueFor(weaponBlueprint.getAccuracy(), HullStatType.ACCURACY, false);
-            int timeCost = weaponBlueprint.getTimeCost();
-            int weaponInitiative = startingInitiative + weaponBlueprint.getInitiativeBonus();
-            DamageType damageType = weaponBlueprint.getDmgType();
+            for (WeaponBlueprint weaponBlueprint : blueprint.getWeapons()) {
+                int damage = weaponBlueprint.getDamage();
+                int armorPenetration = weaponBlueprint.getArmorPenetration();
+                int accuracy = calculateFinalValueFor(weaponBlueprint.getAccuracy(), HullStatType.ACCURACY, false);
+                int timeCost = weaponBlueprint.getTimeCost();
+                int weaponInitiative = startingInitiative + weaponBlueprint.getInitiativeBonus();
+                DamageType damageType = weaponBlueprint.getDmgType();
 
-            String name = weaponBlueprint.getName();
+                String name = weaponBlueprint.getName();
+                List<HullSize> preferredTargets = weaponBlueprint.getPreferredTargets();
 
-            Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects = weaponBlueprint.getSecondaryEffects();
+                Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects = weaponBlueprint.getSecondaryEffects();
 
-            WeaponInstance weaponInstance = new WeaponInstance(this, name, weaponInitiative, timeCost, damage, accuracy, armorPenetration, damageType,
-                    secondaryEffects);
+                WeaponInstance weaponInstance = new WeaponInstance(this, name, weaponInitiative, timeCost, damage, accuracy, armorPenetration, damageType,
+                        preferredTargets, secondaryEffects);
 
-            weaponInstances.add(weaponInstance);
+                weaponInstances.add(weaponInstance);
+            }
         }
         return weaponInstances;
     }
 
-    private CombatActor getShieldInstance(int startingInitiative) {
-        int shieldStrength = calculateFinalValueFor(blueprint.getMaxShieldStrength(), HullStatType.SHIELD_HP, true);
-        int shieldRegPerTick = calculateFinalValueFor(blueprint.getShieldRegenerationAmount(), HullStatType.SHIELD_REGEN, true);
-        int shieldBreakDuration = calculateFinalValueFor(blueprint.getShieldBreakDuration(), HullStatType.SHIELD_BREAK_DURATION, false);
+    public ShieldInstance getShieldInstance() {
+        if (shieldInstance == null) {
+            int shieldStrength = calculateFinalValueFor(blueprint.getMaxShieldStrength(), HullStatType.SHIELD_HP, true);
+            int shieldRegPerTick = calculateFinalValueFor(blueprint.getShieldRegenerationAmount(), HullStatType.SHIELD_REGEN, true);
+            int shieldBreakDuration = calculateFinalValueFor(blueprint.getShieldBreakDuration(), HullStatType.SHIELD_BREAK_DURATION, false);
 
-        if (shieldStrength > 0) {
-            double breakCount = 0;
-            for (ComponentBlueprint component : blueprint.getComponents()) {
-                breakCount += component.getFlatBonusFor(HullStatType.SHIELD_BREAK_DURATION) != null ? 1 : 0;
+            if (shieldStrength > 0) {
+                double breakCount = 0;
+                for (ComponentBlueprint component : blueprint.getComponents()) {
+                    breakCount += component.getFlatBonusFor(HullStatType.SHIELD_BREAK_DURATION) != null ? 1 : 0;
+                }
+                shieldBreakDuration = (int) Math.ceil(shieldBreakDuration / breakCount);
             }
-            shieldBreakDuration = (int) Math.ceil(shieldBreakDuration / breakCount);
-        }
 
-        shieldInstance = new ShieldInstance(this, shieldStrength, shieldRegPerTick, shieldBreakDuration, startingInitiative);
-        shieldInstance.addBattleLoger(logger);
+            shieldInstance = new ShieldInstance(this, shieldStrength, shieldRegPerTick, shieldBreakDuration, startingInitiative);
+        }
         return shieldInstance;
     }
 
-    private List<CombatActor> getEwarInstances(int startingInitiative) {
+    private List<CombatActor> getEwarInstances() {
         // TODO
         return new LinkedList<CombatActor>();
     }
 
     @Override
     public List<CombatActor> getCombatActors() {
-        int startingInitiative = calculateFinalValueFor(blueprint.getStartBattleSpeed(), HullStatType.INITIATIVE, false)
-                + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
-
         if (combatActorsOfShip == null) {
             combatActorsOfShip = new LinkedList<CombatActor>();
-            for (CombatActor weaponInstance : getWeaponInstances(startingInitiative)) {
+            for (CombatActor weaponInstance : getWeaponInstances()) {
                 combatActorsOfShip.add(weaponInstance);
             }
-            combatActorsOfShip.add(getShieldInstance(startingInitiative));
-            combatActorsOfShip.addAll(getEwarInstances(startingInitiative));
+            combatActorsOfShip.add(getShieldInstance());
+            combatActorsOfShip.addAll(getEwarInstances());
         }
         return combatActorsOfShip;
     }
@@ -175,127 +204,23 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     public final boolean isDestroyed() {
-        return currentHullStrength <= 0;
+        return getCurrentHullStrength() <= 0;
     }
-
-    // Range in which misses are possible = max chance to miss * total hit range
-    private static final int maxRangeToMiss = (int) (BattleConstants.accuracyRandomizerMaximum * (1 - BattleConstants.minChanceToHit));
 
     @Override
     public final void receiveAttack(Shot shot) {
-        final int evasion = this.evasion.getCalculatedValue();
-
-        // eva - (acc + accuracyRandomizerMaximum * (1 - minChanceToHit)) =
-        // addedAcc
-        // eva 150, acc 0 --> 150 - ( 0 + 95) = 55 --> acc 0 + 55 + random VS
-        // eva 150
-        // eva 120, acc 10 --> 120 - ( 10 + 95) = 15 --> acc 10 + 15 + random VS
-        // eva 120
-        // eva 80, acc 50 --> 80 - ( 50 + 95) = -65 --> acc 50 + random VS eva
-        // 80
-        // eva 40, acc 80 --> 40 - ( 80 + 95) = -135 --> acc 80 + random VS eva
-        // 40
-        final int addedAccuracy = Math.max(evasion - shot.accuracy - maxRangeToMiss, 0);
-        final int totalAccuracy = shot.accuracy + addedAccuracy + BattleConstants.randomizer.nextInt(BattleConstants.accuracyRandomizerMaximum + 1);
-
-        if (totalAccuracy > evasion) {
-            logger.evades(this, false, totalAccuracy, evasion, addedAccuracy);
-            double remainingDamage = shieldInstance.takeShieldDamage(shot);
-            if (remainingDamage > 0) {
-                takeHullDamage(remainingDamage, shot.armorPenetration, shot.damageType, shot.secondaryEffects);
+        for (CombatAction action: actionList) {
+            if (!action.execute(this, shot)) {
+                break;
             }
-            if (!isDestroyed()) {
-                checkAndApplyTickloss(shot.secondaryEffects.get(WeaponSecondaryEffect.TICKLOSS));
-            }
-        } else {
-            logger.evades(this, true, totalAccuracy, evasion, addedAccuracy);
-        }
-    }
-
-    private final double takeHullDamage(double remainingDamage, int armorPenetration, DamageType damageType,
-            Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects) {
-        int hitStrength = (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.penetrationRandomizerMaximum) + armorPenetration;
-        final HullStatType resistanceType = BattleConstants.damageTypeToResistanceType.get(damageType);
-        hitStrength -= hullStats.get(resistanceType).getCalculatedValue();
-
-        if (hitStrength > glanceThreshold.getCalculatedValue()) {
-            if (hitStrength > hitThreshold.getCalculatedValue()) {
-                if (hitStrength > critThreshold.getCalculatedValue()) {
-                    remainingDamage *= BattleConstants.critMultiplier;
-                    double explodeChance = remainingDamage < currentHullStrength
-                            ? ((double) (remainingDamage - containment.getCalculatedValue()) / (double) currentHullStrength)
-                                    * BattleConstants.maxChanceExplodeOnCrit
-                            : -1;
-                    double rand = BattleConstants.randomizer.nextDouble();
-                    if (explodeChance > rand) {
-                        remainingDamage = currentHullStrength;
-                        logger.explodes(this, explodeChance, hitStrength, critThreshold.getCalculatedValue(), containment.getCalculatedValue());
-                    } else {
-                        logger.takesHullDamage(this, remainingDamage, HullDamageLevel.CRIT, hitStrength, critThreshold.getCalculatedValue());
-                    }
-                } else {
-                    remainingDamage *= BattleConstants.hitMultiplier;
-                    logger.takesHullDamage(this, remainingDamage, HullDamageLevel.HIT, hitStrength, hitThreshold.getCalculatedValue());
-                }
-
-                checkAndApplyDegrade(secondaryEffects.get(WeaponSecondaryEffect.DEGRADE));
-            } else {
-                remainingDamage *= BattleConstants.glanceMultiplier;
-                logger.takesHullDamage(this, remainingDamage, HullDamageLevel.GLANCING, hitStrength, glanceThreshold.getCalculatedValue());
-            }
-            currentHullStrength -= remainingDamage;
-            return remainingDamage;
-
-        } else {
-            logger.armorDeflectsAllDamage(this, hitStrength, glanceThreshold.getCalculatedValue());
-        }
-        return 0;
-    }
-
-    private void checkAndApplyTickloss(ValueDurationPair ticklossEffect) {
-        if (ticklossEffect != null) {
-            int strength = ticklossEffect.getValue();
-            int chanceInPermill = (strength * 1000) / (epm.getCalculatedValue() + strength);
-            if (chanceInPermill > BattleConstants.randomizer.nextInt(1000)) {
-                int lostTicks = ticklossEffect.getDuration();
-                logger.shipLosesTicks(this, lostTicks, chanceInPermill);
-                for (CombatActor actor : combatActorsOfShip) {
-                    actor.loseInitiative(lostTicks);
-                }
-            }
-        }
-    }
-
-    private void checkAndApplyDegrade(ValueDurationPair degradeEffect) {
-        if (degradeEffect != null) {
-            String key = WeaponSecondaryEffect.DEGRADE.toString();
-            int val = degradeEffect.getValue();
-            glanceThreshold.addFlatBonus(key, val);
-            hitThreshold.addFlatBonus(key, val);
-            critThreshold.addFlatBonus(key, val);
-            logger.shipArmorDegrades(this, val);
         }
     }
 
     public boolean reactBeforeAttacker(ShipInstance attacker) {
-        // TODO: Common solution dependent on setups. E.g. for ECM or point
-        // defense.
-        // Other active defense mechanisms that need to be added elsewhere?
+        // TODO: Common solution dependent on setups. E.g. for ECM or point defense.
+        // Other active defense mechanisms that need to be added elsewhere? Active defense of relevance anyways?
         int rand = BattleConstants.randomizer.nextInt(BattleConstants.cloakingRandomizerMaximum);
         return false;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    public void addBattleLog(BattleLogger logger) {
-        this.logger = logger;
-    }
-
-    public void removeBattleLogger() {
-        this.logger = null;
     }
 
     public String getName() {
@@ -309,6 +234,50 @@ public class ShipInstance implements CombatTarget {
     public Blueprint getBlueprint() {
         return blueprint;
     }
+    
+    public HullSize getSizeClass() {
+        return blueprint.getHullType().getHullSize();
+    }
+
+    public MutableBaseStat getContainment() {
+        return containment;
+    }
+    
+    public MutableBaseStat getThresholdFor(HullDamageLevel damageLevel) {
+        switch (damageLevel) {
+            case CRIT:
+                return critThreshold;
+            case HIT:
+                return hitThreshold;
+            case GLANCE:
+                return glanceThreshold;
+            case DEFLECT:
+                return glanceThreshold;
+            default:
+                break;
+        }
+        return null;
+    }
+
+    public double getCurrentHullStrength() {
+        return currentHullStrength;
+    }
+
+    public void setCurrentHullStrength(double currentHullStrength) {
+        this.currentHullStrength = currentHullStrength;
+    }
+
+    public MutableBaseStat getEvasion() {
+        return this.evasion;
+    }
+
+    public Map<HullStatType, MutableBaseStat> getHullStats() {
+        return hullStats;
+    }
+
+    public MutableBaseStat getEpm() {
+        return epm;
+    }
 
     @Override
     final public String toString() {
@@ -318,5 +287,11 @@ public class ShipInstance implements CombatTarget {
     @Override
     public void endCurrentBattle() {
         // TODO: Anything to do here?
+    }
+
+    public void addLostTicks(int lostTicks) {
+        for (CombatActor actor : getCombatActors()) {
+            actor.rememberLostTicks(lostTicks);
+        }
     }
 }

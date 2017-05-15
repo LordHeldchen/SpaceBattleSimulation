@@ -10,13 +10,16 @@ import java.util.Spliterator;
 
 import battle.ShipInstance;
 import ships.blueprints.Blueprint;
+import ships.hulls.HullSize;
 
 public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
     private HashMap<Blueprint, ArrayList<ShipInstance>> classesOfShipsInFleet;
+    private HashMap<HullSize, ArrayList<ShipInstance>>  sizesOfShipsInFleet;
     private ArrayList<ShipInstance>                     allShipsInFleet;
 
     public Fleet() {
         this.classesOfShipsInFleet = new HashMap<Blueprint, ArrayList<ShipInstance>>();
+        this.sizesOfShipsInFleet = new HashMap<HullSize, ArrayList<ShipInstance>>();
         this.allShipsInFleet = new ArrayList<ShipInstance>();
     }
 
@@ -30,6 +33,15 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
             shipClassList = classesOfShipsInFleet.get(ship.getBlueprint());
         }
         shipClassList.add(ship);
+        
+        ArrayList<ShipInstance> shipSizeList;
+        if (!sizesOfShipsInFleet.containsKey(ship.getSizeClass())) {
+            shipSizeList = new ArrayList<ShipInstance>();
+            sizesOfShipsInFleet.put(ship.getSizeClass(), shipSizeList);
+        } else {
+            shipSizeList = sizesOfShipsInFleet.get(ship.getSizeClass());
+        }
+        shipSizeList.add(ship);
         return allShipsInFleet.add(ship);
     }
 
@@ -38,11 +50,21 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
         for (ShipInstance ship : shipCollection) {
             ArrayList<ShipInstance> shipClassList;
             if (!classesOfShipsInFleet.containsKey(ship.getClass())) {
-                shipClassList = classesOfShipsInFleet.put(ship.getBlueprint(), new ArrayList<ShipInstance>());
+                shipClassList = new ArrayList<ShipInstance>();
+                classesOfShipsInFleet.put(ship.getBlueprint(), shipClassList);
             } else {
                 shipClassList = classesOfShipsInFleet.get(ship.getBlueprint());
             }
             shipClassList.add(ship);
+
+            ArrayList<ShipInstance> shipSizeList;
+            if (!sizesOfShipsInFleet.containsKey(ship.getSizeClass())) {
+                shipSizeList = new ArrayList<ShipInstance>();
+                sizesOfShipsInFleet.put(ship.getSizeClass(), shipSizeList);
+            } else {
+                shipSizeList = sizesOfShipsInFleet.get(ship.getSizeClass());
+            }
+            shipSizeList.add(ship);
         }
         return allShipsInFleet.addAll(shipCollection);
     }
@@ -51,18 +73,23 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
         return allShipsInFleet.get(i);
     }
 
-    public boolean containsType(Class<? extends Blueprint> type) {
-        return classesOfShipsInFleet.containsKey(type);
+    public boolean containsSize(HullSize sizeType) {
+        return sizesOfShipsInFleet.containsKey(sizeType);
     }
 
     public final ArrayList<ShipInstance> getAllOfType(Class<? extends Blueprint> type) {
         return classesOfShipsInFleet.get(type);
     }
 
+    public final ArrayList<ShipInstance> getAllOfSize(HullSize sizeClass) {
+        return sizesOfShipsInFleet.get(sizeClass);
+    }
+
     @Override
     public void clear() {
         classesOfShipsInFleet.clear();
         allShipsInFleet.clear();
+        sizesOfShipsInFleet.clear();
     }
 
     @Override
@@ -72,6 +99,7 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
 
     @Override
     public Iterator<ShipInstance> iterator() {
+        //TODO: "Echten" iterator implementieren. Für aktuellen Kontext nicht notwendig, aber Kontrakte gehören eingehalten.
         return allShipsInFleet.iterator();
     }
 
@@ -100,6 +128,12 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
                 classesOfShipsInFleet.remove(blueprint);
             }
         }
+        if (sizesOfShipsInFleet.containsKey(ship.getSizeClass())) {
+            sizesOfShipsInFleet.get(ship.getSizeClass()).remove(ship);
+            if (sizesOfShipsInFleet.get(ship.getSizeClass()).isEmpty()) {
+                sizesOfShipsInFleet.remove(ship.getSizeClass());
+            }
+        }
         return allShipsInFleet.remove(ship);
     }
 
@@ -109,6 +143,12 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
             classesOfShipsInFleet.get(shipClass).removeAll(shipCollection);
             if (classesOfShipsInFleet.get(shipClass).isEmpty()) {
                 classesOfShipsInFleet.remove(shipClass);
+            }
+        }
+        for (HullSize sizeClass: sizesOfShipsInFleet.keySet()) {
+            sizesOfShipsInFleet.get(sizeClass).removeAll(shipCollection);
+            if (sizesOfShipsInFleet.get(sizeClass).isEmpty()) {
+                sizesOfShipsInFleet.remove(sizeClass);
             }
         }
         return allShipsInFleet.removeAll(shipCollection);
@@ -126,6 +166,9 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
             if (classesOfShipsInFleet.get(shipClass).isEmpty()) {
                 classesOfShipsInFleet.remove(shipClass);
             }
+        }
+        for (HullSize sizeClass: sizesOfShipsInFleet.keySet()) {
+            sizesOfShipsInFleet.get(sizeClass).retainAll(shipCollection);
         }
         return allShipsInFleet.retainAll(shipCollection);
     }
@@ -149,12 +192,12 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
         return fleetValue;
     }
     
-    private String getTypesOfShipsInBay(Map<Blueprint, Integer> map, int level) {
+    private String getTypesOfShipsInBay(Map<Blueprint, Integer> map, int level, int multiplier) {
         String ret = "";
         for (Blueprint shipClass : map.keySet()) {
             ret += String.join("", Collections.nCopies(level, "  ")); 
-            ret += "# " + shipClass.getName() + " --> " + map.get(shipClass) + "\n";
-            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), level + 1);
+            ret += "# " + shipClass.getName() + " --> " + map.get(shipClass) * multiplier + "\n";
+            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), level + 1, multiplier * map.get(shipClass));
         }
         return ret;
     }
@@ -164,7 +207,7 @@ public class Fleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
         int fleetValue = 0;
         for (Blueprint shipClass : classesOfShipsInFleet.keySet()) {
             ret += "# " + shipClass.getName() + " --> " + classesOfShipsInFleet.get(shipClass).size() + "\n";
-            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), 1);
+            ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), 1, classesOfShipsInFleet.get(shipClass).size());
             fleetValue += shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass).size();
             fleetValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * classesOfShipsInFleet.get(shipClass).size();
         }

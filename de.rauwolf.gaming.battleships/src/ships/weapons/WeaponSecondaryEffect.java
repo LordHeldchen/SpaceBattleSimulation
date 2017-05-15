@@ -1,4 +1,4 @@
-package battle;
+package ships.weapons;
 
 public enum WeaponSecondaryEffect {
     SHIELD_PIERCE_FLAT("spierceflat"), SHIELD_PIERCE_PERCENT("spiercepercent"), TICKLOSS("tickloss"), DEGRADE("degrade");

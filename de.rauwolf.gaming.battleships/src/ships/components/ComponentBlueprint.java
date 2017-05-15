@@ -1,11 +1,11 @@
-package ships.blueprints;
+package ships.components;
 
 import java.util.Map;
 
-import ships.shipHulls.HullStatType;
 import ships.shipHulls.ComponentType;
+import ships.stats.HullStatType;
 
-public class ComponentBlueprint {
+public class ComponentBlueprint implements Component {
     private final String name;
     private final ComponentType type;
     private final int value;
@@ -20,28 +20,33 @@ public class ComponentBlueprint {
         this.flatBonuses = flatBonuses;
     }
 
+    @Override
     public final String getName() {
         return name;
     }
 
+    @Override
     public ComponentType getType() {
         return type;
     }
 
+    @Override
     public Double getFactorFor(HullStatType value) {
         return factors.get(value);
     }
 
+    @Override
     public Integer getFlatBonusFor(HullStatType value) {
         return flatBonuses.get(value);
+    }
+
+    @Override
+    public int getValue() {
+        return value;
     }
     
     @Override
     public String toString() {
         return name;
-    }
-
-    public int getValue() {
-        return value;
     }
 }

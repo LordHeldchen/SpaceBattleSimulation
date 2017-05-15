@@ -1,4 +1,4 @@
-package ships.resourceLoader;
+package ships.blueprints;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import ships.blueprints.Blueprint;
-import ships.blueprints.NotEnoughtSlotsException;
-import ships.shipHulls.HullType;
+import ships.hulls.HullType;
+import ships.hulls.HullTypeResourceLoader;
 
 public class StandardConfigurationResourceLoader {
     private static Map<String, Blueprint> standardConfigurations;

@@ -1,4 +1,4 @@
-package ships.resourceLoader;
+package ships.hulls;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,10 +7,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import ships.resourceLoader.WeaponSize;
 import ships.shipHulls.ComponentType;
-import ships.shipHulls.HullSize;
-import ships.shipHulls.HullType;
-import ships.shipHulls.WeaponSize;
 
 public class HullTypeResourceLoader {
 	private static Map<String, HullType> basicHullTypes;

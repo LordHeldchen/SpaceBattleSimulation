@@ -9,12 +9,15 @@ import java.util.stream.Collectors;
 
 import battle.BattleConstants;
 import battle.ShipInstance;
-import ships.resourceLoader.ComponentResourceLoader;
+import ships.components.ComponentBlueprint;
+import ships.components.ComponentResourceLoader;
+import ships.hulls.HullSize;
+import ships.hulls.HullType;
 import ships.resourceLoader.WeaponResourceLoader;
+import ships.resourceLoader.WeaponSize;
 import ships.shipHulls.ComponentType;
-import ships.shipHulls.HullSize;
-import ships.shipHulls.HullType;
-import ships.shipHulls.WeaponSize;
+import ships.stats.MutableBaseStat;
+import ships.weapons.WeaponBlueprint;
 
 public class Blueprint {
     private final HullType hullType;
@@ -23,8 +26,6 @@ public class Blueprint {
     private final Map<ComponentType, List<ComponentBlueprint>> components;
     private final Map<Blueprint, Integer> fightersInBay;
     
-    private PropulsionLayout propulsion;
-
     private final String name;
     private final String description;
 
@@ -91,10 +92,6 @@ public class Blueprint {
 
     public String getDescription() {
         return description;
-    }
-
-    public PropulsionLayout getPropulsion() {
-        return propulsion;
     }
 
     public int getEvasion() {

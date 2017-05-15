@@ -1,12 +1,11 @@
-package ships.blueprints;
+package ships.weapons;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import battle.WeaponSecondaryEffect;
+import ships.hulls.HullSize;
+import ships.resourceLoader.WeaponSize;
 import ships.shipHulls.DamageType;
-import ships.shipHulls.ValueDurationPair;
-import ships.shipHulls.WeaponSize;
 
 public class WeaponBlueprint {
     private final String                                        name;
@@ -21,12 +20,12 @@ public class WeaponBlueprint {
     // TODO: Introduce reload time e.g. for BurstFire of several rounds, and/or a burst fire mechanic?
     private final int                                           timeCost;
     private final DamageType                                    dmgType;
-    private final Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects;
+    private final Map<WeaponSecondaryEffect, List<Integer>>     weaponEffects;
 
-    protected Map<Class<? extends Blueprint>, Integer>          preferredTargets;
+    protected List<HullSize>                                    preferredTargetSizes;
 
     public WeaponBlueprint(String name, WeaponSize size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus, int value,
-            DamageType dmgType, Map<WeaponSecondaryEffect, ValueDurationPair> weaponEffects) {
+            DamageType dmgType, List<HullSize> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
         this.name = name;
         this.size = size;
         this.damage = damage;
@@ -36,9 +35,8 @@ public class WeaponBlueprint {
         this.initiativeBonus = initiativeBonus;
         this.value = value;
         this.dmgType = dmgType;
+        this.preferredTargetSizes = preferredTargetSizes;
         this.weaponEffects = weaponEffects;
-
-        this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
     }
 
     public String toString() {
@@ -53,15 +51,15 @@ public class WeaponBlueprint {
         return this.size;
     }
 
-    public Map<Class<? extends Blueprint>, Integer> getPreferredTargets() {
-        return this.preferredTargets;
+    public List<HullSize> getPreferredTargets() {
+        return this.preferredTargetSizes;
     }
 
     public int getAccuracy() {
         return this.accuracy;
     }
 
-    public Map<WeaponSecondaryEffect, ValueDurationPair> getSecondaryEffects() {
+    public Map<WeaponSecondaryEffect, List<Integer>> getSecondaryEffects() {
         return weaponEffects;
     }
 

@@ -1,7 +1,7 @@
-package ships.shipHulls;
+package ships.hulls;
 
 public enum HullSize {
-    XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL");
+    XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL");
     
     private final String value;
     

@@ -1,7 +1,10 @@
-package ships.shipHulls;
+package ships.hulls;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import ships.resourceLoader.WeaponSize;
+import ships.shipHulls.ComponentType;
 
 public class HullType {
     private final Map<WeaponSize, Integer> availableWeaponSlots = new HashMap<WeaponSize, Integer>();

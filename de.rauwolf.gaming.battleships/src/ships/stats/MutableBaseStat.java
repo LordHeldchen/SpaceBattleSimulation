@@ -1,4 +1,4 @@
-package ships.blueprints;
+package ships.stats;
 
 import java.util.HashMap;
 import java.util.Map;

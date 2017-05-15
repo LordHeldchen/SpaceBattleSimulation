@@ -1,4 +1,4 @@
-package ships.shipHulls;
+package ships.resourceLoader;
 
 public enum WeaponSize {
 	XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL"), D("D");

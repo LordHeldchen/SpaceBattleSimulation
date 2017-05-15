@@ -25,33 +25,36 @@
 # Therefore shields always take damage if the ship is hit, but they do regenerate quite fast and prevent any critical damage as long as they are up.
 # Even if they finally break, damage is lowered by their remaining strength, again before the hit type is determined.
 #
-# Shield hitpoints (shp), shield regeneration (sreg) and EPM do scale with the hull size the component is installed in, as does the value for all components. Factors per hull size class are:
-#   XS:  1
+# Shield hitpoints (shp), shield regeneration (sreg), EPM and value do scale with the hull size the component is installed in, as does the value for all components. Factors per hull size class are:
+#  XXS:  1
+#   XS:  2
 #    S:  4
 #    M:  9
 #    L: 16
-#   XL: 25
-#  XXL: 40
+#   XL: 30
+#  XXL: 100
 
-# shorthand; name; slot size; value; x times: (modified stat: modifier)
+# shorthand; name;                     slot type; value; x times: (modified stat: modifier)
 
 ##### D - Defense (usually physical defense, e.g. armor)
-larmor;  Light Armor;              D;       0;     glan: -20; hit: -10; crit: -10; eva: 20%; ini: 10
-hardsys; Hardened Systems;         D;      20;     epm: 100%; r-em: 20
-harmor;  Heavy Armor;              D;      30;     glan: 10; hit: 5; eva: -10
-lqarmor; Liquid Armor;             D;      50;     glan: -10; hit: 10; crit: 10
-rbulk;   Reinforced Bulkheads;     D;      50;     crit: 10; cont: 50%
+larmor;      Light Armor;              D;             0;    glan: -20; hit: -10; crit: -10; eva: 20%; ini: 10
+harmor;      Heavy Armor;              D;            30;    glan: 10; hit: 5; eva: -10
+lqarmor;     Liquid Armor;             D;            50;    glan: -10; hit: 10; crit: 10
+rbulk;       Reinforced Bulkheads;     D;            50;    crit: 10; cont: 50%
+rarmor;      Reactive Armor;           D;            30;    r-kin: 30; crit: 5
+hshield;     Heat Shield;              D;            30;    r-heat: 30; glan: 5
+hardsys;     Hardened Systems;         D;            20;    r-em: 20; epm: 100%
 
 ##### E - Electronics (E-Warfare, support systems and shields)
-tcomp;   Targeting Computer;       E;      20;     acc: 10%
-cloak;   Cloaking Device;          E;     100;     ini: 10; eva: 10
-lshield; Light shield;             E;      30;     shp: 20; sreg: 2; sbrk: 10
-fshield; Fortress Shield;          E;      50;     shp: 100; sreg: 1; sbrk: 50
-pshield; Phase Shield;             E;      50;     shp: 20; sreg: 5; sbrk: 30
-scap;    Shield capacitor;         E;      20;     sreg: 20%; sbrk: -50%
+tcomp;       Targeting Computer;       E;            20;    acc: 10%
+cloak;       Cloaking Device;          E;           100;    ini: 10; eva: 10
+lshield;     Light shield;             E;            30;    shp: 20; sreg: 2; sbrk: 10
+fshield;     Fortress Shield;          E;            50;    shp: 100; sreg: 1; sbrk: 50
+pshield;     Phase Shield;             E;            50;    shp: 20; sreg: 5; sbrk: 30
+scap;        Shield capacitor;         E;            20;    sreg: 20%; sbrk: -50%
 
 ##### P - Propulsion
-aburn;   Afterburner;              P;      10;     ini: 10
-mjets;   Maneuvering Jets;         P;      30;     eva: 10
+aburn;       Afterburner;              P;            10;    ini: 10
+mjets;       Maneuvering Jets;         P;            30;    eva: 10
 
 ##### W - E-War devices

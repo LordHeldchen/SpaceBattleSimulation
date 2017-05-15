@@ -1,6 +1,9 @@
 package battle;
 
-import ships.shipHulls.ValueDurationPair;
+import java.util.List;
+
+import logging.battleLogger.BattleLogger;
+import ships.weapons.WeaponSecondaryEffect;
 
 public class ShieldInstance extends CombatActor {
 	private final int maxShield;
@@ -21,14 +24,14 @@ public class ShieldInstance extends CombatActor {
 	}
 
 	@Override
-	public CombatTarget takeAction() {
-		loseInitiative();
+	public CombatTarget takeAction(SingleBattle currentBattle) {
+		loseTicks();
 
 		if (maxShield > 0 && currentShield < maxShield) {
 			final double regeneration = currentShield + regenerationAmount > maxShield ? maxShield - currentShield
 					: regenerationAmount;
 			currentShield += regeneration;
-			logger.regeneratesShield(this, regeneration, currentShield);
+			currentBattle.getBattleLogger().regeneratesShield(this, regeneration, currentShield);
 		}
 
 		return null;
@@ -42,41 +45,48 @@ public class ShieldInstance extends CombatActor {
 		return (int) currentShield;
 	}
 
-	public double takeShieldDamage(Shot shot) {
-	    int damage = shot.amount;
-	    int penetratingDamage = 0;
+	public void takeShieldDamage(Shot shot, BattleLogger battleLogger) {
+        if (currentShield > 0) {
+            double penetratingDamage = 0;
 
-        ValueDurationPair valueDurationPair = shot.secondaryEffects.get(WeaponSecondaryEffect.SHIELD_PIERCE_PERCENT);
-        if (valueDurationPair != null) {
-            Integer shieldPiercePercent = valueDurationPair.getValue();
-            penetratingDamage += (damage * shieldPiercePercent / 100);
-            damage -= penetratingDamage;
+            List<Integer> valueDurationPair = shot.secondaryEffects.get(WeaponSecondaryEffect.SHIELD_PIERCE_PERCENT);
+            if (valueDurationPair != null) {
+                int shieldPiercePercent = valueDurationPair.get(0);
+                penetratingDamage += ((shot.amount * shieldPiercePercent) / 100);
+                shot.amount -= Math.abs(penetratingDamage);
+            }
+
+            valueDurationPair = shot.secondaryEffects.get(WeaponSecondaryEffect.SHIELD_PIERCE_FLAT);
+            if (valueDurationPair != null) {
+                Integer shieldPierceFlat = valueDurationPair.get(0);
+                penetratingDamage += shieldPierceFlat;
+                shot.amount -= Math.abs(penetratingDamage);
+            }
+
+            penetratingDamage += (shot.amount < 0 ? shot.amount : 0);
+            shot.amount = shot.amount < 0 ? 0 : shot.amount;
+
+            final double shieldBefore = currentShield;
+            currentShield = currentShield - shot.amount;
+
+            if (currentShield <= 0) {
+                shot.amount = -currentShield;
+                if (shieldBefore > 0) {
+                    this.loseTicks(breakDuration);
+                    battleLogger.shieldBreaks(this, breakDuration);
+                }
+                currentShield = 0;
+            } else {
+                shot.amount = 0;
+                battleLogger.takesShieldDamage(this, (shieldBefore - currentShield));
+            }
+
+            shot.amount += Math.max(penetratingDamage, 0);
         }
-
-	    valueDurationPair = shot.secondaryEffects.get(WeaponSecondaryEffect.SHIELD_PIERCE_FLAT);
-	    if (valueDurationPair != null) {
-	        Integer shieldPierceFlat = valueDurationPair.getValue();
-	        penetratingDamage += shieldPierceFlat;
-	        damage -= penetratingDamage;
-	    }
-        penetratingDamage += (damage < 0 ? damage : 0);
-        damage = damage < 0 ? 0 : damage;
-	    
-		final double shieldBefore = currentShield;
-		currentShield = currentShield - damage;
-
-		double remainingDamage = 0;
-		if (currentShield <= 0) {
-			remainingDamage = -currentShield;
-			if (shieldBefore > 0) {
-			    this.loseInitiative(breakDuration);
-				logger.shieldBreaks(this, breakDuration);
-			}
-			currentShield = 0;
-		} else {
-			logger.takesShieldDamage(this, (shieldBefore - currentShield));
-		}
-
-		return remainingDamage + penetratingDamage;
 	}
+
+    @Override
+    final public String toString() {
+        return "Shields of " + owningShipInstance + "(ini " + this.getCurrentInitiative() + ")";
+    }
 }

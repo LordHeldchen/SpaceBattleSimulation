@@ -1,47 +1,37 @@
 package battle;
 
-import logging.battleLogger.BattleLogger;
-import ships.blueprints.MutableBaseStat;
+import ships.stats.MutableBaseStat;
 
 public abstract class CombatActor implements Comparable<CombatActor> {
-	private final MutableBaseStat   timeCost;
-
-    private int                     currentInitiative;
-
-    protected SingleBattle          currentBattle;
-    protected BattleLogger          logger;
+    private final MutableBaseStat timeCost;
+    private int                   currentInitiative;
+    private int                   lostTicks;
 
     protected CombatActor(int startInitiative, int timeCost) {
-        this.setCurrentInitiative(startInitiative);
+        this.currentInitiative = startInitiative;
         this.timeCost = new MutableBaseStat(timeCost);
     }
 
-    protected final int loseInitiative() {
-        int currentIni = getCurrentInitiative();
-        setCurrentInitiative(currentIni - timeCost.getCalculatedValue());
-        return currentIni;
-    }
-
-    protected final int loseInitiative(int val) {
-        int currentIni = getCurrentInitiative();
-        setCurrentInitiative(currentIni - val);
-        return currentIni;
-    }
-
-    public final void setCurrentBattle(SingleBattle singleBattle) {
-        this.currentBattle = singleBattle;
-    }
-
-    public final void addBattleLoger(BattleLogger battleLogger) {
-        this.logger = battleLogger;
-    }
-
-    abstract CombatTarget takeAction();
-
     @Override
     public int compareTo(CombatActor other) {
-        return other.getCurrentInitiative() - this.getCurrentInitiative();
+        // Inverse ordering since PriorityQueues require natural ordering.
+        // 'Natural' being in this case that having the most is best, i.e. makes you first.
+        final int res = other.currentInitiative - this.currentInitiative;
+        return res;
     }
+
+    protected final int loseTicks() {
+        int before = currentInitiative;
+        currentInitiative -= timeCost.getCalculatedValue();
+        return before;
+    }
+
+    public final int loseTicks(int val) {
+        currentInitiative -= val;
+        return currentInitiative;
+    }
+
+    protected abstract CombatTarget takeAction(SingleBattle currentBattle);
 
 	public int getCurrentInitiative() {
 		return currentInitiative;
@@ -50,4 +40,17 @@ public abstract class CombatActor implements Comparable<CombatActor> {
 	public void setCurrentInitiative(int currentInitiative) {
 		this.currentInitiative = currentInitiative;
 	}
+
+    public void rememberLostTicks(int lostTicks) {
+        this.lostTicks += lostTicks;
+    }
+    
+    public boolean hasRememberedLostTicks() {
+        return lostTicks > 0;
+    }
+
+    public void applyRememberedLostTicks() {
+        currentInitiative -= lostTicks;
+        lostTicks = 0;
+    }
 }

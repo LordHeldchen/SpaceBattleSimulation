@@ -1,4 +1,4 @@
-package ships.shipHulls;
+package ships.stats;
 
 public enum HullStatType {
     ACCURACY("accuracy"), INITIATIVE("initiative"), DEFENSE("Defense"),  

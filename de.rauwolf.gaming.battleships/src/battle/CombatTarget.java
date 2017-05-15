@@ -2,14 +2,9 @@ package battle;
 
 import java.util.List;
 
-import logging.battleLogger.BattleLogger;
-
 public interface CombatTarget {
-    void addBattleLog(BattleLogger logger);
-
-    boolean isDestroyed();
-
     void receiveAttack(Shot list);
+    boolean isDestroyed();
 	boolean reactBeforeAttacker(ShipInstance attacker);
 
 	void endCurrentBattle();

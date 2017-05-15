@@ -1,35 +1,36 @@
 package battle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import logging.battleLogger.BattleLogger;
 import ships.Fleet;
-import ships.blueprints.Blueprint;
-import ships.blueprints.MutableBaseStat;
+import ships.hulls.HullSize;
 import ships.shipHulls.DamageType;
-import ships.shipHulls.ValueDurationPair;
+import ships.stats.MutableBaseStat;
+import ships.weapons.WeaponSecondaryEffect;
 
 public class WeaponInstance extends CombatActor {
-    private final ShipInstance                                  owningShipInstance;
+    private final ShipInstance                              owningShipInstance;
 
-    private final String                                        name;
-    private final MutableBaseStat                               accuracy;
-    private final MutableBaseStat                               damage;
-    private final MutableBaseStat                               armorPenetration;
+    private final String                                    name;
+    private final MutableBaseStat                           accuracy;
+    private final MutableBaseStat                           damage;
+    private final MutableBaseStat                           armorPenetration;
 
-    private final DamageType damageType;
-    private final Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects;
+    private final DamageType                                damageType;
+    private final Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects;
 
-    private final Map<Class<? extends Blueprint>, Integer>      preferredTargets;
+    private final List<HullSize>                            preferredTargetSizes;
 
+    private static final BattleLogger                       logger = BattleLogger.getInstance();
 
     // TODO: Introduce burst fire mechanic for certain weapons, e.g. Flak-Cannons?
     
     // TODO: More encapsulation so that the MutableBaseStats are only visible during construction?
     public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
-            DamageType damageType, Map<WeaponSecondaryEffect, ValueDurationPair> secondaryEffects) {
+            DamageType damageType, List<HullSize> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
         super(startInitiative, timeCost);
         this.owningShipInstance = owningShipInstance;
         this.name = name;
@@ -38,17 +39,12 @@ public class WeaponInstance extends CombatActor {
         this.armorPenetration = new MutableBaseStat(armorPenetration);
         this.damageType = damageType;
         this.secondaryEffects = secondaryEffects;
-
-        this.preferredTargets = new HashMap<Class<? extends Blueprint>, Integer>();
-    }
-
-    public void setLogger(BattleLogger battleLogger) {
-        super.addBattleLoger(battleLogger);
+        this.preferredTargetSizes = preferredTargetSizes;
     }
 
     @Override
-    public CombatTarget takeAction() {
-        int iniBeforeAction = loseInitiative();
+    public CombatTarget takeAction(SingleBattle currentBattle) {
+        int iniBeforeAction = loseTicks();
 
         final Fleet listOfPotentialTargets = currentBattle.getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
         CombatTarget target = chooseTarget(listOfPotentialTargets);
@@ -69,9 +65,9 @@ public class WeaponInstance extends CombatActor {
     }
 
     private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
-        for (Class<? extends Blueprint> preferredType : preferredTargets.keySet()) {
-            if (listOfPotentialTargets.containsType(preferredType) && BattleConstants.randomizer.nextInt() < preferredTargets.get(preferredType)) {
-                final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfType(preferredType);
+        for (HullSize preferredSize : preferredTargetSizes) {
+            if (listOfPotentialTargets.containsSize(preferredSize)) {
+                final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfSize(preferredSize);
                 logger.preysOnPreferredTargetType(this);
                 return targets.get((int) (targets.size() * Math.random()));
             }
@@ -85,7 +81,7 @@ public class WeaponInstance extends CombatActor {
 
     @Override
     final public String toString() {
-        return name + " of " + owningShipInstance;
+        return name + " of " + owningShipInstance + "(new ini: " + this.getCurrentInitiative() + ")";
     }
 
     public DamageType getDamageType() {

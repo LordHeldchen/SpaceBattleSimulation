@@ -9,7 +9,6 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import logging.battleLogger.BattleLogger;
-import logging.battleLogger.DebugBattleLogger;
 import ships.Fleet;
 import ships.blueprints.NotEnoughtSlotsException;
 import universe.StarSystem;
@@ -28,11 +27,9 @@ public class SingleBattle {
     private PriorityQueue<CombatActor> combatActors = new PriorityQueue<CombatActor>();
     private HashSet<CombatTarget> combatTargets = new HashSet<CombatTarget>();
 
-    final BattleLogger logger;
+    private static final BattleLogger logger = BattleLogger.getInstance();
 
-    public SingleBattle(Set<Fleet> allFleetsFromStarSystem, BattleLogger logger) {
-        this.logger = logger;
-
+    public SingleBattle(Set<Fleet> allFleetsFromStarSystem) {
         allFleets.addAll(allFleetsFromStarSystem);
         for (Fleet fleet : allFleetsFromStarSystem) {
             for (ShipInstance ship : fleet) {
@@ -55,11 +52,8 @@ public class SingleBattle {
 
     private void integrateShipIntoBattle(ShipInstance ship) {
         combatTargets.add(ship);
-        ship.addBattleLog(logger);
 
         List<CombatActor> combatActorsOfShip = ship.getCombatActors();
-        combatActorsOfShip.forEach(combatActor -> combatActor.setCurrentBattle(this));
-        combatActorsOfShip.forEach(combatActor -> combatActor.addBattleLoger(logger));
         combatActors.addAll(combatActorsOfShip);
 
         int idOfOwningEmpire = ship.getIdOfOwningEmpire();
@@ -79,19 +73,25 @@ public class SingleBattle {
 
     public void fight() {
         if (combatActors.size() > 0) {
+            
             final int highestStartingInitiative = combatActors.peek().getCurrentInitiative();
             while (continueCombat) {
                 logger.nextRound();
 
                 CombatActor actorWithHighestInit = combatActors.poll();
-                CombatTarget targetOfAction = actorWithHighestInit.takeAction();
-                if (targetOfAction != null && targetOfAction.isDestroyed()) {
-                    handleDestructionOf(targetOfAction);
+                
+                if (actorWithHighestInit.hasRememberedLostTicks()) {
+                    actorWithHighestInit.applyRememberedLostTicks();
+                } else {
+                    CombatTarget targetOfAction = actorWithHighestInit.takeAction(this);
+                    if (targetOfAction != null && targetOfAction.isDestroyed()) {
+                        handleDestructionOf(targetOfAction);
+                    }
+
+                    enemiesOfEmpireX.values().forEach(
+                            (Fleet f) -> continueCombat &= f.size() > 0 && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
                 }
                 combatActors.add(actorWithHighestInit);
-
-                enemiesOfEmpireX.values()
-                        .forEach((Fleet f) -> continueCombat &= f.size() > 0 && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
             }
         } else {
             logger.noActiveParticipantsInCombat();
@@ -126,9 +126,6 @@ public class SingleBattle {
 
     private void endBattle() {
         logger.endOfBattle(allFleets);
-        for (ShipInstance ship : allShips) {
-            ship.removeBattleLogger();
-        }
     }
 
     public void addFleet(Fleet participatingFleet) {
@@ -143,10 +140,14 @@ public class SingleBattle {
 
     public static void main(String[] args) throws InstantiationException, NotEnoughtSlotsException, IOException {
         Set<Fleet> allFleetsFromStarSystem = StarSystem.getAllFleetsFromStarSystem();
-        SingleBattle battle = new SingleBattle(allFleetsFromStarSystem, DebugBattleLogger.getNewDebugBattleLogger());
+        SingleBattle battle = new SingleBattle(allFleetsFromStarSystem);
 
         battle.checkSetup();
         battle.fight();
         battle.endBattle();
+    }
+
+    public BattleLogger getBattleLogger() {
+        return logger;
     }
 }

@@ -4,20 +4,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import battle.BattleConstants;
 import battle.CombatActor;
 import battle.CombatTarget;
+import battle.HullDamageLevel;
 import battle.ShieldInstance;
 import battle.ShipInstance;
 import ships.Fleet;
 
-public class DebugBattleLogger implements BattleLogger {
+public class DebugBattleLogger extends BattleLogger {
     private int round = 0;
 
-    private DebugBattleLogger() {}
-
-    public static DebugBattleLogger getNewDebugBattleLogger() {
-        return new DebugBattleLogger();
-    }
+    DebugBattleLogger() {}
 
     @Override
     public void showFormup(HashSet<Fleet> allFleets,
@@ -73,11 +71,11 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void evades(ShipInstance ship, boolean doesEvade, int acc, int evade, int addedAccuracy) {
-        if (doesEvade) {
-            System.out.println("  " + ship + " evades all damage (" + acc + "<=" + evade + " with bonus of " + addedAccuracy + ")");
-        } else {
+    public void isHit(ShipInstance ship, boolean isHit, int acc, int evade, int addedAccuracy) {
+        if (isHit) {
             System.out.println("  " + ship + " is hit (" + acc + ">" + evade + " with bonus of " + addedAccuracy + ")");
+        } else {
+            System.out.println("  " + ship + " evades all damage (" + acc + "<=" + evade + " with bonus of " + addedAccuracy + ")");
         }
     }
 
@@ -87,12 +85,13 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void takesHullDamage(ShipInstance ship, double damage, HullDamageLevel damageLevel, int hitStrength, int threshold) {
-        System.out.println("  " + ship + " takes " + (int) damage + " points of " + damageLevel + " damage  (" + hitStrength + ">" + threshold + ")");
+    public void takesHullDamage(ShipInstance ship, double damage, HullDamageLevel damageLevel, int hitStrength, int specificResistance, int threshold) {
+        System.out.println("  " + ship + " takes " + (int) damage + " points of " + damageLevel + " damage (" + hitStrength + ">" + (threshold + specificResistance) + ")");
     }
 
     @Override
     public void explodes(ShipInstance ship, double explodeChance, int hitStrength, int critThreshold, int containment) {
+        explodeChance = Math.min(BattleConstants.maxChanceExplodeOnCrit, explodeChance);
         System.out.println("  " + ship + " explodes!!! Chance was " + String.format("%1$.2f", explodeChance * 100) + "% (" + hitStrength + ">" + critThreshold + ", " + containment + ")");
     }
 
@@ -112,8 +111,8 @@ public class DebugBattleLogger implements BattleLogger {
     }
 
     @Override
-    public void preysOnPreferredTargetType(CombatActor ship) {
-        System.out.println("  Preys on preferred Target type!");
+    public void preysOnPreferredTargetType(CombatActor actor) {
+        System.out.println(actor + " Preys on preferred Target type!");
     }
 
     @Override
