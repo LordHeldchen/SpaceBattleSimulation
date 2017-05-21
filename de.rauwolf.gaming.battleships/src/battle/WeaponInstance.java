@@ -5,24 +5,24 @@ import java.util.List;
 import java.util.Map;
 
 import logging.battleLogger.BattleLogger;
-import ships.Fleet;
-import ships.hulls.HullSize;
+import ships.InstantiatedFleet;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.DamageType;
-import ships.stats.MutableBaseStat;
+import ships.stats.MutableStat;
 import ships.weapons.WeaponSecondaryEffect;
 
 public class WeaponInstance extends CombatActor {
     private final ShipInstance                              owningShipInstance;
 
     private final String                                    name;
-    private final MutableBaseStat                           accuracy;
-    private final MutableBaseStat                           damage;
-    private final MutableBaseStat                           armorPenetration;
+    private final MutableStat                           accuracy;
+    private final MutableStat                           damage;
+    private final MutableStat                           armorPenetration;
 
     private final DamageType                                damageType;
     private final Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects;
 
-    private final List<HullSize>                            preferredTargetSizes;
+    private final List<SizeClass>                            preferredTargetSizes;
 
     private static final BattleLogger                       logger = BattleLogger.getInstance();
 
@@ -30,13 +30,13 @@ public class WeaponInstance extends CombatActor {
     
     // TODO: More encapsulation so that the MutableBaseStats are only visible during construction?
     public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
-            DamageType damageType, List<HullSize> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
+            DamageType damageType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
         super(startInitiative, timeCost);
         this.owningShipInstance = owningShipInstance;
         this.name = name;
-        this.damage = new MutableBaseStat(damage);
-        this.accuracy = new MutableBaseStat(accuracy);
-        this.armorPenetration = new MutableBaseStat(armorPenetration);
+        this.damage = new MutableStat(damage);
+        this.accuracy = new MutableStat(accuracy);
+        this.armorPenetration = new MutableStat(armorPenetration);
         this.damageType = damageType;
         this.secondaryEffects = secondaryEffects;
         this.preferredTargetSizes = preferredTargetSizes;
@@ -46,7 +46,7 @@ public class WeaponInstance extends CombatActor {
     public CombatTarget takeAction(SingleBattle currentBattle) {
         int iniBeforeAction = loseTicks();
 
-        final Fleet listOfPotentialTargets = currentBattle.getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
+        final InstantiatedFleet listOfPotentialTargets = currentBattle.getAllEnemiesOfEmpireX(owningShipInstance.getIdOfOwningEmpire());
         CombatTarget target = chooseTarget(listOfPotentialTargets);
 
         logger.beginSingleAttack(this, target, iniBeforeAction);
@@ -64,8 +64,8 @@ public class WeaponInstance extends CombatActor {
         return target;
     }
 
-    private ShipInstance chooseTarget(final Fleet listOfPotentialTargets) {
-        for (HullSize preferredSize : preferredTargetSizes) {
+    private ShipInstance chooseTarget(final InstantiatedFleet listOfPotentialTargets) {
+        for (SizeClass preferredSize : preferredTargetSizes) {
             if (listOfPotentialTargets.containsSize(preferredSize)) {
                 final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfSize(preferredSize);
                 logger.preysOnPreferredTargetType(this);
@@ -76,7 +76,7 @@ public class WeaponInstance extends CombatActor {
     }
 
     private Shot getShot() {
-        return new Shot(damage.getCalculatedValue(), armorPenetration.getCalculatedValue(), accuracy.getCalculatedValue(), damageType, secondaryEffects);
+        return new Shot(damage.getCalculatedValue(), armorPenetration.getCalculatedValue(), accuracy.getCalculatedValue(), damageType, secondaryEffects, name);
     }
 
     @Override

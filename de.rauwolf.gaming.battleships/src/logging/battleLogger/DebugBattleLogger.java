@@ -1,5 +1,6 @@
 package logging.battleLogger;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -10,7 +11,7 @@ import battle.CombatTarget;
 import battle.HullDamageLevel;
 import battle.ShieldInstance;
 import battle.ShipInstance;
-import ships.Fleet;
+import ships.InstantiatedFleet;
 
 public class DebugBattleLogger extends BattleLogger {
     private int round = 0;
@@ -18,13 +19,13 @@ public class DebugBattleLogger extends BattleLogger {
     DebugBattleLogger() {}
 
     @Override
-    public void showFormup(HashSet<Fleet> allFleets,
+    public void showFormup(HashSet<InstantiatedFleet> allFleets,
                            HashSet<ShipInstance> allShips,
                            PriorityQueue<CombatActor> combatActors, 
-                           Map<Integer, Fleet> enemiesOfEmpireX,
+                           Map<Integer, InstantiatedFleet> enemiesOfEmpireX,
                            int numParticipatingFighters) {
         System.out.println("Formup: ");
-        for (Fleet fleet : allFleets) {
+        for (InstantiatedFleet fleet : allFleets) {
             System.out.println(fleet);
         }
 
@@ -45,10 +46,15 @@ public class DebugBattleLogger extends BattleLogger {
     }
 
     @Override
-    public void endOfBattle(HashSet<Fleet> allFleets) {
+    public void endOfBattle(HashSet<InstantiatedFleet> allFleets) {
         System.out.println("\nEnd of battle! Ships remaining: ");
-        for (Fleet fleet : allFleets) {
+        for (InstantiatedFleet fleet : allFleets) {
             System.out.println(fleet);
+        }
+        
+        for (String name: weaponEffectiveness.keySet()) {
+            System.out.println("Effectiveness of " + name + ":");
+            System.out.println(weaponEffectiveness.get(name));
         }
     }
 
@@ -78,21 +84,42 @@ public class DebugBattleLogger extends BattleLogger {
             System.out.println("  " + ship + " evades all damage (" + acc + "<=" + evade + " with bonus of " + addedAccuracy + ")");
         }
     }
+    
+    private Map<String, WeaponStats> weaponEffectiveness = new HashMap<String, WeaponStats>();
+    
+    private WeaponStats getWeaponStats(String weaponName) {
+        WeaponStats stats;
+        if (weaponEffectiveness.containsKey(weaponName)) {
+            stats = weaponEffectiveness.get(weaponName);
+        } else {
+            stats = new WeaponStats();
+            weaponEffectiveness.put(weaponName, stats);
+        }
+        return stats;
+    }
 
     @Override
-    public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold) {
+    public void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold, String weaponName) {
         System.out.println("  Armor of " + ship + " deflects all Damage! (" + hitStrength + "<=" + glanceThreshold + ")");
+        getWeaponStats(weaponName).hasBeenDeflectedByArmor();
     }
 
     @Override
-    public void takesHullDamage(ShipInstance ship, double damage, HullDamageLevel damageLevel, int hitStrength, int specificResistance, int threshold) {
+    public void shieldDeflectsAllDamage(ShipInstance ship, String weaponName) {
+        System.out.println("  Shield of " + ship + " deflects all Damage!");
+    }
+
+    @Override
+    public void takesHullDamage(ShipInstance ship, double damage, HullDamageLevel damageLevel, int hitStrength, int specificResistance, int threshold, String weaponName) {
         System.out.println("  " + ship + " takes " + (int) damage + " points of " + damageLevel + " damage (" + hitStrength + ">" + (threshold + specificResistance) + ")");
+        getWeaponStats(weaponName).hasCausedHullDamage(damage, damageLevel);
     }
 
     @Override
-    public void explodes(ShipInstance ship, double explodeChance, int hitStrength, int critThreshold, int containment) {
+    public void explodes(ShipInstance ship, double explodeChance, int hitStrength, int critThreshold, int containment, String weaponName) {
         explodeChance = Math.min(BattleConstants.maxChanceExplodeOnCrit, explodeChance);
         System.out.println("  " + ship + " explodes!!! Chance was " + String.format("%1$.2f", explodeChance * 100) + "% (" + hitStrength + ">" + critThreshold + ", " + containment + ")");
+        getWeaponStats(weaponName).hasCausedExplosion();
     }
 
     @Override
@@ -101,8 +128,9 @@ public class DebugBattleLogger extends BattleLogger {
     }
 
     @Override
-    public void takesShieldDamage(ShieldInstance shield, double amount) {
+    public void takesShieldDamage(ShieldInstance shield, double amount, String weaponName) {
         System.out.println("  Shield of " + shield.getOwner() + " deflects " + (int) amount + " points of damage");
+        getWeaponStats(weaponName).hasCausedShieldDamage(amount);
     }
 
     @Override

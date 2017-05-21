@@ -12,15 +12,15 @@ public class DegradeArmorAction implements CombatAction {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override
-    public boolean execute(ShipInstance ship, Shot shot) {
+    public boolean execute(ShipInstance target, Shot shot) {
         List<Integer> degradeEffect = shot.secondaryEffects.get(WeaponSecondaryEffect.DEGRADE);
         if (degradeEffect != null && (shot.hullDamageLevel.equals(HullDamageLevel.HIT) || shot.hullDamageLevel.equals(HullDamageLevel.CRIT))) {
             String key = WeaponSecondaryEffect.DEGRADE.toString();
             int val = degradeEffect.get(0);
-            ship.getThresholdFor(HullDamageLevel.GLANCE).addFlatBonus(key, val);
-            ship.getThresholdFor(HullDamageLevel.HIT).addFlatBonus(key, val);
-            ship.getThresholdFor(HullDamageLevel.CRIT).addFlatBonus(key, val);
-            logger.shipArmorDegrades(ship, val);
+            target.addFlatBonusFor(HullDamageLevel.GLANCE.getDefenseStatAgainstDamageLevel(), key, -val);
+            target.addFlatBonusFor(HullDamageLevel.HIT.getDefenseStatAgainstDamageLevel(), key, -val);
+            target.addFlatBonusFor(HullDamageLevel.CRIT.getDefenseStatAgainstDamageLevel(), key, -val);
+            logger.shipArmorDegrades(target, val);
         }
         return true;
     }

@@ -4,5 +4,5 @@ import battle.ShipInstance;
 import battle.Shot;
 
 public interface CombatAction {
-    public boolean execute(ShipInstance ship, Shot shot);
+    public boolean execute(ShipInstance target, Shot shot);
 }

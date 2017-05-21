@@ -8,8 +8,8 @@ public class TakeShieldDamageAction implements CombatAction {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override
-    public boolean execute(ShipInstance ship, Shot shot) {
-        ship.getShieldInstance().takeShieldDamage(shot, logger);
-        return shot.amount > 0;
+    public boolean execute(ShipInstance target, Shot shot) {
+        target.getShieldInstance().takeShieldDamage(shot, logger);
+        return true;
     }
 }

@@ -1,15 +1,15 @@
 package battle;
 
-import ships.stats.MutableBaseStat;
+import ships.stats.MutableStat;
 
 public abstract class CombatActor implements Comparable<CombatActor> {
-    private final MutableBaseStat timeCost;
+    private final MutableStat timeCost;
     private int                   currentInitiative;
     private int                   lostTicks;
 
     protected CombatActor(int startInitiative, int timeCost) {
         this.currentInitiative = startInitiative;
-        this.timeCost = new MutableBaseStat(timeCost);
+        this.timeCost = new MutableStat(timeCost);
     }
 
     @Override

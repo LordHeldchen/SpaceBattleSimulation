@@ -3,13 +3,13 @@ package ships.stats;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MutableBaseStat {
+public class MutableStat {
     private final int            baseValue;
     private Map<String, Integer> flatBonusList = new HashMap<String, Integer>();
     private Map<String, Double>  factorList    = new HashMap<String, Double>();
     private int                  calculatedValue;
 
-    public MutableBaseStat(int baseValue) {
+    public MutableStat(int baseValue) {
         this.baseValue = baseValue;
         this.calculatedValue = baseValue;
     }

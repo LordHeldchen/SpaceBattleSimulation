@@ -9,7 +9,7 @@ import battle.CombatTarget;
 import battle.HullDamageLevel;
 import battle.ShieldInstance;
 import battle.ShipInstance;
-import ships.Fleet;
+import ships.InstantiatedFleet;
 
 public abstract class BattleLogger {
     private static final BattleLogger logger = new DebugBattleLogger();
@@ -17,15 +17,15 @@ public abstract class BattleLogger {
         return logger;
     }
     
-    public abstract void showFormup(HashSet<Fleet> allFleets,
+    public abstract void showFormup(HashSet<InstantiatedFleet> allFleets,
                            HashSet<ShipInstance> allShips,
                            PriorityQueue<CombatActor> combatActors,
-                           Map<Integer, Fleet> enemiesOfEmpireX,
+                           Map<Integer, InstantiatedFleet> enemiesOfEmpireX,
                            int numParticipatingFighters);
 
     public abstract void shipDestroyed(CombatTarget targetOfAction);
 
-    public abstract void endOfBattle(HashSet<Fleet> allFleets);
+    public abstract void endOfBattle(HashSet<InstantiatedFleet> allFleets);
 
     public abstract void endOfSingleAttack(ShipInstance attacker);
 
@@ -37,13 +37,13 @@ public abstract class BattleLogger {
 
     public abstract void isHit(ShipInstance ship, boolean doesEvade, int acc, int evade, int addedAccuracy);
 
-    public abstract void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold);
+    public abstract void armorDeflectsAllDamage(ShipInstance ship, int hitStrength, int glanceThreshold, String weaponName);
 
-    public abstract void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageLevel glancing, int hitStrength, int specificResistance, int threshold);
+    public abstract void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageLevel glancing, int hitStrength, int specificResistance, int threshold, String weaponName);
 
     public abstract void shieldBreaks(ShieldInstance shieldInstance, int breakDuration);
 
-    public abstract void takesShieldDamage(ShieldInstance shieldInstance, double d);
+    public abstract void takesShieldDamage(ShieldInstance shieldInstance, double amount, String weaponName);
 
     public abstract void regeneratesShield(ShieldInstance ship, double regeneration, double currentShield);
 
@@ -53,9 +53,11 @@ public abstract class BattleLogger {
 
 	public abstract void noActiveParticipantsInCombat();
 
-    public abstract void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment);
+    public abstract void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment, String weaponName);
 
     public abstract void shipLosesTicks(ShipInstance shipInstance, int lostTicks, int chanceInPermill);
 
     public abstract void shipArmorDegrades(ShipInstance shipInstance, int val);
+
+    public abstract void shieldDeflectsAllDamage(ShipInstance ship, String weaponName);
 }

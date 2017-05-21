@@ -45,7 +45,7 @@ public class ShieldInstance extends CombatActor {
 		return (int) currentShield;
 	}
 
-	public void takeShieldDamage(Shot shot, BattleLogger battleLogger) {
+	public void takeShieldDamage(Shot shot, BattleLogger logger) {
         if (currentShield > 0) {
             double penetratingDamage = 0;
 
@@ -73,15 +73,20 @@ public class ShieldInstance extends CombatActor {
                 shot.amount = -currentShield;
                 if (shieldBefore > 0) {
                     this.loseTicks(breakDuration);
-                    battleLogger.shieldBreaks(this, breakDuration);
+                    logger.shieldBreaks(this, breakDuration);
                 }
                 currentShield = 0;
             } else {
                 shot.amount = 0;
-                battleLogger.takesShieldDamage(this, (shieldBefore - currentShield));
+                logger.takesShieldDamage(this, (shieldBefore - currentShield), shot.weaponName);
             }
 
             shot.amount += Math.max(penetratingDamage, 0);
+            
+            if (shot.amount <= 0) {
+                shot.hullDamageLevel = HullDamageLevel.DEFLECT;
+                logger.shieldDeflectsAllDamage(owningShipInstance, shot.weaponName);
+            }
         }
 	}
 

@@ -14,70 +14,60 @@ import battle.CombatActions.CombatAction;
 import battle.CombatActions.TakeDamageAction;
 import battle.CombatActions.TakeShieldDamageAction;
 import ships.blueprints.Blueprint;
+import ships.blueprints.ShipBlueprint;
+import ships.blueprints.SizeClass;
 import ships.components.ComponentBlueprint;
-import ships.hulls.HullSize;
 import ships.shipHulls.DamageType;
-import ships.stats.HullStatType;
-import ships.stats.MutableBaseStat;
+import ships.stats.StatType;
+import ships.stats.MutableStat;
 import ships.weapons.WeaponBlueprint;
 import ships.weapons.WeaponSecondaryEffect;
 
 public class ShipInstance implements CombatTarget {
-    protected final Blueprint                        blueprint;
+    protected final ShipBlueprint                    shipBlueprint;
 
     private ShieldInstance                           shieldInstance;
 
-    private final MutableBaseStat                    maxHullStrength;
+    private final Map<StatType, MutableStat>         hullStats;
     private double                                   currentHullStrength;
 
     // Holding the threshold as MutableBaseStats again allows e.g. for temporary
     // armor lowering effects and the like.
-    // TODO: Werte hier auf Map von "BaseHullStat" umstellen, machts vsl. übersichtlicher.
-    // Sollte auch init per loop ermöglichen.
-    private final MutableBaseStat                    glanceThreshold;
-    private final MutableBaseStat                    hitThreshold;
-    private final MutableBaseStat                    critThreshold;
-    private final MutableBaseStat                    containment;
-    private final MutableBaseStat                    epm;
-    private final MutableBaseStat                    evasion;
-
     private final ShipInstance                       mothership;
 
     private final int                                idOfOwningEmpire;
 
     private LinkedList<CombatActor>                  combatActorsOfShip;
 
-    // Derzeit nur Widerstände
-    private final Map<HullStatType, MutableBaseStat> hullStats;
+    // Beinhaltet derzeit nur Widerstände
 
     private final int                                startingInitiative;
 
-    private LinkedList<CombatActor> weaponInstances;
+    private LinkedList<CombatActor>                  weaponInstances;
 
-    private int lostTicks = 0;
-
-    private static final List<CombatAction> actionList;
+    private static final List<CombatAction>          actionList;
 
     static {
         actionList = new LinkedList<CombatAction>();
         actionList.add(new CheckEvasionAction());
-        actionList.add(new ApplyTicklossAction());
         actionList.add(new TakeShieldDamageAction());
         actionList.add(new DetermineHullDamageLevelAction());
         actionList.add(new CheckExplodeAction());
         actionList.add(new TakeDamageAction());
+        actionList.add(new ApplyTicklossAction());
         actionList.add(new DegradeArmorAction());
     }
-
-    private int calculateFinalValueFor(int baseValue, HullStatType value, boolean scalesWithSize) {
+    
+    private int calculateFinalValueFor(StatType statType, Blueprint blueprint) {
+        int baseValue = blueprint.getStatFor(statType);
         List<Integer> flatModifiers = new LinkedList<Integer>();
         List<Double> factorModifiers = new LinkedList<Double>();
         for (ComponentBlueprint component : blueprint.getComponents()) {
-            Integer flatBonus = component.getFlatBonusFor(value);
+            Integer flatBonus = component.getFlatBonusFor(statType);
             if (flatBonus != null) {
                 flatModifiers.add(flatBonus);
             }
-            Double factor = component.getFactorFor(value);
+            Double factor = component.getFactorFor(statType);
             if (factor != null) {
                 factorModifiers.add(factor);
             }
@@ -88,34 +78,25 @@ public class ShipInstance implements CombatTarget {
         for (Double factor : factorModifiers) {
             baseValue = (int) Math.round(baseValue * factor);
         }
-        if (scalesWithSize) {
-            baseValue *= BattleConstants.shipSizeScaling.get(blueprint.getHullType().getHullSize());
+        if (statType.doesScaleWithSize()) {
+            baseValue *= BattleConstants.shipSizeScaling.get(blueprint.getSize());
         }
         return baseValue;
     }
 
-    public ShipInstance(int idOfOwningEmpire, ShipInstance mothership, Blueprint blueprint) {
+    public ShipInstance(int idOfOwningEmpire, ShipInstance mothership, ShipBlueprint blueprint) {
         this.idOfOwningEmpire = idOfOwningEmpire;
-        this.blueprint = blueprint;
+        this.shipBlueprint = blueprint;
         this.mothership = mothership;
 
-        this.glanceThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorGlanceThreshold(), HullStatType.GLANCE_THRESHOLD, false));
-        this.hitThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorHitThreshold(), HullStatType.HIT_THRESHOLD, false));
-        this.critThreshold = new MutableBaseStat(calculateFinalValueFor(blueprint.getArmorCritThreshold(), HullStatType.CRIT_THRESHOLD, false));
-        
-        this.containment = new MutableBaseStat(calculateFinalValueFor(blueprint.getContainment(), HullStatType.CONTAINMENT, false));
-        this.epm = new MutableBaseStat(calculateFinalValueFor(blueprint.getHullType().getBaseEPM(), HullStatType.EPM, true));
-        this.evasion = new MutableBaseStat(calculateFinalValueFor(blueprint.getEvasion(), HullStatType.EVASION, false));
-
-        this.hullStats = new HashMap<HullStatType, MutableBaseStat>();
-        for (HullStatType hullStatType : HullStatType.values()) {
-            hullStats.put(hullStatType, new MutableBaseStat(calculateFinalValueFor(0, hullStatType, false)));
+        this.hullStats = new HashMap<StatType, MutableStat>();
+        for (StatType hullStatType : StatType.values()) {
+            hullStats.put(hullStatType, new MutableStat(calculateFinalValueFor(hullStatType, shipBlueprint)));
         }
 
-        this.maxHullStrength = new MutableBaseStat(blueprint.getMaxHullStrength());
-        this.setCurrentHullStrength(this.maxHullStrength.getCalculatedValue());
+        this.setCurrentHullStrength(hullStats.get(StatType.MAX_HULL_STRENGTH).getCalculatedValue());
         
-        this.startingInitiative = calculateFinalValueFor(blueprint.getStartBattleSpeed(), HullStatType.INITIATIVE, false)
+        this.startingInitiative = hullStats.get(StatType.INITIATIVE).getCalculatedValue()
                 + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
     }
 
@@ -127,16 +108,17 @@ public class ShipInstance implements CombatTarget {
         if (weaponInstances == null) {
             weaponInstances = new LinkedList<CombatActor>();
 
-            for (WeaponBlueprint weaponBlueprint : blueprint.getWeapons()) {
-                int damage = weaponBlueprint.getDamage();
-                int armorPenetration = weaponBlueprint.getArmorPenetration();
-                int accuracy = calculateFinalValueFor(weaponBlueprint.getAccuracy(), HullStatType.ACCURACY, false);
-                int timeCost = weaponBlueprint.getTimeCost();
-                int weaponInitiative = startingInitiative + weaponBlueprint.getInitiativeBonus();
+            for (WeaponBlueprint weaponBlueprint : shipBlueprint.getWeapons()) {
+                int damage = weaponBlueprint.getStatFor(StatType.DAMAGE);
+                int armorPenetration = weaponBlueprint.getStatFor(StatType.AP);
+                int accuracy = calculateFinalValueFor(StatType.ACCURACY, weaponBlueprint);
+                int timeCost = calculateFinalValueFor(StatType.TIMECOST, weaponBlueprint);
+                int weaponInitiative = calculateFinalValueFor(StatType.INITIATIVE, weaponBlueprint) + startingInitiative;
+
                 DamageType damageType = weaponBlueprint.getDmgType();
 
                 String name = weaponBlueprint.getName();
-                List<HullSize> preferredTargets = weaponBlueprint.getPreferredTargets();
+                List<SizeClass> preferredTargets = weaponBlueprint.getPreferredTargets();
 
                 Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects = weaponBlueprint.getSecondaryEffects();
 
@@ -151,14 +133,14 @@ public class ShipInstance implements CombatTarget {
 
     public ShieldInstance getShieldInstance() {
         if (shieldInstance == null) {
-            int shieldStrength = calculateFinalValueFor(blueprint.getMaxShieldStrength(), HullStatType.SHIELD_HP, true);
-            int shieldRegPerTick = calculateFinalValueFor(blueprint.getShieldRegenerationAmount(), HullStatType.SHIELD_REGEN, true);
-            int shieldBreakDuration = calculateFinalValueFor(blueprint.getShieldBreakDuration(), HullStatType.SHIELD_BREAK_DURATION, false);
+            int shieldStrength = calculateFinalValueFor(StatType.SHIELD_HP, shipBlueprint);
+            int shieldRegPerTick = calculateFinalValueFor(StatType.SHIELD_REGEN, shipBlueprint);
+            int shieldBreakDuration = calculateFinalValueFor(StatType.SHIELD_BREAK_DURATION, shipBlueprint);
 
             if (shieldStrength > 0) {
                 double breakCount = 0;
-                for (ComponentBlueprint component : blueprint.getComponents()) {
-                    breakCount += component.getFlatBonusFor(HullStatType.SHIELD_BREAK_DURATION) != null ? 1 : 0;
+                for (ComponentBlueprint component : shipBlueprint.getComponents()) {
+                    breakCount += component.getFlatBonusFor(StatType.SHIELD_BREAK_DURATION) != null ? 1 : 0;
                 }
                 shieldBreakDuration = (int) Math.ceil(shieldBreakDuration / breakCount);
             }
@@ -191,9 +173,9 @@ public class ShipInstance implements CombatTarget {
     }
 
     public LinkedList<ShipInstance> getFightersInBay() {
-        Map<Blueprint, Integer> fighterTypesInBay = blueprint.getFighterTypesInBay();
+        Map<ShipBlueprint, Integer> fighterTypesInBay = shipBlueprint.getFighterTypesInBay();
         LinkedList<ShipInstance> fighters = new LinkedList<ShipInstance>();
-        for (Map.Entry<Blueprint, Integer> fighterType : fighterTypesInBay.entrySet()) {
+        for (Map.Entry<ShipBlueprint, Integer> fighterType : fighterTypesInBay.entrySet()) {
             for (int i = 0; i < fighterType.getValue(); i++) {
                 ShipInstance fighterInstance = new ShipInstance(idOfOwningEmpire, this, fighterType.getKey());
                 fighters.add(fighterInstance);
@@ -224,39 +206,19 @@ public class ShipInstance implements CombatTarget {
     }
 
     public String getName() {
-        return blueprint.getName();
+        return shipBlueprint.getName();
     }
 
     public String getDescription() {
-        return blueprint.getDescription();
+        return shipBlueprint.getDescription();
     }
 
-    public Blueprint getBlueprint() {
-        return blueprint;
+    public ShipBlueprint getBlueprint() {
+        return shipBlueprint;
     }
     
-    public HullSize getSizeClass() {
-        return blueprint.getHullType().getHullSize();
-    }
-
-    public MutableBaseStat getContainment() {
-        return containment;
-    }
-    
-    public MutableBaseStat getThresholdFor(HullDamageLevel damageLevel) {
-        switch (damageLevel) {
-            case CRIT:
-                return critThreshold;
-            case HIT:
-                return hitThreshold;
-            case GLANCE:
-                return glanceThreshold;
-            case DEFLECT:
-                return glanceThreshold;
-            default:
-                break;
-        }
-        return null;
+    public SizeClass getSizeClass() {
+        return shipBlueprint.getHullType().getHullSize();
     }
 
     public double getCurrentHullStrength() {
@@ -267,21 +229,13 @@ public class ShipInstance implements CombatTarget {
         this.currentHullStrength = currentHullStrength;
     }
 
-    public MutableBaseStat getEvasion() {
-        return this.evasion;
-    }
-
-    public Map<HullStatType, MutableBaseStat> getHullStats() {
-        return hullStats;
-    }
-
-    public MutableBaseStat getEpm() {
-        return epm;
+    public int getHullStat(StatType statType) {
+        return hullStats.get(statType).getCalculatedValue();
     }
 
     @Override
     final public String toString() {
-        return blueprint.getName() + " (" + idOfOwningEmpire + ")";
+        return shipBlueprint.getName() + " (" + idOfOwningEmpire + ")";
     }
 
     @Override
@@ -293,5 +247,21 @@ public class ShipInstance implements CombatTarget {
         for (CombatActor actor : getCombatActors()) {
             actor.rememberLostTicks(lostTicks);
         }
+    }
+
+    public void addFlatBonusFor(StatType statType, String key, int value) {
+        hullStats.get(statType).addFlatBonus(key, value);
+    }
+
+    public void addFactorFor(StatType statType, String key, double value) {
+        hullStats.get(statType).addFactor(key, value);
+    }
+
+    public void removeFlatBonusFor(StatType statType, String key) {
+        hullStats.get(statType).removeFlatBonus(key);
+    }
+
+    public void removeFactorFor(StatType statType, String key) {
+        hullStats.get(statType).removeFactor(key);
     }
 }

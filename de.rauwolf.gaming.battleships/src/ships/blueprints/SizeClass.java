@@ -1,11 +1,11 @@
-package ships.hulls;
+package ships.blueprints;
 
-public enum HullSize {
+public enum SizeClass {
     XXS("XXS"), XS("XS"), S("S"), M("M"), L("L"), XL("XL"), XXL("XXL");
-    
+
     private final String value;
     
-    HullSize(String value) {
+    SizeClass(String value) {
         this.value = value;
     }
 

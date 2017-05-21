@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import logging.battleLogger.BattleLogger;
 import ships.Fleet;
+import ships.InstantiatedFleet;
 import ships.blueprints.NotEnoughtSlotsException;
 import universe.StarSystem;
 
@@ -19,8 +21,8 @@ public class SingleBattle {
 
     Set<Integer> participatingEmpires = new HashSet<Integer>();
 
-    Map<Integer, Fleet> enemiesOfEmpireX = new HashMap<Integer, Fleet>();
-    HashSet<Fleet> allFleets = new HashSet<Fleet>();
+    Map<Integer, InstantiatedFleet> enemiesOfEmpireX = new HashMap<Integer, InstantiatedFleet>();
+    HashSet<InstantiatedFleet> allFleets = new HashSet<InstantiatedFleet>();
     HashSet<ShipInstance> allShips = new HashSet<ShipInstance>();
     int numParticipatingFighters = 0;
 
@@ -30,18 +32,19 @@ public class SingleBattle {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     public SingleBattle(Set<Fleet> allFleetsFromStarSystem) {
-        allFleets.addAll(allFleetsFromStarSystem);
-        for (Fleet fleet : allFleetsFromStarSystem) {
+        allFleets.addAll(allFleetsFromStarSystem.stream().map(fleet -> fleet.instantiate()).collect(Collectors.toSet()));
+
+        for (InstantiatedFleet fleet : allFleets) {
             for (ShipInstance ship : fleet) {
                 participatingEmpires.add(ship.getIdOfOwningEmpire());
             }
         }
 
         for (int empire : participatingEmpires) {
-            enemiesOfEmpireX.put(empire, new Fleet());
+            enemiesOfEmpireX.put(empire, new InstantiatedFleet());
         }
 
-        for (Fleet fleet : allFleets) {
+        for (InstantiatedFleet fleet : allFleets) {
             for (ShipInstance ship : fleet) {
                 integrateShipIntoBattle(ship);
             }
@@ -89,7 +92,7 @@ public class SingleBattle {
                     }
 
                     enemiesOfEmpireX.values().forEach(
-                            (Fleet f) -> continueCombat &= f.size() > 0 && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
+                            (InstantiatedFleet f) -> continueCombat &= f.size() > 0 && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
                 }
                 combatActors.add(actorWithHighestInit);
             }
@@ -105,7 +108,7 @@ public class SingleBattle {
     private void handleDestructionOf(CombatTarget targetOfAction) {
         if (targetOfAction.isDestroyed()) {
             logger.shipDestroyed(targetOfAction);
-            for (Fleet ships : enemiesOfEmpireX.values()) {
+            for (InstantiatedFleet ships : enemiesOfEmpireX.values()) {
                 ships.remove(targetOfAction);
                 if (ships.isEmpty()) {
                     // Some empire has no more enemies in this battle
@@ -113,14 +116,14 @@ public class SingleBattle {
                 }
             }
             allShips.remove(targetOfAction);
-            for (Fleet fleet : allFleets) {
+            for (InstantiatedFleet fleet : allFleets) {
                 fleet.remove(targetOfAction);
             }
             combatActors.removeAll(targetOfAction.getCombatActors());
         }
     }
 
-    Fleet getAllEnemiesOfEmpireX(int empireID) {
+    InstantiatedFleet getAllEnemiesOfEmpireX(int empireID) {
         return enemiesOfEmpireX.get(empireID);
     }
 
@@ -128,7 +131,7 @@ public class SingleBattle {
         logger.endOfBattle(allFleets);
     }
 
-    public void addFleet(Fleet participatingFleet) {
+    public void addFleet(InstantiatedFleet participatingFleet) {
         allFleets.add(participatingFleet);
     }
 

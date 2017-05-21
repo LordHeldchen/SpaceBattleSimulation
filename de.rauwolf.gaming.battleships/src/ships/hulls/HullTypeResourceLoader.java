@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import ships.resourceLoader.WeaponSize;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.ComponentType;
 
 public class HullTypeResourceLoader {
@@ -67,14 +67,14 @@ public class HullTypeResourceLoader {
 					String[] weaponSlots = elements[elementNr++].split(" ");
 					String[] componentSlots = elements[elementNr++].split(" ");
 
-	                HullSize sizeCategory = HullSize.valueOf(elements[elementNr++].trim());
+	                SizeClass sizeCategory = SizeClass.valueOf(elements[elementNr++].trim());
                     String[] bays = elements[elementNr++].split(",");
 
                     int value = new Integer(elements[elementNr++].trim());
 					String description = elements[elementNr++].trim();
 					HullType hullType = new HullType(name, sizeCategory, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength, baseContainment, baseEPM, baseStartInitiative, baseEvasion, value, description);
 					
-					fillSlots(shorthand, weaponSlots, hullType::setAvailableWeaponSlotsForSize, WeaponSize.values());
+					fillSlots(shorthand, weaponSlots, hullType::setAvailableWeaponSlotsForSize, SizeClass.values());
 					fillSlots(shorthand, componentSlots, hullType::setAvailableComponentSlotsForType, ComponentType.values());
                     
                     for (String bay: bays) {
@@ -82,7 +82,7 @@ public class HullTypeResourceLoader {
                             continue;
                         }
                         String[] bayDefinition = bay.trim().split(":");
-                        HullSize baySizeCategory = HullSize.valueOf(bayDefinition[0].trim());
+                        SizeClass baySizeCategory = SizeClass.valueOf(bayDefinition[0].trim());
                         int bayAmount = new Integer(bayDefinition[1].trim()).intValue();
                         
                         hullType.setAvailableShipBaysForSize(baySizeCategory, bayAmount);

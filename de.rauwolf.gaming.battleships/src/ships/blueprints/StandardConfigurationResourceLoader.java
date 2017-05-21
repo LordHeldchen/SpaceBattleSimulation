@@ -11,16 +11,16 @@ import ships.hulls.HullType;
 import ships.hulls.HullTypeResourceLoader;
 
 public class StandardConfigurationResourceLoader {
-    private static Map<String, Blueprint> standardConfigurations;
+    private static Map<String, ShipBlueprint> standardConfigurations;
 
-    private static Map<String, Blueprint> getStandardConfigurations() throws InstantiationException, NotEnoughtSlotsException, IOException {
+    private static Map<String, ShipBlueprint> getStandardConfigurations() throws InstantiationException, NotEnoughtSlotsException, IOException {
         if (standardConfigurations == null) {
             InputStream weaponBlueprintsResource = StandardConfigurationResourceLoader.class.getClassLoader()
                     .getResourceAsStream("main/resources/standardConfigurations.csv");
-            standardConfigurations = new HashMap<String, Blueprint>();
+            standardConfigurations = new HashMap<String, ShipBlueprint>();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(weaponBlueprintsResource));
 
-            Map<Blueprint, String[]> baysToFill = new HashMap<Blueprint, String[]>();
+            Map<ShipBlueprint, String[]> baysToFill = new HashMap<ShipBlueprint, String[]>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.startsWith("#") || line.trim().equals("")) {
@@ -44,7 +44,7 @@ public class StandardConfigurationResourceLoader {
 
                 String description = elements[6].trim();
 
-                Blueprint blueprint = new Blueprint(name, description, hullType);
+                ShipBlueprint blueprint = new ShipBlueprint(name, description, hullType);
                 baysToFill.put(blueprint, shipsInBay);
 
                 for (String weaponShorthand : weaponShorthands) {
@@ -60,13 +60,13 @@ public class StandardConfigurationResourceLoader {
                 standardConfigurations.put(shorthand, blueprint);
             }
 
-            for (Blueprint blueprint : baysToFill.keySet()) {
+            for (ShipBlueprint blueprint : baysToFill.keySet()) {
                 for (String shipsInBay : baysToFill.get(blueprint)) {
                     String[] split = shipsInBay.split(":");
                     if (split.length != 2) {
                         continue;
                     }
-                    Blueprint fighterBlueprint = standardConfigurations.get(split[0].trim());
+                    ShipBlueprint fighterBlueprint = standardConfigurations.get(split[0].trim());
                     blueprint.addFightersToBay(fighterBlueprint, new Integer(split[1].trim()).intValue());
                 }
             }
@@ -75,7 +75,7 @@ public class StandardConfigurationResourceLoader {
         return standardConfigurations;
     }
 
-    public static Blueprint getStandardConfiguration(String configShorthand) throws InstantiationException, NotEnoughtSlotsException, IOException {
+    public static ShipBlueprint getStandardConfiguration(String configShorthand) throws InstantiationException, NotEnoughtSlotsException, IOException {
         return getStandardConfigurations().get(configShorthand);
     }
 }

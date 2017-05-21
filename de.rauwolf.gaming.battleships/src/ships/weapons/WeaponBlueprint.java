@@ -1,86 +1,73 @@
 package ships.weapons;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ships.hulls.HullSize;
-import ships.resourceLoader.WeaponSize;
+import ships.blueprints.Blueprint;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.DamageType;
+import ships.stats.StatType;
 
-public class WeaponBlueprint {
-    private final String                                        name;
-    private final WeaponSize                                    size;
+public class WeaponBlueprint implements Blueprint {
+    private final String                                    name;
+    private final SizeClass                                 size;
 
-    private final int                                           accuracy;
-    private final int                                           damage;
-    private final int                                           armorPenetration;
-    private final int                                           initiativeBonus;
-    private final int                                           value;
+    private final int                                       value;
+
+    private final Map<StatType, Integer>                    statMap;
 
     // TODO: Introduce reload time e.g. for BurstFire of several rounds, and/or a burst fire mechanic?
-    private final int                                           timeCost;
-    private final DamageType                                    dmgType;
-    private final Map<WeaponSecondaryEffect, List<Integer>>     weaponEffects;
+    private final DamageType                                dmgType;
+    private final Map<WeaponSecondaryEffect, List<Integer>> weaponEffects;
 
-    protected List<HullSize>                                    preferredTargetSizes;
+    protected List<SizeClass>                               preferredTargetSizes;
 
-    public WeaponBlueprint(String name, WeaponSize size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus, int value,
-            DamageType dmgType, List<HullSize> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
+    public WeaponBlueprint(String name, SizeClass size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus, int value,
+            DamageType dmgType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
+        
         this.name = name;
         this.size = size;
-        this.damage = damage;
-        this.accuracy = accuracy;
-        this.armorPenetration = armorPenetration;
-        this.timeCost = timeCost;
-        this.initiativeBonus = initiativeBonus;
         this.value = value;
         this.dmgType = dmgType;
+        
+        this.statMap = new HashMap<StatType, Integer>();
+        statMap.put(StatType.DAMAGE, damage);
+        statMap.put(StatType.ACCURACY, accuracy);
+        statMap.put(StatType.AP, armorPenetration);
+        statMap.put(StatType.TIMECOST, timeCost);
+        statMap.put(StatType.INITIATIVE, initiativeBonus);
+
         this.preferredTargetSizes = preferredTargetSizes;
         this.weaponEffects = weaponEffects;
     }
 
     public String toString() {
-        return getName() + " (" + getSize() + ") -->  DMG " + damage + ", AP " + armorPenetration + ", TC " + getTimeCost();
+        return getName() + " (" + getSize() + ") -->  DMG " + statMap.get(StatType.DAMAGE) + ", AP " + statMap.get(StatType.AP) + ", TC "
+                + statMap.get(StatType.TIMECOST);
+    }
+
+    public Integer getStatFor(StatType stat) {
+        if (!statMap.containsKey(stat)) {
+            statMap.put(stat, 0);
+        }
+        return statMap.get(stat);
     }
 
     public final String getName() {
         return this.name;
     }
 
-    public final WeaponSize getSize() {
+    public final SizeClass getSize() {
         return this.size;
     }
 
-    public List<HullSize> getPreferredTargets() {
+    public List<SizeClass> getPreferredTargets() {
         return this.preferredTargetSizes;
-    }
-
-    public int getAccuracy() {
-        return this.accuracy;
     }
 
     public Map<WeaponSecondaryEffect, List<Integer>> getSecondaryEffects() {
         return weaponEffects;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public int getArmorPenetration() {
-        return this.armorPenetration;
-    }
-
-    public int getBattleSpeedDecay() {
-        return this.getTimeCost();
-    }
-
-    public int getTimeCost() {
-        return timeCost;
-    }
-
-    public int getInitiativeBonus() {
-        return initiativeBonus;
     }
 
     public int getValue() {

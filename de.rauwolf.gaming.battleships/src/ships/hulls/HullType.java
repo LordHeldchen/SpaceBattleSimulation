@@ -3,39 +3,37 @@ package ships.hulls;
 import java.util.HashMap;
 import java.util.Map;
 
-import ships.resourceLoader.WeaponSize;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.ComponentType;
+import ships.stats.StatType;
 
 public class HullType {
-    private final Map<WeaponSize, Integer> availableWeaponSlots = new HashMap<WeaponSize, Integer>();
+    private final Map<SizeClass, Integer> availableWeaponSlots = new HashMap<SizeClass, Integer>();
     private final Map<ComponentType, Integer> availableComponentSlots = new HashMap<ComponentType, Integer>();
-    private final Map<HullSize, Integer> baysBySize = new HashMap<HullSize, Integer>();
+    private final Map<SizeClass, Integer> baysBySize = new HashMap<SizeClass, Integer>();
 
-    private final int baseGlanceThreshold;
-    private final int baseHitThreshold;
-    private final int baseCritThreshold;
-    private final int baseHullStrength;
-    private final int baseContainment;
-    private final int baseEPM;
-    private final int baseStartInitiative;
-    private final int baseEvasion;
+    private final Map<StatType, Integer> baseStatMap;
+
     private final int value;
     private final String description;
     private final String name;
-    private final HullSize sizeCategory;
+    private final SizeClass sizeCategory;
 
-    public HullType(String name, HullSize sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold, int baseHullStrength,
+    public HullType(String name, SizeClass sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold, int baseHullStrength,
             int baseContainment, int baseEPM, int baseStartInitiative, int baseEvasion, int value, String description) {
         this.name = name;
         this.sizeCategory = sizeCategory;
-        this.baseGlanceThreshold = baseGlanceThreshold;
-        this.baseHitThreshold = baseHitThreshold;
-        this.baseCritThreshold = baseCritThreshold;
-        this.baseHullStrength = baseHullStrength;
-        this.baseContainment = baseContainment;
-        this.baseEPM = baseEPM;
-        this.baseStartInitiative = baseStartInitiative;
-        this.baseEvasion = baseEvasion;
+        this.baseStatMap = new HashMap<StatType, Integer>();
+        
+        baseStatMap.put(StatType.THRESHOLD_GLANCE, baseGlanceThreshold);
+        baseStatMap.put(StatType.THRESHOLD_HIT, baseHitThreshold);
+        baseStatMap.put(StatType.THRESHOLD_CRIT, baseCritThreshold);
+        baseStatMap.put(StatType.MAX_HULL_STRENGTH, baseHullStrength);
+        baseStatMap.put(StatType.CONTAINMENT, baseContainment);
+        baseStatMap.put(StatType.EPM, baseEPM);
+        baseStatMap.put(StatType.INITIATIVE, baseStartInitiative);
+        baseStatMap.put(StatType.EVASION, baseEvasion);
+        
         this.value = value;
         this.description = description;
     }
@@ -44,31 +42,18 @@ public class HullType {
         return name;
     }
 
-    public int getBaseGlanceThreshold() {
-        return baseGlanceThreshold;
+    public int getBaseStatFor(StatType stat) {
+        if (baseStatMap.containsKey(stat)) {
+            return baseStatMap.get(stat);
+        }
+        return 0;
     }
 
-    public int getBaseHitThreshold() {
-        return baseHitThreshold;
-    }
-
-    public int getBaseCritThreshold() {
-        return baseCritThreshold;
-    }
-
-    public int getBaseHullStrength() {
-        return baseHullStrength;
-    }
-
-    public int getBaseStartBattleSpeed() {
-        return baseStartInitiative;
-    }
-
-    public void setAvailableShipBaysForSize(HullSize size, int num) {
+    public void setAvailableShipBaysForSize(SizeClass size, int num) {
         baysBySize.put(size, num);
     }
 
-    public void setAvailableWeaponSlotsForSize(WeaponSize size, int num) {
+    public void setAvailableWeaponSlotsForSize(SizeClass size, int num) {
         availableWeaponSlots.put(size, num);
     }
 
@@ -76,20 +61,16 @@ public class HullType {
         availableComponentSlots.put(type, num);
     }
 
-    public int getAvailableShipBaysForSize(HullSize size) {
+    public int getAvailableShipBaysForSize(SizeClass size) {
         return baysBySize.get(size) == null ? 0 : baysBySize.get(size);
     }
 
-    public int getAvailableWeaponSlotsForSize(WeaponSize size) {
+    public int getAvailableWeaponSlotsForSize(SizeClass size) {
         return availableWeaponSlots.get(size) == null ? 0 : availableWeaponSlots.get(size);
     }
 
     public int getAvailableComponentSlotsForType(ComponentType type) {
         return availableComponentSlots.get(type) == null ? 0 : availableComponentSlots.get(type);
-    }
-
-    public int getBaseEvasion() {
-        return baseEvasion;
     }
 
     public String getDescription() {
@@ -100,20 +81,12 @@ public class HullType {
         return name;
     }
 
-    public int getBaseContainment() {
-        return baseContainment;
-    }
-
-    public Map<HullSize, Integer> getBaysBySize() {
+    public Map<SizeClass, Integer> getBaysBySize() {
         return baysBySize;
     }
 
-    public HullSize getHullSize() {
+    public SizeClass getHullSize() {
         return sizeCategory;
-    }
-
-    public int getBaseEPM() {
-        return baseEPM;
     }
 
     public int getValue() {

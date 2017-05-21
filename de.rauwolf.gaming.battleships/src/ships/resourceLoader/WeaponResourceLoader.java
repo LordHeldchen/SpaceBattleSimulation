@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ships.hulls.HullSize;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.DamageType;
 import ships.weapons.WeaponBlueprint;
 import ships.weapons.WeaponSecondaryEffect;
@@ -35,18 +35,18 @@ public class WeaponResourceLoader {
                 int damage = new Integer(elements[3].trim());
                 int armorPenetration = new Integer(elements[4].trim());
                 int timeCost = new Integer(elements[5].trim());
-                WeaponSize size = WeaponSize.valueOf(elements[6].trim());
+                SizeClass size = SizeClass.valueOf(elements[6].trim());
                 int iniBonus = new Integer(elements[7].trim());
                 int value = new Integer(elements[8].trim());
                 DamageType dmgType = DamageType.valueOf(elements[9].trim());
                 
-                List<HullSize> preferredTargetSizes = new LinkedList<HullSize>();
+                List<SizeClass> preferredTargetSizes = new LinkedList<SizeClass>();
                 String[] preferredTargets = elements[10].trim().split(",");
                 for (String preferredTarget : preferredTargets) {
                     if (preferredTarget.equals("")) {
                         continue;
                     }
-                    preferredTargetSizes.add(HullSize.valueOf(preferredTarget.trim()));
+                    preferredTargetSizes.add(SizeClass.valueOf(preferredTarget.trim()));
                 }
 
                 Map<WeaponSecondaryEffect, List<Integer>> weaponEffects = new HashMap<WeaponSecondaryEffect, List<Integer>>();

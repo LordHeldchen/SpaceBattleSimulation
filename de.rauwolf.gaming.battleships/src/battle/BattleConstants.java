@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import ships.hulls.HullSize;
+import ships.blueprints.SizeClass;
 import ships.shipHulls.DamageType;
-import ships.stats.HullStatType;
+import ships.stats.StatType;
 
 public class BattleConstants {
     public static final int                         cloakingRandomizerMaximum    = 100;
@@ -34,26 +34,26 @@ public class BattleConstants {
     public static final int                    battleSpeedRandomizerMaximum = 100;
     public static final Random                 randomizer                   = new Random();
 
-    public static final Map<HullSize, Integer> shipSizeScaling              = new HashMap<HullSize, Integer>();
+    public static final Map<SizeClass, Integer> shipSizeScaling              = new HashMap<SizeClass, Integer>();
 
     static {
-        shipSizeScaling.put(HullSize.XXS, 1);
-        shipSizeScaling.put(HullSize.XS, 2);
-        shipSizeScaling.put(HullSize.S, 4);
-        shipSizeScaling.put(HullSize.M, 9);
-        shipSizeScaling.put(HullSize.L, 16);
-        shipSizeScaling.put(HullSize.XL, 30);
-        shipSizeScaling.put(HullSize.XXL, 100);
+        shipSizeScaling.put(SizeClass.XXS, 1);
+        shipSizeScaling.put(SizeClass.XS, 2);
+        shipSizeScaling.put(SizeClass.S, 4);
+        shipSizeScaling.put(SizeClass.M, 9);
+        shipSizeScaling.put(SizeClass.L, 16);
+        shipSizeScaling.put(SizeClass.XL, 30);
+        shipSizeScaling.put(SizeClass.XXL, 100);
     }
 
-    public static final Map<DamageType, HullStatType> damageTypeToResistanceType = new HashMap<DamageType, HullStatType>();
+    public static final Map<DamageType, StatType> damageTypeToResistanceType = new HashMap<DamageType, StatType>();
 
     static {
-        damageTypeToResistanceType.put(DamageType.ANTIMATTER, HullStatType.RESISTANCE_ANTIMATTER);
-        damageTypeToResistanceType.put(DamageType.EM, HullStatType.RESISTANCE_EM);
-        damageTypeToResistanceType.put(DamageType.EXPLOSIVE, HullStatType.RESISTANCE_EXPLOSIVE);
-        damageTypeToResistanceType.put(DamageType.HEAT, HullStatType.RESISTANCE_HEAT);
-        damageTypeToResistanceType.put(DamageType.KINETIC, HullStatType.RESISTANCE_KINETIC);
-        damageTypeToResistanceType.put(DamageType.PARTICLE, HullStatType.RESISTANCE_PARTICLE);
+        damageTypeToResistanceType.put(DamageType.ANTIMATTER, StatType.RESISTANCE_ANTIMATTER);
+        damageTypeToResistanceType.put(DamageType.EM, StatType.RESISTANCE_EM);
+        damageTypeToResistanceType.put(DamageType.EXPLOSIVE, StatType.RESISTANCE_EXPLOSIVE);
+        damageTypeToResistanceType.put(DamageType.HEAT, StatType.RESISTANCE_HEAT);
+        damageTypeToResistanceType.put(DamageType.KINETIC, StatType.RESISTANCE_KINETIC);
+        damageTypeToResistanceType.put(DamageType.PARTICLE, StatType.RESISTANCE_PARTICLE);
     }
 }
