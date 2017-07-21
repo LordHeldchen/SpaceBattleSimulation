@@ -23,7 +23,7 @@ public class CheckEvasionAction implements CombatAction {
         final int addedAccuracy = Math.max(evasion - shot.accuracy - maxRangeToMiss, 0);
         final int totalAccuracy = shot.accuracy + addedAccuracy + BattleConstants.randomizer.nextInt(BattleConstants.accuracyRandomizerMaximum + 1);
         final boolean targetIsHit = totalAccuracy > evasion;
-        logger.isHit(ship, targetIsHit, totalAccuracy, evasion, addedAccuracy);
+        logger.isHit(ship, targetIsHit, totalAccuracy, evasion, addedAccuracy, shot.weaponName);
         return targetIsHit;
     }
 }

@@ -15,20 +15,22 @@ public class WeaponInstance extends CombatActor {
     private final ShipInstance                              owningShipInstance;
 
     private final String                                    name;
-    private final MutableStat                           accuracy;
-    private final MutableStat                           damage;
-    private final MutableStat                           armorPenetration;
+    private final MutableStat                               accuracy;
+    private final MutableStat                               damage;
+    private final MutableStat                               armorPenetration;
 
     private final DamageType                                damageType;
     private final Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects;
 
-    private final List<SizeClass>                            preferredTargetSizes;
+    private final List<SizeClass>                           preferredTargetSizes;
 
     private static final BattleLogger                       logger = BattleLogger.getInstance();
 
-    // TODO: Introduce burst fire mechanic for certain weapons, e.g. Flak-Cannons?
-    
-    // TODO: More encapsulation so that the MutableBaseStats are only visible during construction?
+    // TODO: Introduce burst fire mechanic for certain weapons, e.g.
+    // Flak-Cannons?
+
+    // TODO: More encapsulation so that the MutableBaseStats are only visible
+    // during construction?
     public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
             DamageType damageType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
         super(startInitiative, timeCost);

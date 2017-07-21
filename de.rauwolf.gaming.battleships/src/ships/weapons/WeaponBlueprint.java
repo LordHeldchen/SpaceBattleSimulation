@@ -10,6 +10,7 @@ import ships.shipHulls.DamageType;
 import ships.stats.StatType;
 
 public class WeaponBlueprint implements Blueprint {
+    private final String                                    shorthand;
     private final String                                    name;
     private final SizeClass                                 size;
 
@@ -17,20 +18,22 @@ public class WeaponBlueprint implements Blueprint {
 
     private final Map<StatType, Integer>                    statMap;
 
-    // TODO: Introduce reload time e.g. for BurstFire of several rounds, and/or a burst fire mechanic?
+    // TODO: Introduce reload time e.g. for BurstFire of several rounds, and/or
+    // a burst fire mechanic?
     private final DamageType                                dmgType;
     private final Map<WeaponSecondaryEffect, List<Integer>> weaponEffects;
 
     protected List<SizeClass>                               preferredTargetSizes;
 
-    public WeaponBlueprint(String name, SizeClass size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus, int value,
-            DamageType dmgType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
-        
+    public WeaponBlueprint(String shorthand, String name, SizeClass size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus,
+            int value, DamageType dmgType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
+
+        this.shorthand = shorthand;
         this.name = name;
         this.size = size;
         this.value = value;
         this.dmgType = dmgType;
-        
+
         this.statMap = new HashMap<StatType, Integer>();
         statMap.put(StatType.DAMAGE, damage);
         statMap.put(StatType.ACCURACY, accuracy);
@@ -42,11 +45,13 @@ public class WeaponBlueprint implements Blueprint {
         this.weaponEffects = weaponEffects;
     }
 
+    @Override
     public String toString() {
         return getName() + " (" + getSize() + ") -->  DMG " + statMap.get(StatType.DAMAGE) + ", AP " + statMap.get(StatType.AP) + ", TC "
                 + statMap.get(StatType.TIMECOST);
     }
 
+    @Override
     public Integer getStatFor(StatType stat) {
         if (!statMap.containsKey(stat)) {
             statMap.put(stat, 0);
@@ -58,6 +63,11 @@ public class WeaponBlueprint implements Blueprint {
         return this.name;
     }
 
+    public final String getShorthand() {
+        return shorthand;
+    }
+
+    @Override
     public final SizeClass getSize() {
         return this.size;
     }

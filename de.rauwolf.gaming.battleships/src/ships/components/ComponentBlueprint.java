@@ -6,13 +6,15 @@ import ships.shipHulls.ComponentType;
 import ships.stats.StatType;
 
 public class ComponentBlueprint implements Component {
+    private final String shorthand;
     private final String name;
     private final ComponentType type;
     private final int value;
     private final Map<StatType, Double> factors;
     private final Map<StatType, Integer> flatBonuses;
 
-    public ComponentBlueprint(String name, ComponentType type, int value, Map<StatType, Double> factors, Map<StatType, Integer> flatBonuses) {
+    public ComponentBlueprint(String shorthand, String name, ComponentType type, int value, Map<StatType, Double> factors, Map<StatType, Integer> flatBonuses) {
+        this.shorthand = shorthand;
         this.name = name;
         this.type = type;
         this.value = value;
@@ -20,6 +22,11 @@ public class ComponentBlueprint implements Component {
         this.flatBonuses = flatBonuses;
     }
 
+    @Override
+    public String getShorthand() {
+        return shorthand;
+    }
+    
     @Override
     public final String getName() {
         return name;

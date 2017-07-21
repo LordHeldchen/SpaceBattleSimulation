@@ -1,9 +1,12 @@
 package logging.battleLogger;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 import battle.BattleConstants;
 import battle.CombatActor;
@@ -15,6 +18,7 @@ import ships.InstantiatedFleet;
 
 public class DebugBattleLogger extends BattleLogger {
     private int round = 0;
+    private int initAtBattleStart = 0;
 
     DebugBattleLogger() {}
 
@@ -44,15 +48,31 @@ public class DebugBattleLogger extends BattleLogger {
     public void shipDestroyed(CombatTarget target) {
         System.out.println("  Target destroyed: " + target);
     }
+    
+    private class WeaponStatsOrderer implements Comparator<Entry<String, WeaponStats>> {
+        @Override
+        public int compare(Entry<String, WeaponStats> o1, Entry<String, WeaponStats> o2) {
+            return o2.getValue().compareTo(o1.getValue());
+        }
+    }
 
     @Override
-    public void endOfBattle(HashSet<InstantiatedFleet> allFleets) {
+    public void startOfBattle(HashSet<InstantiatedFleet> allFleets, int ticksAtBattleStart) {
+        round = 0;
+        initAtBattleStart = ticksAtBattleStart;
+        weaponEffectiveness.clear();
+    }
+
+    @Override
+    public void endOfBattle(HashSet<InstantiatedFleet> allFleets, int ticksAtBattleEnd) {
         System.out.println("\nEnd of battle! Ships remaining: ");
         for (InstantiatedFleet fleet : allFleets) {
             System.out.println(fleet);
         }
         
-        for (String name: weaponEffectiveness.keySet()) {
+        System.out.println("Ticks gone by: " + (initAtBattleStart - ticksAtBattleEnd) + "\n");
+        
+        for (String name: weaponEffectiveness.entrySet().stream().sorted(new WeaponStatsOrderer()).map(entry -> entry.getKey()).collect(Collectors.toList())) {
             System.out.println("Effectiveness of " + name + ":");
             System.out.println(weaponEffectiveness.get(name));
         }
@@ -77,11 +97,12 @@ public class DebugBattleLogger extends BattleLogger {
     }
 
     @Override
-    public void isHit(ShipInstance ship, boolean isHit, int acc, int evade, int addedAccuracy) {
+    public void isHit(ShipInstance ship, boolean isHit, int acc, int evade, int addedAccuracy, String weaponName) {
         if (isHit) {
             System.out.println("  " + ship + " is hit (" + acc + ">" + evade + " with bonus of " + addedAccuracy + ")");
         } else {
             System.out.println("  " + ship + " evades all damage (" + acc + "<=" + evade + " with bonus of " + addedAccuracy + ")");
+            getWeaponStats(weaponName).hasBeenEvaded();
         }
     }
     

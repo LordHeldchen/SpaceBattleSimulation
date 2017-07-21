@@ -3,6 +3,7 @@ package ships;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ships.blueprints.ShipBlueprint;
 
@@ -31,6 +32,10 @@ public class Fleet {
             }
         }
         return instance;
+    }
+    
+    public Set<ShipBlueprint> getTypesOfShipsInFleet() {
+        return classesOfShipsInFleet.keySet();
     }
 
     private int getValueOfShipsInBay(Map<ShipBlueprint, Integer> map) {

@@ -50,6 +50,7 @@ public class SingleBattle {
             }
         }
 
+        logger.startOfBattle(allFleets, combatActors.peek().getCurrentInitiative());
         logger.showFormup(allFleets, allShips, combatActors, enemiesOfEmpireX, numParticipatingFighters);
     }
 
@@ -75,14 +76,15 @@ public class SingleBattle {
     }
 
     public void fight() {
-        if (combatActors.size() > 0) {
-            
+        enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0);
+
+        if (combatActors.size() > 0 && enemiesOfEmpireX.values().stream().anyMatch((InstantiatedFleet f) -> f.size() > 0)) {
             final int highestStartingInitiative = combatActors.peek().getCurrentInitiative();
             while (continueCombat) {
                 logger.nextRound();
 
                 CombatActor actorWithHighestInit = combatActors.poll();
-                
+
                 if (actorWithHighestInit.hasRememberedLostTicks()) {
                     actorWithHighestInit.applyRememberedLostTicks();
                 } else {
@@ -91,8 +93,8 @@ public class SingleBattle {
                         handleDestructionOf(targetOfAction);
                     }
 
-                    enemiesOfEmpireX.values().forEach(
-                            (InstantiatedFleet f) -> continueCombat &= f.size() > 0 && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
+                    enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0
+                            && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
                 }
                 combatActors.add(actorWithHighestInit);
             }
@@ -127,15 +129,17 @@ public class SingleBattle {
         return enemiesOfEmpireX.get(empireID);
     }
 
-    private void endBattle() {
-        logger.endOfBattle(allFleets);
+    public void endBattle() {
+        if (combatActors.size() > 0) {
+            logger.endOfBattle(allFleets, combatActors.peek().getCurrentInitiative());
+        }
     }
 
     public void addFleet(InstantiatedFleet participatingFleet) {
         allFleets.add(participatingFleet);
     }
 
-    private void checkSetup() {
+    public void checkSetup() {
         // TODO Auto-generated method stub
         // Should be used to check all constraints (e.g. that there actually are
         // at least two sides and so on).

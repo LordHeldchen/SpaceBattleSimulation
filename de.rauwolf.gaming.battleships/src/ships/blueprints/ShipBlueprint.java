@@ -17,7 +17,7 @@ import ships.shipHulls.ComponentType;
 import ships.stats.StatType;
 import ships.weapons.WeaponBlueprint;
 
-public class ShipBlueprint implements Blueprint {
+public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     private final HullType hullType;
     
     private final Map<StatType, Integer> statMap;
@@ -25,14 +25,16 @@ public class ShipBlueprint implements Blueprint {
     private final Map<SizeClass, List<WeaponBlueprint>> weapons;
     private final Map<ComponentType, List<ComponentBlueprint>> components;
     private final Map<ShipBlueprint, Integer> fightersInBay;
-    
+
+    private final String shorthand;
     private final String name;
     private final String description;
     
     //XXX MutableBaseStats might be useful for modifiers that are independent of components, e.g. technology?
     //    Otherwise they don't make much sense here, a simple int would do.
 
-    public ShipBlueprint(String name, String description, HullType hullType) {
+    public ShipBlueprint(String shorthand, String name, String description, HullType hullType) {
+        this.shorthand = shorthand;
         this.name = name;
         this.description = description;
         this.hullType = hullType;
@@ -57,9 +59,12 @@ public class ShipBlueprint implements Blueprint {
         fightersInBay = new HashMap<ShipBlueprint, Integer>();
     }
 
-    //TODO: Kann private werden?
     public HullType getHullType() {
         return hullType;
+    }
+
+    public String getShorthand() {
+        return shorthand;
     }
 
     public String getName() {
@@ -154,11 +159,20 @@ public class ShipBlueprint implements Blueprint {
 
     @Override
     public String toString() {
-        return name + "(" + hullType + ")";
+        return name + " (" + hullType + ")";
     }
 
     @Override
     public SizeClass getSize() {
         return hullType.getHullSize();
+    }
+
+    @Override
+    public int compareTo(ShipBlueprint o) {
+        int res = hullType.getHullSize().compareTo(o.hullType.getHullSize());
+        if (res == 0) {
+            res = hullType.getName().compareTo(o.hullType.getName());
+        }
+        return res;
     }
 }

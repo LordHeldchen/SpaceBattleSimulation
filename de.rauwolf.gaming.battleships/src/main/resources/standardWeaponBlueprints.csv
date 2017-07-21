@@ -8,58 +8,58 @@
 # Available weapon sizes:  D (Drone), XXS (Fighter), XS (Bomber), S, M, L, XL, XXL
 # Preferred target sizes: Define which hull size classes the weapon targets first, in the given order. As long as enemy hulls of the given size remain, the target is selected solely
 #                         from enemy hulls of the given size at random. Only if no enemy hulls of the given size remain, the target is selected completely at random from all remaining enemy hulls.
-# shorthand; name;                         accuracy; damage; Armor Pen.; time cost; slot size; ini bonus; value;  dmg-type;  pref. target sizes;  secondary effects (type:value(:duration), type:value(:duration), ...)
 
+# shorthand; name;                         accuracy; damage; Armor Pen.; time cost; slot size; ini bonus; value;  dmg-type;  pref. target sizes;  secondary effects (type:value(:duration), type:value(:duration), ...)
 ### KINETIC     - Autocannons
-vulcan;      'Vulcan' Figher Cannon;             80;     25;         20;         5;       XXS; 0;            30;   KINETIC;  XXS, XS, S;
-ripper;      'Ripper' Light Autocannon;          60;     45;         30;         5;         S; 0;           100;   KINETIC;  S, XXS, XS, M;
-mincer;      'Mincer' Autocannon;                50;     90;         45;         6;         M; 0;           200;   KINETIC;  S, M;
-stampede;    'Stampede' Heavy Autocannon;        40;    230;         60;         7;         L; 0;           500;   KINETIC;  M, L, S;
-avalanche;   'Avalanche' Superheavy Autocannon;  30;    350;         80;         8;        XL; 0;          1000;   KINETIC;  L, M, XL;
+vulcan;      'Vulcan' Figher Cannon;             80;     25;         20;        10;       XXS; 0;            30;   KINETIC;  XXS, XS, S;
+ripper;      'Ripper' Light Autocannon;          60;     45;         30;        10;         S; 0;           100;   KINETIC;  S, XXS, XS, M;
+mincer;      'Mincer' Autocannon;                50;     90;         45;        12;         M; 0;           200;   KINETIC;  S, M;
+stampede;    'Stampede' Heavy Autocannon;        40;    230;         60;        14;         L; 0;           500;   KINETIC;  M, L, S;
+avalanche;   'Avalanche' Superheavy Autocannon;  30;    350;         80;        16;        XL; 0;          1000;   KINETIC;  L, M, XL;
 
 ### KINETIC     - Artillery
-howitzer;    'Howitzer' Support Artillery;        0;    550;         60;        20;         M; 30;          200;   KINETIC;  L, XL, XXL;
-slaughter;   'Slaughter' Heavy Artillery;         0;    900;         80;        20;         L; 50;          500;   KINETIC;  XL, XXL, L;
-monstrosity; 'Monstrosity' Siege Artillery;       0;   1200;         90;        20;        XL; 80;         1000;   KINETIC;  XXL, XL, L;
+howitzer;    'Howitzer' Support Artillery;        0;    550;         60;        40;         M; 30;          200;   KINETIC;  L, XL, XXL;
+slaughter;   'Slaughter' Heavy Artillery;         0;    900;         80;        40;         L; 50;          500;   KINETIC;  XL, XXL, L;
+monstrosity; 'Monstrosity' Siege Artillery;       0;   1200;         90;        40;        XL; 80;         1000;   KINETIC;  XXL, XL, L;
 
 ### KINETIC     - Railguns
-dagger;      'Dagger' Light Railgun;             50;    160;        100;        40;         S; 10;          150;   KINETIC;  L, XL, M;            spiercepercent:50
-crossbow;    'Crossbow' Strike Railgun;          40;    320;        120;        40;         M; 15;          400;   KINETIC;  XL, XXL, L;          spiercepercent:50
-javelin;     'Javelin' Heavy Railgun;            30;    650;        150;        40;         L; 25;          750;   KINETIC;  XXL, XL;             spiercepercent:50
+dagger;      'Dagger' Light Railgun;             50;    160;        100;        80;         S; 10;          150;   KINETIC;  L, XL, M;            spiercepercent:50
+crossbow;    'Crossbow' Strike Railgun;          40;    320;        120;        80;         M; 15;          400;   KINETIC;  XL, XXL, L;          spiercepercent:50
+javelin;     'Javelin' Heavy Railgun;            30;    650;        150;        80;         L; 25;          750;   KINETIC;  XXL, XL;             spiercepercent:50
 
 ### HEAT        - Pulse Lasers
-predator;    'Predator' Laser Cannon;            90;     15;          0;         2;       XXS; 0;            30;      HEAT;  XXS, XS, S;
-spike;       'Spike' Combat Laser Array;         70;     40;         10;         3;         S; 0;           120;      HEAT;  XXS, XS, S;
-blaze;       'Blaze' Light Pulse Laser;          60;     65;         20;         3;         M; 0;           250;      HEAT;  S, XXS, XS;
-firestarter; 'Firestarter' Pulse Laser Array;    50;    160;         40;         4;         L; 0;           600;      HEAT;  S, M;
-overlord;    'Overlord' Heavy Pulse Laser;       40;    250;         60;         5;        XL; 0;          1050;      HEAT;  M, S;
+predator;    'Predator' Laser Cannon;            90;     15;          0;         4;       XXS; 0;            30;      HEAT;  XXS, XS, S;
+spike;       'Spike' Combat Laser Array;         70;     40;         10;         6;         S; 0;           120;      HEAT;  XXS, XS, S;
+blaze;       'Blaze' Light Pulse Laser;          60;     65;         20;         6;         M; 0;           250;      HEAT;  S, XXS, XS;
+firestarter; 'Firestarter' Pulse Laser Array;    50;    160;         40;         8;         L; 0;           600;      HEAT;  S, M;
+overlord;    'Overlord' Heavy Pulse Laser;       40;    250;         60;        10;        XL; 0;          1050;      HEAT;  M, S;
 
 ### HEAT        - Beam Lasers
-lance;       'Lance' Laser Beam;                 40;     20;         30;         1;         M; 5;           200;      HEAT;  M, L;                degrade:1
-sunfire;     'Sunfire' Corona Projector;       1000;    230;          0;         1;       XXL; 50;        20000;      HEAT;  XXS, XS, S;          degrade:5
-apocalypse;  'Apocalypse' Giga Laser;             0;    200;        100;         1;       XXL; 50;        20000;      HEAT;  XXL, XL, L;          degrade:5
+lance;       'Lance' Laser Beam;                 40;     10;         30;         1;         M; 5;           200;      HEAT;  M, L;                degrade:1
+sunfire;     'Sunfire' Corona Projector;       1000;    200;          0;         1;       XXL; 50;        10000;      HEAT;  XXS, XS, S;          degrade:5
+apocalypse;  'Apocalypse' Giga Laser;             0;    200;       1000;         1;       XXL; 50;        10000;      HEAT;  XXL, XL, L;          degrade:5
 
 ### EXPLOSIVE   - Torpedoes
-beast;       'Beast' Plasma Torpedo Launcher;     0;   1200;        120;        50;         M; 20;          400; EXPLOSIVE;  XXL, XL, L;
+beast;       'Beast' Plasma Torpedo Launcher;     0;   1200;        120;       100;         M; 20;          400; EXPLOSIVE;  XXL, XL, L;
 
 ### EXPLOSIVE   - Assault Missiles
-jaeger;      'Jäger' Light Missiles;             60;    100;         30;        20;       XXS; 0;            50; EXPLOSIVE;  S, M, XXS, XS;
-greyhound;   'Greyound' Assault Missiles;        35;    200;         80;        20;         M; 10;          300; EXPLOSIVE;  M, L, XL;
-reaper;      'Reaper' Cruise Missiles;           20;   1000;        100;        30;         L; 50;          900; EXPLOSIVE;  L, XL, XXL;
+jaeger;      'Jäger' Light Missiles;             50;    100;         30;        40;       XXS; 0;            50; EXPLOSIVE;  S, M, XXS, XS;
+greyhound;   'Greyound' Assault Missiles;        35;    200;         80;        40;         M; 10;          300; EXPLOSIVE;  M, L, XL;
+reaper;      'Reaper' Cruise Missiles;           20;   1000;        100;        60;         L; 50;          900; EXPLOSIVE;  L, XL, XXL;
 
 ### EXPLOSIVE   - Swarm Missiles
-hornet;      'Hornet' Swarm Missile Launcher;    70;    120;         25;         3;         L; 0;           650; EXPLOSIVE;  XXS, XS, S;
+hornet;      'Hornet' Swarm Missile Launcher;    70;     80;         25;         4;         L; 0;           650; EXPLOSIVE;  XXS, XS, S;
 
 ### EM          - Ion Weapons
-current;     'Current' Light Ion Beam;           80;      5;         40;         1;         S; 0;           150;        EM;  XXS, XS, S;          tickloss:10:1
-tide;        'Tide' Ion Cannon;                  50;     75;         60;        10;         M; 0;           300;        EM;  M, S, L;             tickloss:50:3
+current;     'Current' Light Ion Beam;           80;      3;         40;         1;         S; 0;           150;        EM;  XXS, XS, S;          tickloss:5:1
+tide;        'Tide' Ion Cannon;                  50;     75;         60;        20;         M; 0;           300;        EM;  M, S, L;             tickloss:50:3
 
 ### PARTICLE    - Strike Weapons
-doorkeeper;  'Doorkeeper' Tachyon Lance;         10;   2000;        150;        50;        XL; 50;         1200;  PARTICLE;  XXL, XL, L;
-terminator;  'Terminator' Graviton Devastator;   30;  10000;       1000;       100;       XXL; 100;       20000;  PARTICLE;  XL, XXL, L;          spiercepercent:100
+doorkeeper;  'Doorkeeper' Tachyon Lance;         10;   2000;        150;       100;        XL; 50;         1200;  PARTICLE;  XXL, XL, L;
+terminator;  'Terminator' Graviton Devastator;   30; 100000;       1000;       200;       XXL; 100;       10000;  PARTICLE;  XL, XXL, L;          spiercepercent:100
 
 ### PARTICLE    - Continuous Weapons
-sadist;      'Sadist' Particle Beam;             50;      8;        150;         1;         S; 0;           180;  PARTICLE;  S, M, L;             spiercepercent:-50
+sadist;      'Sadist' Particle Beam;             50;      4;        150;         1;         S; 0;           180;  PARTICLE;  S, M, L;             spiercepercent:-50
 
 
 # Bomber Weapons

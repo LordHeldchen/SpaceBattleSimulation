@@ -20,7 +20,7 @@ public enum StatType {
     
     SHIELD_HP("shield hitpoints", true),
     SHIELD_REGEN("shield regeneration", true),
-    SHIELD_BREAK_DURATION("shield break duration", true),
+    SHIELD_BREAK_DURATION("shield break duration", false),
     
     RESISTANCE_HEAT("heat resistance", false),
     RESISTANCE_EM("em resistance", false),

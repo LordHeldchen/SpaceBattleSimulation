@@ -4,14 +4,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import ships.hulls.HullType;
 import ships.hulls.HullTypeResourceLoader;
 
 public class StandardConfigurationResourceLoader {
     private static Map<String, ShipBlueprint> standardConfigurations;
+
+    private enum Position {
+        POS_SHORTHAND(0), POS_NAME(1), POS_HULL_TYPE_SHORTHAND(2), POS_WEAPON_SHORTHAND_LIST(3), POS_COMPONENT_SHORTHAND_LIST(4), POS_SHIPS_IN_BAY(
+                5), POS_DESCRIPTION(6);
+
+        private int pos;
+
+        private Position(int pos) {
+            this.pos = pos;
+        }
+
+        private int getPosition() {
+            return pos;
+        }
+    }
 
     private static Map<String, ShipBlueprint> getStandardConfigurations() throws InstantiationException, NotEnoughtSlotsException, IOException {
         if (standardConfigurations == null) {
@@ -32,19 +49,19 @@ public class StandardConfigurationResourceLoader {
                 // x times ships in bay (separator ",", format
                 // "hullType-shorthand: num"); description
                 String[] elements = line.split(";");
-                String shorthand = elements[0].trim();
-                String name = elements[1].trim();
-                String hullTypeShorthand = elements[2].trim();
+                String shorthand = elements[Position.POS_SHORTHAND.getPosition()].trim();
+                String name = elements[Position.POS_NAME.getPosition()].trim();
+                String hullTypeShorthand = elements[Position.POS_HULL_TYPE_SHORTHAND.getPosition()].trim();
 
                 HullType hullType = HullTypeResourceLoader.getBasicHullType(hullTypeShorthand);
 
-                String[] weaponShorthands = elements[3].split(",");
-                String[] componentShorthands = elements[4].split(",");
-                String[] shipsInBay = elements[5].split(",");
+                String[] weaponShorthands = elements[Position.POS_WEAPON_SHORTHAND_LIST.getPosition()].split(",");
+                String[] componentShorthands = elements[Position.POS_COMPONENT_SHORTHAND_LIST.getPosition()].split(",");
+                String[] shipsInBay = elements[Position.POS_SHIPS_IN_BAY.getPosition()].split(",");
 
-                String description = elements[6].trim();
+                String description = elements[Position.POS_DESCRIPTION.getPosition()].trim();
 
-                ShipBlueprint blueprint = new ShipBlueprint(name, description, hullType);
+                ShipBlueprint blueprint = new ShipBlueprint(shorthand, name, description, hullType);
                 baysToFill.put(blueprint, shipsInBay);
 
                 for (String weaponShorthand : weaponShorthands) {
@@ -75,7 +92,61 @@ public class StandardConfigurationResourceLoader {
         return standardConfigurations;
     }
 
-    public static ShipBlueprint getStandardConfiguration(String configShorthand) throws InstantiationException, NotEnoughtSlotsException, IOException {
+    public static ShipBlueprint getBlueprint(String configShorthand) throws InstantiationException, NotEnoughtSlotsException, IOException {
         return getStandardConfigurations().get(configShorthand);
+    }
+
+    public static String[] getAvailableBlueprintShorthands() throws InstantiationException, NotEnoughtSlotsException, IOException {
+        Collection<String> keySet = getStandardConfigurations().keySet();
+        String[] ret = new String[keySet.size()];
+        return keySet.toArray(ret);
+    }
+
+    public static ShipBlueprint[] getAvailableBlueprints() throws InstantiationException, NotEnoughtSlotsException, IOException {
+        Collection<ShipBlueprint> shipBlueprints = getStandardConfigurations().values().stream().sorted().collect(Collectors.toList());
+        ShipBlueprint[] ret = new ShipBlueprint[shipBlueprints.size()];
+        return shipBlueprints.toArray(ret);
+    }
+
+    private static void appendAttribute(StringBuilder saveStringBuilder, ShipBlueprint blueprint, Position position) {
+        switch (position) {
+            case POS_SHORTHAND:
+                saveStringBuilder.append(blueprint.getShorthand());
+                break;
+            case POS_NAME:
+                saveStringBuilder.append(blueprint.getName());
+                break;
+            case POS_COMPONENT_SHORTHAND_LIST:
+                saveStringBuilder.append(blueprint.getComponents().stream().map(comp -> comp.getShorthand()).collect(Collectors.joining(",")));
+                break;
+            case POS_DESCRIPTION:
+                saveStringBuilder.append(blueprint.getDescription());
+                break;
+            case POS_HULL_TYPE_SHORTHAND:
+                saveStringBuilder.append(blueprint.getHullType().getShorthand());
+                break;
+            case POS_SHIPS_IN_BAY:
+                saveStringBuilder.append(blueprint.getFighterTypesInBay().entrySet().stream()
+                        .map(entry -> entry.getKey().getShorthand() + ": " + entry.getValue()).collect(Collectors.joining(", ")));
+                break;
+            case POS_WEAPON_SHORTHAND_LIST:
+                saveStringBuilder.append(blueprint.getWeapons().stream().map(weap -> weap.getShorthand()).collect(Collectors.joining(", ")));
+                break;
+            default:
+                throw new RuntimeException("Error while saving blueprint, got position " + position);
+        }
+    }
+
+    public static void saveBlueprint(ShipBlueprint blueprint) {
+        StringBuilder saveStringBuilder = new StringBuilder();
+        boolean first = true;
+        for (Position pos: Position.values()) {
+            if (!first) {
+                saveStringBuilder.append("; ");
+            }
+            first = false;
+            appendAttribute(saveStringBuilder, blueprint, pos);
+        }
+        System.out.println("String that would have been saved: " + saveStringBuilder.toString());
     }
 }

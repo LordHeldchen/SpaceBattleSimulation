@@ -39,7 +39,7 @@ public class WeaponResourceLoader {
                 int iniBonus = new Integer(elements[7].trim());
                 int value = new Integer(elements[8].trim());
                 DamageType dmgType = DamageType.valueOf(elements[9].trim());
-                
+
                 List<SizeClass> preferredTargetSizes = new LinkedList<SizeClass>();
                 String[] preferredTargets = elements[10].trim().split(",");
                 for (String preferredTarget : preferredTargets) {
@@ -68,7 +68,8 @@ public class WeaponResourceLoader {
                         weaponEffects.put(type, values);
                     }
                 }
-                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(name, size, accuracy, damage, armorPenetration, timeCost, iniBonus, value, dmgType, preferredTargetSizes, weaponEffects));
+                standardWeaponBlueprints.put(shorthand, new WeaponBlueprint(shorthand, name, size, accuracy, damage, armorPenetration, timeCost, iniBonus,
+                        value, dmgType, preferredTargetSizes, weaponEffects));
             }
         }
 

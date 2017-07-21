@@ -46,7 +46,7 @@ public class ComponentResourceLoader {
                     }
                 }
 
-                standardComponentBlueprints.put(shorthand, new ComponentBlueprint(name, type, value, factors, flatBonuses));
+                standardComponentBlueprints.put(shorthand, new ComponentBlueprint(shorthand, name, type, value, factors, flatBonuses));
             }
         }
 

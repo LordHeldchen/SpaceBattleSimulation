@@ -8,23 +8,25 @@ import ships.shipHulls.ComponentType;
 import ships.stats.StatType;
 
 public class HullType {
-    private final Map<SizeClass, Integer> availableWeaponSlots = new HashMap<SizeClass, Integer>();
+    private final Map<SizeClass, Integer>     availableWeaponSlots    = new HashMap<SizeClass, Integer>();
     private final Map<ComponentType, Integer> availableComponentSlots = new HashMap<ComponentType, Integer>();
-    private final Map<SizeClass, Integer> baysBySize = new HashMap<SizeClass, Integer>();
+    private final Map<SizeClass, Integer>     baysBySize              = new HashMap<SizeClass, Integer>();
 
-    private final Map<StatType, Integer> baseStatMap;
+    private final Map<StatType, Integer>      baseStatMap;
 
-    private final int value;
-    private final String description;
-    private final String name;
-    private final SizeClass sizeCategory;
+    private final String                      shorthand;
+    private final String                      name;
+    private final int                         value;
+    private final String                      description;
+    private final SizeClass                   sizeCategory;
 
-    public HullType(String name, SizeClass sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold, int baseHullStrength,
-            int baseContainment, int baseEPM, int baseStartInitiative, int baseEvasion, int value, String description) {
+    public HullType(String shorthand, String name, SizeClass sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold,
+            int baseHullStrength, int baseContainment, int baseEPM, int baseStartInitiative, int baseEvasion, int value, String description) {
+        this.shorthand = shorthand;
         this.name = name;
         this.sizeCategory = sizeCategory;
         this.baseStatMap = new HashMap<StatType, Integer>();
-        
+
         baseStatMap.put(StatType.THRESHOLD_GLANCE, baseGlanceThreshold);
         baseStatMap.put(StatType.THRESHOLD_HIT, baseHitThreshold);
         baseStatMap.put(StatType.THRESHOLD_CRIT, baseCritThreshold);
@@ -33,13 +35,17 @@ public class HullType {
         baseStatMap.put(StatType.EPM, baseEPM);
         baseStatMap.put(StatType.INITIATIVE, baseStartInitiative);
         baseStatMap.put(StatType.EVASION, baseEvasion);
-        
+
         this.value = value;
         this.description = description;
     }
 
-    public String toString() {
+    public String getName() {
         return name;
+    }
+
+    public String getShorthand() {
+        return shorthand;
     }
 
     public int getBaseStatFor(StatType stat) {
@@ -77,10 +83,6 @@ public class HullType {
         return description;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Map<SizeClass, Integer> getBaysBySize() {
         return baysBySize;
     }
@@ -91,5 +93,10 @@ public class HullType {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -28,6 +28,7 @@ public class ShipInstance implements CombatTarget {
 
     private ShieldInstance                           shieldInstance;
 
+    // Beinhaltet derzeit nur Widerstände
     private final Map<StatType, MutableStat>         hullStats;
     private double                                   currentHullStrength;
 
@@ -38,8 +39,6 @@ public class ShipInstance implements CombatTarget {
     private final int                                idOfOwningEmpire;
 
     private LinkedList<CombatActor>                  combatActorsOfShip;
-
-    // Beinhaltet derzeit nur Widerstände
 
     private final int                                startingInitiative;
 

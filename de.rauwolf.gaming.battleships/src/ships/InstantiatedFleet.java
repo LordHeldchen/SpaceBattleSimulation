@@ -73,6 +73,10 @@ public class InstantiatedFleet implements Iterable<ShipInstance>, Collection<Shi
         return allShipsInFleet.get(i);
     }
 
+    // TODO: "containsWoundedOfSize" would allow to target specifically already wounded enemies to finish them off.
+    // Currently, battle is somewhat binary if large fleets of small ships fight against small fleets of large ships:
+    // Either the small ones win before the large ones can shoot, or the large ones tank all the damage without loss and crush the small ones.
+    // The "in-between" area where either side takes losses despite winning is quite small (esp. for the bigger ships).
     public boolean containsSize(SizeClass sizeType) {
         return sizesOfShipsInFleet.containsKey(sizeType);
     }
@@ -206,10 +210,14 @@ public class InstantiatedFleet implements Iterable<ShipInstance>, Collection<Shi
         String ret = allShipsInFleet.size() + " Ships in this fleet:\n";
         int fleetValue = 0;
         for (ShipBlueprint shipClass : classesOfShipsInFleet.keySet()) {
-            ret += "# " + shipClass.getName() + " --> " + classesOfShipsInFleet.get(shipClass).size() + "\n";
+
+            int shipTypeValue = shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass).size();
+            shipTypeValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * classesOfShipsInFleet.get(shipClass).size();
+            
+            ret += "# " + String.format("%1$-" + 30 + "s", shipClass.getName()) + " --> " + classesOfShipsInFleet.get(shipClass).size() + " (value " + shipTypeValue + ")\n";
             ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), 1, classesOfShipsInFleet.get(shipClass).size());
-            fleetValue += shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass).size();
-            fleetValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * classesOfShipsInFleet.get(shipClass).size();
+            
+            fleetValue += shipTypeValue;
         }
         ret += " --> Fleet value: " + fleetValue + "\n";
         return ret;

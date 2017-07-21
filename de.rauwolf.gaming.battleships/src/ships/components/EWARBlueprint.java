@@ -9,20 +9,27 @@ import ships.shipHulls.ComponentType;
 import ships.stats.StatType;
 
 public class EWARBlueprint extends CombatActor implements Component {
-    private final String                     name;
-    private final ComponentType              type;
-    private final int                        value;
+    private final String                 shorthand;
+    private final String                 name;
+    private final ComponentType          type;
+    private final int                    value;
     private final Map<StatType, Double>  factors;
     private final Map<StatType, Integer> flatBonuses;
 
-    public EWARBlueprint(String name, ComponentType type, int value, Map<StatType, Double> factors, Map<StatType, Integer> flatBonuses,
+    public EWARBlueprint(String shorthand, String name, ComponentType type, int value, Map<StatType, Double> factors, Map<StatType, Integer> flatBonuses,
             int startInitiative, int timeCost) {
         super(startInitiative, timeCost);
+        this.shorthand = shorthand;
         this.name = name;
         this.type = type;
         this.value = value;
         this.factors = factors;
         this.flatBonuses = flatBonuses;
+    }
+
+    @Override
+    public final String getShorthand() {
+        return shorthand;
     }
 
     @Override

@@ -46,28 +46,28 @@ public class StarSystem {
         Fleet fleetD = new Fleet(participatingEmpireD);
 
         fleetA.add(standardFighterBlueprint, 500);
-        fleetA.add(heavyFighterBlueprint, 100);
+        fleetA.add(heavyFighterBlueprint, 300);
         fleetA.add(lancerBlueprint, 100);
-        fleetA.add(lightFleetCruiserBP, 20);
-        fleetA.add(supportArtilleryCruiserBP, 10);
-        fleetA.add(fireSupportDreadnoughtBP, 10);
+        fleetA.add(lightFleetCruiserBP, 50);
+        fleetA.add(supportArtilleryCruiserBP, 20);
+        fleetA.add(fireSupportDreadnoughtBP, 20);
 
         fleetB.add(bomberBlueprint, 100);
-        fleetB.add(interceptorBlueprint, 200);
+        fleetB.add(interceptorBlueprint, 1000);
         fleetB.add(hunterBlueprint, 200);
         fleetB.add(piercerFrigateBP, 50);
         fleetB.add(defenderBlueprint, 50);
         fleetB.add(combatDestroyerBlueprint, 30);
-        fleetB.add(combatBattleCruiserBP, 10);
+        fleetB.add(combatBattleCruiserBP, 30);
         fleetB.add(artilleryDreadnoughtBP, 5);
 
         fleetC.add(mixedCarrierBP, 3);
-        fleetC.add(assFrigBlueprint, 100);
-        fleetC.add(fireSupprtHeavyCruiserBP, 10);
+        fleetC.add(assFrigBlueprint, 300);
+        fleetC.add(fireSupprtHeavyCruiserBP, 30);
         fleetC.add(siegeTitanBP, 1);
 
-        fleetD.add(screenBattleshipBP, 10);
-        fleetD.add(brawlerBattleshipBP, 10);
+        fleetD.add(screenBattleshipBP, 20);
+        fleetD.add(brawlerBattleshipBP, 20);
         fleetD.add(stunBattlecruiserBP, 50);
 
         listOfFleets.add(fleetA);
@@ -79,27 +79,27 @@ public class StarSystem {
     }
 
     public static Set<Fleet> getAllFleetsFromStarSystem() throws InstantiationException, NotEnoughtSlotsException, IOException {
-        standardFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("sfighter");
-        interceptorBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("interceptor");
-        heavyFighterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("gboat");
-        bomberBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("pbomb");
-        hunterBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("hunter");
-        lancerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("lbomb");
-        assFrigBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("assfrig");
-        piercerFrigateBP = StandardConfigurationResourceLoader.getStandardConfiguration("prcfrig");
-        defenderBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("defender");
-        combatDestroyerBlueprint = StandardConfigurationResourceLoader.getStandardConfiguration("cdest");
-        lightFleetCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("lfcrui");
-        supportArtilleryCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("sacruiser");
-        combatBattleCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("cbcruiser");
-        stunBattlecruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("stbcruiser");
-        fireSupprtHeavyCruiserBP = StandardConfigurationResourceLoader.getStandardConfiguration("fshcruiser");
-        brawlerBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("brbship");
-        screenBattleshipBP = StandardConfigurationResourceLoader.getStandardConfiguration("scbship");
-        fireSupportDreadnoughtBP = StandardConfigurationResourceLoader.getStandardConfiguration("fsdnought");
-        artilleryDreadnoughtBP = StandardConfigurationResourceLoader.getStandardConfiguration("ardnought");
-        mixedCarrierBP = StandardConfigurationResourceLoader.getStandardConfiguration("mixcarrier");
-        siegeTitanBP = StandardConfigurationResourceLoader.getStandardConfiguration("stitan");
+        standardFighterBlueprint = StandardConfigurationResourceLoader.getBlueprint("XXS - sfighter");
+        interceptorBlueprint = StandardConfigurationResourceLoader.getBlueprint("interceptor");
+        heavyFighterBlueprint = StandardConfigurationResourceLoader.getBlueprint("gboat");
+        bomberBlueprint = StandardConfigurationResourceLoader.getBlueprint("pbomb");
+        hunterBlueprint = StandardConfigurationResourceLoader.getBlueprint("hunter");
+        lancerBlueprint = StandardConfigurationResourceLoader.getBlueprint("lbomb");
+        assFrigBlueprint = StandardConfigurationResourceLoader.getBlueprint("assfrig");
+        piercerFrigateBP = StandardConfigurationResourceLoader.getBlueprint("prcfrig");
+        defenderBlueprint = StandardConfigurationResourceLoader.getBlueprint("defender");
+        combatDestroyerBlueprint = StandardConfigurationResourceLoader.getBlueprint("cdest");
+        lightFleetCruiserBP = StandardConfigurationResourceLoader.getBlueprint("lfcrui");
+        supportArtilleryCruiserBP = StandardConfigurationResourceLoader.getBlueprint("sacruiser");
+        combatBattleCruiserBP = StandardConfigurationResourceLoader.getBlueprint("cbcruiser");
+        stunBattlecruiserBP = StandardConfigurationResourceLoader.getBlueprint("stbcruiser");
+        fireSupprtHeavyCruiserBP = StandardConfigurationResourceLoader.getBlueprint("fshcruiser");
+        brawlerBattleshipBP = StandardConfigurationResourceLoader.getBlueprint("brbship");
+        screenBattleshipBP = StandardConfigurationResourceLoader.getBlueprint("scbship");
+        fireSupportDreadnoughtBP = StandardConfigurationResourceLoader.getBlueprint("fsdnought");
+        artilleryDreadnoughtBP = StandardConfigurationResourceLoader.getBlueprint("ardnought");
+        mixedCarrierBP = StandardConfigurationResourceLoader.getBlueprint("mixcarrier");
+        siegeTitanBP = StandardConfigurationResourceLoader.getBlueprint("stitan");
 
         return prepareMultiwayBattle();
     }
