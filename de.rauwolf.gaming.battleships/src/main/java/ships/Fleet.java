@@ -3,10 +3,14 @@ package main.java.ships;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import main.java.battle.ShipInstance;
 import main.java.characters.Admiral;
 import main.java.ships.blueprints.ShipBlueprint;
+import main.java.ships.blueprints.SizeClass;
+import main.java.ships.stats.StatType;
 
 public class Fleet {
     private HashMap<ShipBlueprint, Integer> classesOfShipsInFleet;
@@ -28,13 +32,29 @@ public class Fleet {
     }
 
     public InstantiatedFleet instantiate() {
-        InstantiatedFleet instance = new InstantiatedFleet();
-        for (ShipBlueprint blueprint: classesOfShipsInFleet.keySet()) {
-            for (int i = 0; i < classesOfShipsInFleet.get(blueprint); i++) {
-                instance.add(blueprint.createInstance(owningEmpireID));
+        InstantiatedFleet fleetInstance = new InstantiatedFleet();
+        Map<SizeClass, Map<StatType, Integer>> admiralFlatBoni;
+        if (admiral != null) {
+            admiralFlatBoni = admiral.getAllFlatBoni();
+            fleetInstance.setAdmiral(admiral);
+        } else {
+            admiralFlatBoni = new HashMap<SizeClass, Map<StatType, Integer>>();
+            for (SizeClass size: SizeClass.values()) {
+                admiralFlatBoni.put(size, new HashMap<StatType, Integer>());
             }
         }
-        return instance;
+
+        for (ShipBlueprint blueprint: classesOfShipsInFleet.keySet()) {
+            Map<StatType, Integer> boniMap = admiralFlatBoni.get(blueprint.getSize());
+            for (int i = 0; i < classesOfShipsInFleet.get(blueprint); i++) {
+                ShipInstance shipInstance = blueprint.createInstance(owningEmpireID);
+                for (Entry<StatType, Integer> bonus: boniMap.entrySet()) {
+                    shipInstance.addFlatBonusFor(bonus.getKey(), "admiral", bonus.getValue());
+                }
+                fleetInstance.add(shipInstance);
+            }
+        }
+        return fleetInstance;
     }
     
     public Set<ShipBlueprint> getTypesOfShipsInFleet() {
@@ -68,6 +88,9 @@ public class Fleet {
             ret += getTypesOfShipsInBay(shipClass.getFighterTypesInBay(), 1, classesOfShipsInFleet.get(shipClass));
             fleetValue += shipClass.getValueOfShipInstance() * classesOfShipsInFleet.get(shipClass);
             fleetValue += getValueOfShipsInBay(shipClass.getFighterTypesInBay()) * classesOfShipsInFleet.get(shipClass);
+        }
+        if (admiral != null) {
+            ret += admiral.toString();
         }
         ret += " --> Fleet value: " + fleetValue + "\n";
         return ret;

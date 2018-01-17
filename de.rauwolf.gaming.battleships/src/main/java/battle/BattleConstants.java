@@ -9,14 +9,14 @@ import main.java.ships.shipHulls.DamageType;
 import main.java.ships.stats.StatType;
 
 public class BattleConstants {
-    public static final int                         cloakingRandomizerMaximum    = 100;
+    public static final int                          cloakingRandomizerMaximum    = 100;
 
-    public static final int                         penetrationRandomizerMaximum = 100;
-    public static final double                      deflectMultiplier            = 0.0d;
-    public static final double                      glanceMultiplier             = 0.35d;
-    public static final double                      hitMultiplier                = 1.0d;
-    public static final double                      critMultiplier               = 1.5d;
-    public static final double                      maxChanceExplodeOnCrit       = 1.0d;
+    public static final int                          penetrationRandomizerMaximum = 100;
+    public static final double                       deflectMultiplier            = 0.0d;
+    public static final double                       glanceMultiplier             = 0.35d;
+    public static final double                       hitMultiplier                = 1.0d;
+    public static final double                       critMultiplier               = 1.5d;
+    public static final double                       maxChanceExplodeOnCrit       = 1.0d;
 
     public static final Map<HullDamageLevel, Double> damageLevelToFactorMap       = new HashMap<HullDamageLevel, Double>();
 
@@ -27,14 +27,15 @@ public class BattleConstants {
         damageLevelToFactorMap.put(HullDamageLevel.CRIT, critMultiplier);
     }
 
-    public static final float                  minChanceToHit               = 0.05f;
+    public static final float                   minChanceToHit                  = 0.05f;
 
-    public static final int                    accuracyRandomizerMaximum    = 100;
+    public static final int                     accuracyRandomizer              = 100;
+    public static final int                     preferredTargetChanceRandomizer = 100;
 
-    public static final int                    battleSpeedRandomizerMaximum = 50;
-    public static final Random                 randomizer                   = new Random();
+    public static final int                     battleSpeedRandomizer           = 50;
+    public static final Random                  randomizer                      = new Random();
 
-    public static final Map<SizeClass, Integer> shipSizeScaling              = new HashMap<SizeClass, Integer>();
+    public static final Map<SizeClass, Integer> shipSizeScaling                 = new HashMap<SizeClass, Integer>();
 
     static {
         shipSizeScaling.put(SizeClass.XXS, 1);

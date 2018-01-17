@@ -21,7 +21,7 @@ public class HullType {
     private final SizeClass                   sizeCategory;
 
     public HullType(String shorthand, String name, SizeClass sizeCategory, int baseGlanceThreshold, int baseHitThreshold, int baseCritThreshold,
-            int baseHullStrength, int baseContainment, int baseEPM, int baseStartInitiative, int baseEvasion, int value, String description) {
+            int baseHullStrength, int baseContainment, int baseEPM, int baseStartInitiative, int baseManeuverability, int value, String description) {
         this.shorthand = shorthand;
         this.name = name;
         this.sizeCategory = sizeCategory;
@@ -34,7 +34,7 @@ public class HullType {
         baseStatMap.put(StatType.CONTAINMENT, baseContainment);
         baseStatMap.put(StatType.EPM, baseEPM);
         baseStatMap.put(StatType.INITIATIVE, baseStartInitiative);
-        baseStatMap.put(StatType.EVASION, baseEvasion);
+        baseStatMap.put(StatType.MANEUVERABILITY, baseManeuverability);
 
         this.value = value;
         this.description = description;

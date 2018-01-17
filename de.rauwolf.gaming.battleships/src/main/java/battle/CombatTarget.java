@@ -7,6 +7,7 @@ public interface CombatTarget {
     boolean isDestroyed();
 	boolean reactBeforeAttacker(ShipInstance attacker);
 
+    void startCurrentBattle();
 	void endCurrentBattle();
 
 	List<CombatActor> getCombatActors();

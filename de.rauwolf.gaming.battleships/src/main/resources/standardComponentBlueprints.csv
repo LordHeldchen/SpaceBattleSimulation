@@ -1,5 +1,5 @@
 # "modifer" can be a a flat bonus (denoted as "\d+" or a factor (denoted as "\d+(.\d+)?%").
-# Flat bonuses are applied before factors. Modifiers of the same type (stat and value) are added before they are applied.
+# Flat bonuses are applied before factors. Modifiers of the same type are added before they are applied.
 # Possible modifed stats are:
 ### acc   --> Accuracy
 ### ini   --> Bonus initiative at battle start. Base initiative is rolled as (baseStartInitiative of hull + rand(200)).
@@ -9,7 +9,7 @@
 ### cont  --> Containment: Lowers Chance of instant explosion on a critical hit. Formula is
 ###                        (criticalDamageAfterShields - containment) / currentHullStrength
 ###                        If currentHullStrength reaches zero the ship still is destroyed, even if containment would prevent an explosion.
-### eva   --> Evasion: acc + rand(100) needs to be greater than this in order to hit. Minimum chance to hit always is 5%, accuracy of a specific shot is buffed accordingly if necessary.
+### man   --> Maneuverability: acc + rand(100) needs to be greater than this in order to hit. Minimum chance to hit always is 5%, accuracy of a specific shot is buffed accordingly if necessary.
 ### shp   --> Shield hit points
 ### sreg  --> Shield regeneration in tenths per tick. Only in effect if shield is not broken or shield regeneration is delayed for some reason (e.g. initiative of ship is not high enough).
 ### sbrk  --> Duration in ticks shields are knocked out when broken. Calculated result is divided by amount of flat sbrk-values,
@@ -22,10 +22,10 @@
 #
 # Shield mechanics:
 # Shields deflect damage _before_ the hit type is determined (i.e. deflected, glancing hit, normal hit or a critical blow).
-# Therefore shields always take damage if the ship is hit, but they do regenerate quite fast and prevent any critical damage as long as they are up.
-# Even if they finally break, damage is lowered by their remaining strength, again before the hit type is determined.
+# Therefore shields always take damage if the ship is hit, but they do regenerate quite fast and prevent any critical damage (and therefore explosions) as long as they are up.
+# Even if they finally break, damage is lowered by their remaining strength, again before the hit type is determined and corresponding multipliers are applied.
 #
-# Shield hitpoints (shp), shield regeneration (sreg), EPM and value do scale with the hull size the component is installed in, as does the value for all components. Factors per hull size class are:
+# Shield hitpoints (shp), shield regeneration (sreg), EPM and value do scale with the hull size the component is installed in. Factors per hull size class are:
 #  XXS:  1
 #   XS:  2
 #    S:  4
@@ -37,24 +37,24 @@
 # shorthand; name;                     slot type; value; x times: (modified stat: modifier)
 
 ##### D - Defense (usually physical defense, e.g. armor)
-larmor;      Light Armor;              D;             0;    glan: -20; hit: -10; crit: -10; eva: 10%; ini: 10
-harmor;      Heavy Armor;              D;            30;    glan: 10; hit: 5; eva: -10
-lqarmor;     Liquid Armor;             D;            50;    glan: -10; hit: 10; crit: 10
-rbulk;       Reinforced Bulkheads;     D;            50;    crit: 10; cont: 50%
+larmor;      Light Armor;              D;             0;    glan: -20; hit: -10; crit: -10; man: 10%; ini: 10
+harmor;      Heavy Armor;              D;            30;    glan: 10; hit: 5; man: -10
+lqarmor;     Liquid Armor;             D;            50;    glan: -20; hit: 10; crit: 5
+rbulk;       Reinforced Bulkheads;     D;            50;    crit: 10; cont: 50%; man: -10
 rarmor;      Reactive Armor;           D;            30;    r-kin: 30; crit: 5
 hshield;     Heat Shield;              D;            30;    r-heat: 30; glan: 5
 hardsys;     Hardened Systems;         D;            20;    r-em: 20; epm: 100%
 
 ##### E - Electronics (E-Warfare, support systems and shields)
 tcomp;       Targeting Computer;       E;            20;    acc: 10%
-cloak;       Cloaking Device;          E;           100;    ini: 10; eva: 10
-lshield;     Light shield;             E;            30;    shp: 20; sreg: 2; sbrk: 10
-fshield;     Fortress Shield;          E;            50;    shp: 100; sreg: 1; sbrk: 50
-pshield;     Phase Shield;             E;            50;    shp: 20; sreg: 5; sbrk: 30
+cloak;       Cloaking Device;          E;           100;    ini: 10; man: 10
+lshield;     Light shield;             E;            30;    shp: 30; sreg: 2; sbrk: 10
+fshield;     Fortress Shield;          E;            50;    shp: 100; sreg: 1; sbrk: 30
+pshield;     Phase Shield;             E;            50;    shp: 20; sreg: 5; sbrk: 20
 scap;        Shield capacitor;         E;            20;    sreg: 20%; sbrk: -50%
 
 ##### P - Propulsion
 aburn;       Afterburner;              P;            10;    ini: 10
-mjets;       Maneuvering Jets;         P;            30;    eva: 10
+mjets;       Maneuvering Jets;         P;            30;    man: 10
 
 ##### W - E-War devices

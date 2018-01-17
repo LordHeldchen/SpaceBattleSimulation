@@ -34,7 +34,7 @@ public abstract class BattleLogger {
 
     // Actions and Reactions
     public abstract void beginSingleAttack(final CombatActor weaponInstance, final CombatTarget target, int currentIni);
-    public abstract void preysOnPreferredTargetType(CombatActor ship);
+    public abstract void preysOnPreferredTargetType(CombatActor ship, int probability, int chance);
     public abstract void shipReacts(CombatTarget target);
     public abstract void isHit(ShipInstance ship, boolean doesEvade, int acc, int evade, int addedAccuracy, String weaponName);
     public abstract void endOfSingleAttack(ShipInstance attacker);
@@ -49,7 +49,7 @@ public abstract class BattleLogger {
     public abstract void takesHullDamage(ShipInstance ship, double remainingDamage, HullDamageLevel glancing, int hitStrength, int specificResistance, int threshold, String weaponName);
     
     // Destruction
-    public abstract void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, int calculatedValue, int containment, String weaponName);
+    public abstract void explodes(ShipInstance shipInstance, double explodeChance, int hitStrength, double damageAmount, int calculatedValue, int containment, String weaponName);
     public abstract void shipDestroyed(CombatTarget targetOfAction);
 
     // Effects

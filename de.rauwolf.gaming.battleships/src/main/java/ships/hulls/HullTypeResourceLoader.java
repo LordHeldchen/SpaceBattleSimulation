@@ -51,14 +51,14 @@ public class HullTypeResourceLoader {
                     if (line.startsWith("#") || line.trim().equals("")) {
                         continue;
                     }
-                    // shorthand; name; baseStartInitiative; baseEvasion;
+                    // shorthand; name; baseStartInitiative; baseManeuverability;
                     // baseHullStrength; baseGlanceThreshold; baseHitThreshold;
                     // baseCritThreshold; description
                     String[] elements = line.split(";");
                     String shorthand = elements[elementNr++].trim();
                     String name = elements[elementNr++].trim();
                     int baseStartInitiative = new Integer(elements[elementNr++].trim());
-                    int baseEvasion = new Integer(elements[elementNr++].trim());
+                    int baseManeuverability = new Integer(elements[elementNr++].trim());
                     int baseHullStrength = new Integer(elements[elementNr++].trim());
                     int baseGlanceThreshold = new Integer(elements[elementNr++].trim());
                     int baseHitThreshold = new Integer(elements[elementNr++].trim());
@@ -75,7 +75,7 @@ public class HullTypeResourceLoader {
                     int value = new Integer(elements[elementNr++].trim());
                     String description = elements[elementNr++].trim();
                     HullType hullType = new HullType(shorthand, name, sizeCategory, baseGlanceThreshold, baseHitThreshold, baseCritThreshold, baseHullStrength,
-                            baseContainment, baseEPM, baseStartInitiative, baseEvasion, value, description);
+                            baseContainment, baseEPM, baseStartInitiative, baseManeuverability, value, description);
 
                     fillSlots(shorthand, weaponSlots, hullType::setAvailableWeaponSlotsForSize, SizeClass.values());
                     fillSlots(shorthand, componentSlots, hullType::setAvailableComponentSlotsForType, ComponentType.values());

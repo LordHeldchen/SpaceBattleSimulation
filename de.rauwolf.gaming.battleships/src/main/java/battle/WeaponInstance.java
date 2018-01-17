@@ -18,6 +18,7 @@ public class WeaponInstance extends CombatActor {
     private final MutableStat                               accuracy;
     private final MutableStat                               damage;
     private final MutableStat                               armorPenetration;
+    private final MutableStat                               preferredTargetProbability;
 
     private final DamageType                                damageType;
     private final Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects;
@@ -29,19 +30,19 @@ public class WeaponInstance extends CombatActor {
     // TODO: Introduce burst fire mechanic for certain weapons, e.g.
     // Flak-Cannons?
 
-    // TODO: More encapsulation so that the MutableBaseStats are only visible
-    // during construction?
-    public WeaponInstance(ShipInstance owningShipInstance, String name, int startInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
-            DamageType damageType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
-        super(startInitiative, timeCost);
+    public WeaponInstance(ShipInstance owningShipInstance, String name, int startingInitiative, int timeCost, int damage, int accuracy, int armorPenetration,
+            DamageType damageType, List<SizeClass> preferredTargetSizes, int preferredTargetProbability,
+            Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects) {
+        super(startingInitiative, timeCost);
         this.owningShipInstance = owningShipInstance;
         this.name = name;
-        this.damage = new MutableStat(damage);
-        this.accuracy = new MutableStat(accuracy);
-        this.armorPenetration = new MutableStat(armorPenetration);
         this.damageType = damageType;
         this.secondaryEffects = secondaryEffects;
         this.preferredTargetSizes = preferredTargetSizes;
+        this.preferredTargetProbability = new MutableStat(preferredTargetProbability);
+        this.damage = new MutableStat(damage);
+        this.accuracy = new MutableStat(accuracy);
+        this.armorPenetration = new MutableStat(armorPenetration);
     }
 
     @Override
@@ -67,11 +68,15 @@ public class WeaponInstance extends CombatActor {
     }
 
     private ShipInstance chooseTarget(final InstantiatedFleet listOfPotentialTargets) {
-        for (SizeClass preferredSize : preferredTargetSizes) {
-            if (listOfPotentialTargets.containsSize(preferredSize)) {
-                final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfSize(preferredSize);
-                logger.preysOnPreferredTargetType(this);
-                return targets.get((int) (targets.size() * Math.random()));
+        final int probability = preferredTargetProbability.getCalculatedValue();
+        final int chance = BattleConstants.randomizer.nextInt(BattleConstants.preferredTargetChanceRandomizer);
+        if (probability > chance) {
+            for (SizeClass preferredSize : preferredTargetSizes) {
+                if (listOfPotentialTargets.containsSize(preferredSize)) {
+                    final ArrayList<ShipInstance> targets = listOfPotentialTargets.getAllOfSize(preferredSize);
+                    logger.preysOnPreferredTargetType(this, probability, chance);
+                    return targets.get((int) (targets.size() * Math.random()));
+                }
             }
         }
         return listOfPotentialTargets.get((int) (listOfPotentialTargets.size() * BattleConstants.randomizer.nextFloat()));

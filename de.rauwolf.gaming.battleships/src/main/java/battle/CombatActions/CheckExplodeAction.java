@@ -18,9 +18,9 @@ public class CheckExplodeAction implements CombatAction {
                     * BattleConstants.maxChanceExplodeOnCrit;
 
             if (explodeChance > BattleConstants.randomizer.nextDouble()) {
-                target.setCurrentHullStrength(0);
-                logger.explodes(target, explodeChance, shot.hitStrength,
+                logger.explodes(target, explodeChance, shot.hitStrength, shot.amount,
                         target.getHullStat(shot.hullDamageLevel.getDefenseStatAgainstDamageLevel()), containment, shot.weaponName);
+                target.setCurrentHullStrength(0);
                 return false;
             }
         }

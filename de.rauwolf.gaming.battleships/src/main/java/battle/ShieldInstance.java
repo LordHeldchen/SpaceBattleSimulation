@@ -72,7 +72,7 @@ public class ShieldInstance extends CombatActor {
             if (currentShield <= 0) {
                 shot.amount = -currentShield;
                 if (shieldBefore > 0) {
-                    this.loseTicks(breakDuration);
+                    rememberLostTicks(breakDuration);
                     logger.shieldBreaks(this, breakDuration);
                 }
                 currentShield = 0;

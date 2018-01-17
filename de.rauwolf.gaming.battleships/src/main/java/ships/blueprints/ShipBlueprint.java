@@ -30,7 +30,7 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     private final String name;
     private final String description;
     
-    //XXX MutableBaseStats might be useful for modifiers that are independent of components, e.g. technology?
+    //XXX MutableBaseStats might be useful for modifiers that are independent of components, e.g. technology or admirals.
     //    Otherwise they don't make much sense here, a simple int would do.
 
     public ShipBlueprint(String shorthand, String name, String description, HullType hullType) {
@@ -43,8 +43,6 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
         for (StatType stat: StatType.values()) {
             statMap.put(stat, hullType.getBaseStatFor(stat));
         }
-
-        // TODO: Boni zu bestimmten Waffenkategorien/-größen etc.?
 
         weapons = new HashMap<SizeClass, List<WeaponBlueprint>>();
         for (SizeClass size : SizeClass.values()) {
@@ -76,9 +74,6 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     }
 
     public Integer getStatFor(StatType stat) {
-        if (!statMap.containsKey(stat)) {
-            statMap.put(stat, 0);
-        }
         return statMap.get(stat);
     }
 

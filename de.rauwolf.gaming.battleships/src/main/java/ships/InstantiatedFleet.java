@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
+import java.util.Map.Entry;
 
 import main.java.battle.ShipInstance;
+import main.java.characters.Admiral;
 import main.java.ships.blueprints.ShipBlueprint;
 import main.java.ships.blueprints.SizeClass;
+import main.java.ships.stats.StatType;
 
 public class InstantiatedFleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
     private HashMap<ShipBlueprint, ArrayList<ShipInstance>> classesOfShipsInFleet;
     private HashMap<SizeClass, ArrayList<ShipInstance>>     sizesOfShipsInFleet;
     private ArrayList<ShipInstance>                         allShipsInFleet;
+    private Admiral admiral;
 
     public InstantiatedFleet() {
         this.classesOfShipsInFleet = new HashMap<ShipBlueprint, ArrayList<ShipInstance>>();
@@ -214,7 +218,14 @@ public class InstantiatedFleet implements Iterable<ShipInstance>, Collection<Shi
             
             fleetValue += shipTypeValue;
         }
+        if (admiral != null) {
+            ret += admiral.toString();
+        }
         ret += " --> Fleet value: " + fleetValue + "\n";
         return ret;
+    }
+
+    public void setAdmiral(Admiral admiral) {
+        this.admiral = admiral;
     }
 }

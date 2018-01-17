@@ -26,7 +26,7 @@ public class WeaponBlueprint implements Blueprint {
     protected List<SizeClass>                               preferredTargetSizes;
 
     public WeaponBlueprint(String shorthand, String name, SizeClass size, int accuracy, int damage, int armorPenetration, int timeCost, int initiativeBonus,
-            int value, DamageType dmgType, List<SizeClass> preferredTargetSizes, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
+            int value, DamageType dmgType, List<SizeClass> preferredTargetSizes, int preferredTargetProbability, Map<WeaponSecondaryEffect, List<Integer>> weaponEffects) {
 
         this.shorthand = shorthand;
         this.name = name;
@@ -40,6 +40,7 @@ public class WeaponBlueprint implements Blueprint {
         statMap.put(StatType.AP, armorPenetration);
         statMap.put(StatType.TIMECOST, timeCost);
         statMap.put(StatType.INITIATIVE, initiativeBonus);
+        statMap.put(StatType.PREFERRED_TARGET_PROBABILITY, preferredTargetProbability);
 
         this.preferredTargetSizes = preferredTargetSizes;
         this.weaponEffects = weaponEffects;

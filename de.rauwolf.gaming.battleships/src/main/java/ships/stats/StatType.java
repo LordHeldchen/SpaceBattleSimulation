@@ -7,7 +7,8 @@ public enum StatType {
     
     INITIATIVE("initiative", false),
     TIMECOST("time cost", false),
-    EVASION("evasion", false),
+    MANEUVERABILITY("maneuverability", false),
+    PREFERRED_TARGET_PROBABILITY("preferred target probability", false),
     
     THRESHOLD_GLANCE("glance threshold", false),
     THRESHOLD_HIT("hit threshold", false),
@@ -53,8 +54,8 @@ public enum StatType {
                 return THRESHOLD_CRIT;
             case "cont":
                 return CONTAINMENT;
-            case "eva":
-                return EVASION;
+            case "man":
+                return MANEUVERABILITY;
             case "shp":
                 return SHIELD_HP;
             case "sreg":

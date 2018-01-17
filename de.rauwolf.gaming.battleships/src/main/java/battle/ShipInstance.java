@@ -24,27 +24,22 @@ import main.java.ships.weapons.WeaponBlueprint;
 import main.java.ships.weapons.WeaponSecondaryEffect;
 
 public class ShipInstance implements CombatTarget {
-    protected final ShipBlueprint                    shipBlueprint;
+    private final int                        idOfOwningEmpire;
+    protected final ShipBlueprint            shipBlueprint;
+    private final ShipInstance               mothership;
 
-    private ShieldInstance                           shieldInstance;
-
-    // Beinhaltet derzeit nur Widerstände
-    private final Map<StatType, MutableStat>         hullStats;
-    private double                                   currentHullStrength;
-
-    // Holding the threshold as MutableBaseStats again allows e.g. for temporary
+    // Holding the values as MutableBaseStats again allows e.g. for temporary
     // armor lowering effects and the like.
-    private final ShipInstance                       mothership;
+    private final Map<StatType, MutableStat> hullStats;
+    private double                           currentHullStrength;
 
-    private final int                                idOfOwningEmpire;
+    private LinkedList<CombatActor>          combatActorsOfShip;
+    private LinkedList<CombatActor>          weaponInstances;
+    private ShieldInstance                   shieldInstance;
 
-    private LinkedList<CombatActor>                  combatActorsOfShip;
+    private int                              startingInitiative;
 
-    private final int                                startingInitiative;
-
-    private LinkedList<CombatActor>                  weaponInstances;
-
-    private static final List<CombatAction>          actionList;
+    private static final List<CombatAction>  actionList;
 
     static {
         actionList = new LinkedList<CombatAction>();
@@ -56,7 +51,7 @@ public class ShipInstance implements CombatTarget {
         actionList.add(new ApplyTicklossAction());
         actionList.add(new DegradeArmorAction());
     }
-    
+
     private int calculateFinalValueFor(StatType statType, Blueprint blueprint) {
         int baseValue = blueprint.getStatFor(statType);
         List<Integer> flatModifiers = new LinkedList<Integer>();
@@ -94,9 +89,8 @@ public class ShipInstance implements CombatTarget {
         }
 
         this.setCurrentHullStrength(hullStats.get(StatType.MAX_HULL_STRENGTH).getCalculatedValue());
-        
         this.startingInitiative = hullStats.get(StatType.INITIATIVE).getCalculatedValue()
-                + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizerMaximum);
+                + BattleConstants.randomizer.nextInt(BattleConstants.battleSpeedRandomizer);
     }
 
     public final int getIdOfOwningEmpire() {
@@ -113,6 +107,8 @@ public class ShipInstance implements CombatTarget {
                 int accuracy = calculateFinalValueFor(StatType.ACCURACY, weaponBlueprint);
                 int timeCost = calculateFinalValueFor(StatType.TIMECOST, weaponBlueprint);
                 int weaponInitiative = calculateFinalValueFor(StatType.INITIATIVE, weaponBlueprint) + startingInitiative;
+                int preferredTargetProbability = calculateFinalValueFor(StatType.PREFERRED_TARGET_PROBABILITY, weaponBlueprint)
+                        + hullStats.get(StatType.MANEUVERABILITY).getCalculatedValue();
 
                 DamageType damageType = weaponBlueprint.getDmgType();
 
@@ -122,7 +118,7 @@ public class ShipInstance implements CombatTarget {
                 Map<WeaponSecondaryEffect, List<Integer>> secondaryEffects = weaponBlueprint.getSecondaryEffects();
 
                 WeaponInstance weaponInstance = new WeaponInstance(this, name, weaponInitiative, timeCost, damage, accuracy, armorPenetration, damageType,
-                        preferredTargets, secondaryEffects);
+                        preferredTargets, preferredTargetProbability, secondaryEffects);
 
                 weaponInstances.add(weaponInstance);
             }
@@ -190,7 +186,7 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     public final void receiveAttack(Shot shot) {
-        for (CombatAction action: actionList) {
+        for (CombatAction action : actionList) {
             if (!action.execute(this, shot)) {
                 break;
             }
@@ -198,8 +194,10 @@ public class ShipInstance implements CombatTarget {
     }
 
     public boolean reactBeforeAttacker(ShipInstance attacker) {
-        // TODO: Common solution dependent on setups. E.g. for ECM or point defense.
-        // Other active defense mechanisms that need to be added elsewhere? Active defense of relevance anyways?
+        // TODO: Common solution dependent on setups. E.g. for ECM or point
+        // defense.
+        // Other active defense mechanisms that need to be added elsewhere?
+        // Active defense of relevance anyways?
         int rand = BattleConstants.randomizer.nextInt(BattleConstants.cloakingRandomizerMaximum);
         return false;
     }
@@ -215,7 +213,7 @@ public class ShipInstance implements CombatTarget {
     public ShipBlueprint getBlueprint() {
         return shipBlueprint;
     }
-    
+
     public SizeClass getSizeClass() {
         return shipBlueprint.getHullType().getHullSize();
     }
@@ -240,6 +238,10 @@ public class ShipInstance implements CombatTarget {
     @Override
     public void endCurrentBattle() {
         // TODO: Anything to do here?
+    }
+
+    @Override
+    public void startCurrentBattle() {
     }
 
     public void addLostTicks(int lostTicks) {

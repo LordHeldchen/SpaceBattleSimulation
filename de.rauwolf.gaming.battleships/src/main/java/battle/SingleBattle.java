@@ -1,6 +1,7 @@
 package main.java.battle;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,12 +27,14 @@ public class SingleBattle {
     HashSet<ShipInstance> allShips = new HashSet<ShipInstance>();
     int numParticipatingFighters = 0;
 
-    private PriorityQueue<CombatActor> combatActors = new PriorityQueue<CombatActor>();
+    private PriorityQueue<CombatActor> combatActors;
     private HashSet<CombatTarget> combatTargets = new HashSet<CombatTarget>();
 
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     public SingleBattle(Set<Fleet> allFleetsFromStarSystem) {
+        combatActors = new PriorityQueue<CombatActor>((o1, o2) -> o2.getCurrentInitiative() - o1.getCurrentInitiative());
+        
         allFleets.addAll(allFleetsFromStarSystem.stream().map(fleet -> fleet.instantiate()).collect(Collectors.toSet()));
 
         for (InstantiatedFleet fleet : allFleets) {
@@ -50,7 +53,6 @@ public class SingleBattle {
             }
         }
 
-        logger.startOfBattle(allFleets, combatActors.peek().getCurrentInitiative());
         logger.showFormup(allFleets, allShips, combatActors, enemiesOfEmpireX, numParticipatingFighters);
     }
 
@@ -76,28 +78,34 @@ public class SingleBattle {
     }
 
     public void fight() {
+        for (ShipInstance ship : allShips) {
+            ship.startCurrentBattle();
+        }
+        
         enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0);
 
         if (combatActors.size() > 0 && enemiesOfEmpireX.values().stream().anyMatch((InstantiatedFleet f) -> f.size() > 0)) {
-            final int highestStartingInitiative = combatActors.peek().getCurrentInitiative();
+            CombatActor currentActor = combatActors.poll();
+            int initiativeOfCurrentRound = currentActor.getCurrentInitiative();
+            final int endAtInitiative = initiativeOfCurrentRound - 500;
+
+            logger.startOfBattle(allFleets, endAtInitiative);
             while (continueCombat) {
                 logger.nextRound();
 
-                CombatActor actorWithHighestInit = combatActors.poll();
-
-                if (actorWithHighestInit.hasRememberedLostTicks()) {
-                    actorWithHighestInit.applyRememberedLostTicks();
-                } else {
-                    CombatTarget targetOfAction = actorWithHighestInit.takeAction(this);
+                if (!currentActor.applyRememberedLostTicks()) {
+                    CombatTarget targetOfAction = currentActor.takeAction(this);
                     if (targetOfAction != null && targetOfAction.isDestroyed()) {
-                        handleDestructionOf(targetOfAction);
+                        continueCombat &= handleDestructionOf(targetOfAction);
                     }
 
-                    enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0
-                            && actorWithHighestInit.getCurrentInitiative() >= highestStartingInitiative - 500);
+                    enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0);
                 }
-                combatActors.add(actorWithHighestInit);
+                combatActors.add(currentActor);
+                currentActor = combatActors.poll();
+                continueCombat &= initiativeOfCurrentRound > endAtInitiative;
             }
+
         } else {
             logger.noActiveParticipantsInCombat();
         }
@@ -107,14 +115,14 @@ public class SingleBattle {
         }
     }
 
-    private void handleDestructionOf(CombatTarget targetOfAction) {
+    private boolean handleDestructionOf(CombatTarget targetOfAction) {
         if (targetOfAction.isDestroyed()) {
             logger.shipDestroyed(targetOfAction);
             for (InstantiatedFleet ships : enemiesOfEmpireX.values()) {
                 ships.remove(targetOfAction);
                 if (ships.isEmpty()) {
-                    // Some empire has no more enemies in this battle
-                    continueCombat = false;
+                    // XXX Some empire has no more enemies in this battle, therefore is the victor?
+                    return false;
                 }
             }
             allShips.remove(targetOfAction);
@@ -123,6 +131,7 @@ public class SingleBattle {
             }
             combatActors.removeAll(targetOfAction.getCombatActors());
         }
+        return true;
     }
 
     InstantiatedFleet getAllEnemiesOfEmpireX(int empireID) {
