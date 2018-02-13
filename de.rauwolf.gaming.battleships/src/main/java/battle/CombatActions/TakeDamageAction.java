@@ -12,7 +12,7 @@ public class TakeDamageAction implements CombatAction {
     @Override
     public boolean execute(ShipInstance target, Shot shot) {
         if (!shot.hullDamageLevel.equals(HullDamageLevel.DEFLECT)) {
-            shot.amount *= BattleConstants.damageLevelToFactorMap.get(shot.hullDamageLevel);
+            shot.amount *= BattleConstants.DAMAGE_LEVEL_TO_FACTOR_MAP.get(shot.hullDamageLevel);
             target.setCurrentHullStrength(target.getCurrentHullStrength() - shot.amount);
             logger.takesHullDamage(target, shot.amount, shot.hullDamageLevel, shot.hitStrength, shot.specificResistanceOfTarget,
                     target.getHullStat(shot.hullDamageLevel.getDefenseStatAgainstDamageLevel()), shot.weaponName);

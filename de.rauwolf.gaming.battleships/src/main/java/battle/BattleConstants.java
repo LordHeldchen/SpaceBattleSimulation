@@ -9,22 +9,23 @@ import main.java.ships.shipHulls.DamageType;
 import main.java.ships.stats.StatType;
 
 public class BattleConstants {
-    public static final int                          cloakingRandomizerMaximum    = 100;
+    public static final int                          CLOAKING_RANDOMIZER_MAXIMUM    = 100;
 
-    public static final int                          penetrationRandomizerMaximum = 100;
-    public static final double                       deflectMultiplier            = 0.0d;
-    public static final double                       glanceMultiplier             = 0.35d;
-    public static final double                       hitMultiplier                = 1.0d;
-    public static final double                       critMultiplier               = 1.5d;
-    public static final double                       maxChanceExplodeOnCrit       = 1.0d;
+    public static final int                          PENETRATION_RANDOMIZER_MAXIMUM = 100;
+    public static final double                       DEFLECT_MULTIPLIER             = 0.0d;
+    public static final double                       GLANCE_MULTIPLIER              = 0.35d;
+    public static final double                       HIT_MULTIPLIER                 = 1.0d;
+    public static final double                       CRIT_MULTIPLIER                = 1.5d;
+    public static final double                       MAX_CHANCE_EXPLODE_ON_CRIT     = 1.0d;
+    public static final int                          DURATION_OF_BATTLE_IN_TICKS    = 500;
 
-    public static final Map<HullDamageLevel, Double> damageLevelToFactorMap       = new HashMap<HullDamageLevel, Double>();
+    public static final Map<HullDamageLevel, Double> DAMAGE_LEVEL_TO_FACTOR_MAP     = new HashMap<HullDamageLevel, Double>();
 
     static {
-        damageLevelToFactorMap.put(HullDamageLevel.DEFLECT, deflectMultiplier);
-        damageLevelToFactorMap.put(HullDamageLevel.GLANCE, glanceMultiplier);
-        damageLevelToFactorMap.put(HullDamageLevel.HIT, hitMultiplier);
-        damageLevelToFactorMap.put(HullDamageLevel.CRIT, critMultiplier);
+        DAMAGE_LEVEL_TO_FACTOR_MAP.put(HullDamageLevel.DEFLECT, DEFLECT_MULTIPLIER);
+        DAMAGE_LEVEL_TO_FACTOR_MAP.put(HullDamageLevel.GLANCE, GLANCE_MULTIPLIER);
+        DAMAGE_LEVEL_TO_FACTOR_MAP.put(HullDamageLevel.HIT, HIT_MULTIPLIER);
+        DAMAGE_LEVEL_TO_FACTOR_MAP.put(HullDamageLevel.CRIT, CRIT_MULTIPLIER);
     }
 
     public static final float                   minChanceToHit                  = 0.05f;

@@ -140,8 +140,8 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
         addComponent(ComponentResourceLoader.getStandardComponentBlueprint(componentBlueprintName));
     }
 
-    public ShipInstance createInstance(int owningEmpire) {
-        return new ShipInstance(owningEmpire, null, this);
+    public ShipInstance createInstance(int owningEmpire, String instanceId) {
+        return new ShipInstance(owningEmpire, null, this, instanceId);
     }
 
     public List<ComponentBlueprint> getComponents() {

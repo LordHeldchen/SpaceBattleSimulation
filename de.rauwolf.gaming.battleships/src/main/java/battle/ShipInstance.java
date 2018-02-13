@@ -40,6 +40,7 @@ public class ShipInstance implements CombatTarget {
     private int                              startingInitiative;
 
     private static final List<CombatAction>  actionList;
+    private String                           instanceId;
 
     static {
         actionList = new LinkedList<CombatAction>();
@@ -78,10 +79,11 @@ public class ShipInstance implements CombatTarget {
         return baseValue;
     }
 
-    public ShipInstance(int idOfOwningEmpire, ShipInstance mothership, ShipBlueprint blueprint) {
+    public ShipInstance(int idOfOwningEmpire, ShipInstance mothership, ShipBlueprint blueprint, String instanceId) {
         this.idOfOwningEmpire = idOfOwningEmpire;
         this.shipBlueprint = blueprint;
         this.mothership = mothership;
+        this.instanceId = instanceId;
 
         this.hullStats = new HashMap<StatType, MutableStat>();
         for (StatType hullStatType : StatType.values()) {
@@ -168,11 +170,13 @@ public class ShipInstance implements CombatTarget {
     }
 
     public LinkedList<ShipInstance> getFightersInBay() {
+        int instanceNum = 0;
+
         Map<ShipBlueprint, Integer> fighterTypesInBay = shipBlueprint.getFighterTypesInBay();
         LinkedList<ShipInstance> fighters = new LinkedList<ShipInstance>();
         for (Map.Entry<ShipBlueprint, Integer> fighterType : fighterTypesInBay.entrySet()) {
             for (int i = 0; i < fighterType.getValue(); i++) {
-                ShipInstance fighterInstance = new ShipInstance(idOfOwningEmpire, this, fighterType.getKey());
+                ShipInstance fighterInstance = new ShipInstance(idOfOwningEmpire, this, fighterType.getKey(), instanceId + "-" + instanceNum);
                 fighters.add(fighterInstance);
             }
         }
@@ -198,7 +202,7 @@ public class ShipInstance implements CombatTarget {
         // defense.
         // Other active defense mechanisms that need to be added elsewhere?
         // Active defense of relevance anyways?
-        int rand = BattleConstants.randomizer.nextInt(BattleConstants.cloakingRandomizerMaximum);
+        int rand = BattleConstants.randomizer.nextInt(BattleConstants.CLOAKING_RANDOMIZER_MAXIMUM);
         return false;
     }
 
@@ -232,7 +236,7 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     final public String toString() {
-        return shipBlueprint.getName() + " (" + idOfOwningEmpire + ")";
+        return shipBlueprint.getName() + " " + instanceId + " (empire " + idOfOwningEmpire + ")";
     }
 
     @Override

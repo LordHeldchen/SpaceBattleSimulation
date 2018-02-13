@@ -15,7 +15,7 @@ public class CheckExplodeAction implements CombatAction {
         if (shot.hullDamageLevel.equals(HullDamageLevel.CRIT)) {
             int containment = target.getHullStat(StatType.CONTAINMENT);
             double explodeChance = ((shot.amount - containment) / target.getCurrentHullStrength())
-                    * BattleConstants.maxChanceExplodeOnCrit;
+                    * BattleConstants.MAX_CHANCE_EXPLODE_ON_CRIT;
 
             if (explodeChance > BattleConstants.randomizer.nextDouble()) {
                 logger.explodes(target, explodeChance, shot.hitStrength, shot.amount,

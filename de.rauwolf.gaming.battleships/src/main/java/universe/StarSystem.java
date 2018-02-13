@@ -44,22 +44,22 @@ public class StarSystem {
         admiralA.setFlatBonusAmountOfTypeForSize(SizeClass.XXS, StatType.MANEUVERABILITY, 10);
         fleetA.setAdmiral(admiralA);
 
-        fleetA.add(standardFighterBlueprint, 500);
-        fleetA.add(heavyFighterBlueprint, 300);
-        fleetA.add(lancerBlueprint, 100);
-        fleetA.add(fleetCruiserBP, 50);
+        fleetA.add(standardFighterBlueprint, 5000);
+        fleetA.add(heavyFighterBlueprint, 3000);
+        fleetA.add(lancerBlueprint, 1000);
+        fleetA.add(fleetCruiserBP, 500);
 
-        fleetB.add(bomberBlueprint, 100);
-        fleetB.add(interceptorBlueprint, 1000);
-        fleetB.add(hunterBlueprint, 200);
-        fleetB.add(piercerFrigateBP, 50);
-        fleetB.add(defenderBlueprint, 50);
-        fleetB.add(combatDestroyerBlueprint, 30);
+        fleetB.add(bomberBlueprint, 1000);
+        fleetB.add(interceptorBlueprint, 10000);
+        fleetB.add(hunterBlueprint, 2000);
+        fleetB.add(piercerFrigateBP, 500);
+        fleetB.add(defenderBlueprint, 500);
+        fleetB.add(combatDestroyerBlueprint, 300);
 
-        fleetC.add(assFrigBlueprint, 300);
+        fleetC.add(assFrigBlueprint, 3000);
 
-        fleetD.add(screenBattleshipBP, 20);
-        fleetD.add(brawlerBattleshipBP, 20);
+        fleetD.add(screenBattleshipBP, 200);
+        fleetD.add(brawlerBattleshipBP, 200);
 
         listOfFleets.add(fleetA);
         listOfFleets.add(fleetB);

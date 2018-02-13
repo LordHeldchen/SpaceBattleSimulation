@@ -181,7 +181,7 @@ public class DebugBattleLogger extends BattleLogger {
 
     @Override
     public void explodes(ShipInstance ship, double explodeChance, int hitStrength, double damageAmount, int critThreshold, int containment, String weaponName) {
-        explodeChance = Math.min(BattleConstants.maxChanceExplodeOnCrit, explodeChance);
+        explodeChance = Math.min(BattleConstants.MAX_CHANCE_EXPLODE_ON_CRIT, explodeChance);
         append("  " + ship + " explodes!!! Chance was " + String.format("%1$.2f", explodeChance * 100) + "% (" + hitStrength + ">" + critThreshold
                 + ", containment " + containment + " fails against " + damageAmount + "dmg at " + String.format("%1$.2f", ship.getCurrentHullStrength()) + " remaining hullStrength)");
         getWeaponStats(weaponName).hasCausedExplosion();

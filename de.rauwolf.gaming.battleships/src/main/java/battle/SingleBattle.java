@@ -87,9 +87,9 @@ public class SingleBattle {
         if (combatActors.size() > 0 && enemiesOfEmpireX.values().stream().anyMatch((InstantiatedFleet f) -> f.size() > 0)) {
             CombatActor currentActor = combatActors.poll();
             int initiativeOfCurrentRound = currentActor.getCurrentInitiative();
-            final int endAtInitiative = initiativeOfCurrentRound - 500;
+            final int endAtInitiative = initiativeOfCurrentRound - BattleConstants.DURATION_OF_BATTLE_IN_TICKS;
 
-            logger.startOfBattle(allFleets, endAtInitiative);
+            logger.startOfBattle(allFleets, initiativeOfCurrentRound);
             while (continueCombat) {
                 logger.nextRound();
 
@@ -118,6 +118,11 @@ public class SingleBattle {
     private boolean handleDestructionOf(CombatTarget targetOfAction) {
         if (targetOfAction.isDestroyed()) {
             logger.shipDestroyed(targetOfAction);
+            allShips.remove(targetOfAction);
+            for (InstantiatedFleet fleet : allFleets) {
+                fleet.remove(targetOfAction);
+            }
+            combatActors.removeAll(targetOfAction.getCombatActors());
             for (InstantiatedFleet ships : enemiesOfEmpireX.values()) {
                 ships.remove(targetOfAction);
                 if (ships.isEmpty()) {
@@ -125,11 +130,6 @@ public class SingleBattle {
                     return false;
                 }
             }
-            allShips.remove(targetOfAction);
-            for (InstantiatedFleet fleet : allFleets) {
-                fleet.remove(targetOfAction);
-            }
-            combatActors.removeAll(targetOfAction.getCombatActors());
         }
         return true;
     }

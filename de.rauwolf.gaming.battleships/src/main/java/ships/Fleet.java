@@ -32,6 +32,8 @@ public class Fleet {
     }
 
     public InstantiatedFleet instantiate() {
+        int instanceNum = 0;
+
         InstantiatedFleet fleetInstance = new InstantiatedFleet();
         Map<SizeClass, Map<StatType, Integer>> admiralFlatBoni;
         if (admiral != null) {
@@ -47,7 +49,7 @@ public class Fleet {
         for (ShipBlueprint blueprint: classesOfShipsInFleet.keySet()) {
             Map<StatType, Integer> boniMap = admiralFlatBoni.get(blueprint.getSize());
             for (int i = 0; i < classesOfShipsInFleet.get(blueprint); i++) {
-                ShipInstance shipInstance = blueprint.createInstance(owningEmpireID);
+                ShipInstance shipInstance = blueprint.createInstance(owningEmpireID, (++instanceNum) + "");
                 for (Entry<StatType, Integer> bonus: boniMap.entrySet()) {
                     shipInstance.addFlatBonusFor(bonus.getKey(), "admiral", bonus.getValue());
                 }

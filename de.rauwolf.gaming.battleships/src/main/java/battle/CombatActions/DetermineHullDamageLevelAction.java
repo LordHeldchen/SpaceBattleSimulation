@@ -14,7 +14,7 @@ public class DetermineHullDamageLevelAction implements CombatAction {
     public boolean execute(ShipInstance target, Shot shot) {
         if (!(shot.hullDamageLevel != null && shot.hullDamageLevel.equals(HullDamageLevel.DEFLECT))) {
 
-            shot.hitStrength = shot.armorPenetration + (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.penetrationRandomizerMaximum);
+            shot.hitStrength = shot.armorPenetration + (int) (BattleConstants.randomizer.nextFloat() * BattleConstants.PENETRATION_RANDOMIZER_MAXIMUM);
             final StatType resistanceType = BattleConstants.damageTypeToResistanceType.get(shot.damageType);
             shot.specificResistanceOfTarget = target.getHullStat(resistanceType);
             shot.hitStrength -= shot.specificResistanceOfTarget;
