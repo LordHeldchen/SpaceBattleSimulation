@@ -17,7 +17,7 @@ import main.java.ships.shipHulls.ComponentType;
 import main.java.ships.stats.StatType;
 import main.java.ships.weapons.WeaponBlueprint;
 
-public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
+public class ShipBlueprint implements BlueprintWithSubComponents, Comparable<ShipBlueprint> {
     private final HullType hullType;
     
     private final Map<StatType, Integer> statMap;
@@ -26,7 +26,7 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     private final Map<ComponentType, List<ComponentBlueprint>> components;
     private final Map<ShipBlueprint, Integer> fightersInBay;
 
-    private final String shorthand;
+    private final String id;
     private final String name;
     private final String description;
     
@@ -34,7 +34,7 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     //    Otherwise they don't make much sense here, a simple int would do.
 
     public ShipBlueprint(String shorthand, String name, String description, HullType hullType) {
-        this.shorthand = shorthand;
+        this.id = shorthand;
         this.name = name;
         this.description = description;
         this.hullType = hullType;
@@ -61,8 +61,8 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
         return hullType;
     }
 
-    public String getShorthand() {
-        return shorthand;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -80,7 +80,7 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     public Map<ShipBlueprint, Integer> getFighterTypesInBay() {
         return fightersInBay;
     }
-    
+
     public int getValueOfShipInstance() {
         int value = hullType.getValue();
         value += getWeapons().stream().collect(Collectors.summarizingInt(e -> e.getValue())).getSum();
@@ -105,7 +105,8 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
         return this.hullType.getHullSize();
     }
 
-    public void addWeapon(WeaponBlueprint weaponBlueprint) throws NotEnoughtSlotsException {
+    public void addStandardWeapon(String weaponBlueprintName) throws NotEnoughtSlotsException, NumberFormatException, IOException, InstantiationException {
+        WeaponBlueprint weaponBlueprint = WeaponResourceLoader.getStandardWeaponBlueprint(weaponBlueprintName);
         SizeClass size = weaponBlueprint.getSize();
         List<WeaponBlueprint> weaponsForSize = weapons.get(size);
         if (weaponsForSize.size() < hullType.getAvailableWeaponSlotsForSize(size)) {
@@ -113,10 +114,6 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
         } else {
             throw new NotEnoughtSlotsException("Not enough weapon slots for " + weaponBlueprint + "(" + size + ") in hull of " + hullType);
         }
-    }
-
-    public void addStandardWeapon(String weaponBlueprintName) throws NotEnoughtSlotsException, NumberFormatException, IOException, InstantiationException {
-        addWeapon(WeaponResourceLoader.getStandardWeaponBlueprint(weaponBlueprintName));
     }
 
     public void addComponent(ComponentBlueprint componentBlueprint) throws NotEnoughtSlotsException {
@@ -160,6 +157,11 @@ public class ShipBlueprint implements Blueprint, Comparable<ShipBlueprint> {
     @Override
     public SizeClass getSize() {
         return hullType.getHullSize();
+    }
+
+    @Override
+    public boolean isDesignValid() {
+        return true;
     }
 
     @Override

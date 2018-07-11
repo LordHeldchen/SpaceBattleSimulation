@@ -1,7 +1,6 @@
 package main.java.battle;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,24 +16,24 @@ import main.java.ships.blueprints.NotEnoughtSlotsException;
 import main.java.universe.StarSystem;
 
 public class SingleBattle {
-    boolean continueCombat = true;
-    int shipsRanOutOfPayload = 0;
+    boolean                            continueCombat           = true;
+    int                                shipsRanOutOfPayload     = 0;
 
-    Set<Integer> participatingEmpires = new HashSet<Integer>();
+    Set<Integer>                       participatingEmpires     = new HashSet<Integer>();
 
-    Map<Integer, InstantiatedFleet> enemiesOfEmpireX = new HashMap<Integer, InstantiatedFleet>();
-    HashSet<InstantiatedFleet> allFleets = new HashSet<InstantiatedFleet>();
-    HashSet<ShipInstance> allShips = new HashSet<ShipInstance>();
-    int numParticipatingFighters = 0;
+    Map<Integer, InstantiatedFleet>    enemiesOfEmpireX         = new HashMap<Integer, InstantiatedFleet>();
+    HashSet<InstantiatedFleet>         allFleets                = new HashSet<InstantiatedFleet>();
+    HashSet<ShipInstance>              allShips                 = new HashSet<ShipInstance>();
+    int                                numParticipatingFighters = 0;
 
     private PriorityQueue<CombatActor> combatActors;
-    private HashSet<CombatTarget> combatTargets = new HashSet<CombatTarget>();
+    private HashSet<CombatTarget>      combatTargets            = new HashSet<CombatTarget>();
 
-    private static final BattleLogger logger = BattleLogger.getInstance();
+    private static final BattleLogger  logger                   = BattleLogger.getInstance();
 
     public SingleBattle(Set<Fleet> allFleetsFromStarSystem) {
         combatActors = new PriorityQueue<CombatActor>((o1, o2) -> o2.getCurrentInitiative() - o1.getCurrentInitiative());
-        
+
         allFleets.addAll(allFleetsFromStarSystem.stream().map(fleet -> fleet.instantiate()).collect(Collectors.toSet()));
 
         for (InstantiatedFleet fleet : allFleets) {
@@ -81,7 +80,7 @@ public class SingleBattle {
         for (ShipInstance ship : allShips) {
             ship.startCurrentBattle();
         }
-        
+
         enemiesOfEmpireX.values().forEach((InstantiatedFleet f) -> continueCombat &= f.size() > 0);
 
         if (combatActors.size() > 0 && enemiesOfEmpireX.values().stream().anyMatch((InstantiatedFleet f) -> f.size() > 0)) {
@@ -103,6 +102,9 @@ public class SingleBattle {
                 }
                 combatActors.add(currentActor);
                 currentActor = combatActors.poll();
+                while (currentActor.isNoLongerActive()) {
+                    currentActor = combatActors.poll();
+                }
                 continueCombat &= initiativeOfCurrentRound > endAtInitiative;
             }
 
@@ -122,7 +124,6 @@ public class SingleBattle {
             for (InstantiatedFleet fleet : allFleets) {
                 fleet.remove(targetOfAction);
             }
-            combatActors.removeAll(targetOfAction.getCombatActors());
             for (InstantiatedFleet ships : enemiesOfEmpireX.values()) {
                 ships.remove(targetOfAction);
                 if (ships.isEmpty()) {
@@ -154,6 +155,11 @@ public class SingleBattle {
         // at least two sides and so on).
     }
 
+    public BattleLogger getBattleLogger() {
+        return logger;
+    }
+
+    // Test Main
     public static void main(String[] args) throws InstantiationException, NotEnoughtSlotsException, IOException {
         Set<Fleet> allFleetsFromStarSystem = StarSystem.getAllFleetsFromStarSystem();
         SingleBattle battle = new SingleBattle(allFleetsFromStarSystem);
@@ -161,9 +167,5 @@ public class SingleBattle {
         battle.checkSetup();
         battle.fight();
         battle.endBattle();
-    }
-
-    public BattleLogger getBattleLogger() {
-        return logger;
     }
 }

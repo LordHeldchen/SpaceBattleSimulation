@@ -8,12 +8,12 @@ import main.java.ships.weapons.WeaponSecondaryEffect;
 public class ShieldInstance extends CombatActor {
 	private final int maxShield;
 	private final double regenerationAmount;
-	private final ShipInstance owningShipInstance;
+    private final ShipInstance owningShipInstance;
 	private final int breakDuration;
 
 	private double currentShield;
 
-	public ShieldInstance(ShipInstance owningShipInstance, int maxShield, int regenerationAmount, int shieldBreakDuration, int startInitiative) {
+    public ShieldInstance(ShipInstance owningShipInstance, int maxShield, int regenerationAmount, int shieldBreakDuration, int startInitiative) {
 		super(startInitiative, 1);
 		
 		this.owningShipInstance = owningShipInstance;
@@ -37,7 +37,7 @@ public class ShieldInstance extends CombatActor {
 		return null;
 	}
 
-	public ShipInstance getOwner() {
+    public ShipInstance getOwner() {
 		return owningShipInstance;
 	}
 
@@ -93,5 +93,10 @@ public class ShieldInstance extends CombatActor {
     @Override
     final public String toString() {
         return "Shields of " + owningShipInstance + "(ini " + this.getCurrentInitiative() + ")";
+    }
+
+    @Override
+    public boolean isNoLongerActive() {
+        return owningShipInstance.isDestroyed();
     }
 }

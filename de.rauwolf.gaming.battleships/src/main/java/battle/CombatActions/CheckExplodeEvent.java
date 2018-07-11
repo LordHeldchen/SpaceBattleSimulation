@@ -7,7 +7,7 @@ import main.java.battle.Shot;
 import main.java.logging.battleLoggers.BattleLogger;
 import main.java.ships.stats.StatType;
 
-public class CheckExplodeAction implements CombatAction {
+public class CheckExplodeEvent implements CombatEvent {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override

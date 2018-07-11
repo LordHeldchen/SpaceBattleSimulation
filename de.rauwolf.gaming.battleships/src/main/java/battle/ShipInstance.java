@@ -5,15 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import main.java.battle.CombatActions.ApplyTicklossAction;
-import main.java.battle.CombatActions.CheckEvasionAction;
-import main.java.battle.CombatActions.CheckExplodeAction;
-import main.java.battle.CombatActions.CombatAction;
-import main.java.battle.CombatActions.DegradeArmorAction;
-import main.java.battle.CombatActions.DetermineHullDamageLevelAction;
-import main.java.battle.CombatActions.TakeDamageAction;
-import main.java.battle.CombatActions.TakeShieldDamageAction;
-import main.java.ships.blueprints.Blueprint;
+import main.java.battle.CombatActions.ApplyTicklossEvent;
+import main.java.battle.CombatActions.CheckEvasionEvent;
+import main.java.battle.CombatActions.CheckExplodeEvent;
+import main.java.battle.CombatActions.CombatEvent;
+import main.java.battle.CombatActions.DegradeArmorEvent;
+import main.java.battle.CombatActions.DetermineHullDamageLevelEvent;
+import main.java.battle.CombatActions.TakeDamageEvent;
+import main.java.battle.CombatActions.TakeShieldDamageEvent;
+import main.java.ships.blueprints.BlueprintWithSubComponents;
 import main.java.ships.blueprints.ShipBlueprint;
 import main.java.ships.blueprints.SizeClass;
 import main.java.ships.components.ComponentBlueprint;
@@ -39,21 +39,21 @@ public class ShipInstance implements CombatTarget {
 
     private int                              startingInitiative;
 
-    private static final List<CombatAction>  actionList;
+    private static final List<CombatEvent>  actionList;
     private String                           instanceId;
 
     static {
-        actionList = new LinkedList<CombatAction>();
-        actionList.add(new CheckEvasionAction());
-        actionList.add(new TakeShieldDamageAction());
-        actionList.add(new DetermineHullDamageLevelAction());
-        actionList.add(new CheckExplodeAction());
-        actionList.add(new TakeDamageAction());
-        actionList.add(new ApplyTicklossAction());
-        actionList.add(new DegradeArmorAction());
+        actionList = new LinkedList<CombatEvent>();
+        actionList.add(new CheckEvasionEvent());
+        actionList.add(new TakeShieldDamageEvent());
+        actionList.add(new DetermineHullDamageLevelEvent());
+        actionList.add(new CheckExplodeEvent());
+        actionList.add(new TakeDamageEvent());
+        actionList.add(new ApplyTicklossEvent());
+        actionList.add(new DegradeArmorEvent());
     }
 
-    private int calculateFinalValueFor(StatType statType, Blueprint blueprint) {
+    private int calculateFinalValueFor(StatType statType, BlueprintWithSubComponents blueprint) {
         int baseValue = blueprint.getStatFor(statType);
         List<Integer> flatModifiers = new LinkedList<Integer>();
         List<Double> factorModifiers = new LinkedList<Double>();
@@ -83,7 +83,7 @@ public class ShipInstance implements CombatTarget {
         this.idOfOwningEmpire = idOfOwningEmpire;
         this.shipBlueprint = blueprint;
         this.mothership = mothership;
-        this.instanceId = instanceId;
+        this.instanceId = idOfOwningEmpire + "-" + instanceId;
 
         this.hullStats = new HashMap<StatType, MutableStat>();
         for (StatType hullStatType : StatType.values()) {
@@ -190,7 +190,7 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     public final void receiveAttack(Shot shot) {
-        for (CombatAction action : actionList) {
+        for (CombatEvent action : actionList) {
             if (!action.execute(this, shot)) {
                 break;
             }
@@ -236,7 +236,7 @@ public class ShipInstance implements CombatTarget {
 
     @Override
     final public String toString() {
-        return shipBlueprint.getName() + " " + instanceId + " (empire " + idOfOwningEmpire + ")";
+        return shipBlueprint.getName() + " " + instanceId + " ";
     }
 
     @Override

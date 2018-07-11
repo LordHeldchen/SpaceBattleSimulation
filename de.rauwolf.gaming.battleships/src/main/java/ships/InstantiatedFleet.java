@@ -7,13 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
-import java.util.Map.Entry;
 
 import main.java.battle.ShipInstance;
 import main.java.characters.Admiral;
 import main.java.ships.blueprints.ShipBlueprint;
 import main.java.ships.blueprints.SizeClass;
-import main.java.ships.stats.StatType;
 
 public class InstantiatedFleet implements Iterable<ShipInstance>, Collection<ShipInstance> {
     private HashMap<ShipBlueprint, ArrayList<ShipInstance>> classesOfShipsInFleet;

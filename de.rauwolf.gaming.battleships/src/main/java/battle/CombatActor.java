@@ -36,4 +36,6 @@ public abstract class CombatActor {
         lostTicks = 0;
         return retVal;
     }
+
+    public abstract boolean isNoLongerActive();
 }

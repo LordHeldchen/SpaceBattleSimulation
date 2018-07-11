@@ -94,4 +94,9 @@ public class WeaponInstance extends CombatActor {
     public DamageType getDamageType() {
         return damageType;
     }
+
+    @Override
+    public boolean isNoLongerActive() {
+        return owningShipInstance.isDestroyed();
+    }
 }

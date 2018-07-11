@@ -9,7 +9,7 @@ import main.java.logging.battleLoggers.BattleLogger;
 import main.java.ships.stats.StatType;
 import main.java.ships.weapons.WeaponSecondaryEffect;
 
-public class ApplyTicklossAction implements CombatAction {
+public class ApplyTicklossEvent implements CombatEvent {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override

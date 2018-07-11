@@ -49,14 +49,14 @@ public class StarSystem {
         fleetA.add(lancerBlueprint, 1000);
         fleetA.add(fleetCruiserBP, 500);
 
-        fleetB.add(bomberBlueprint, 1000);
-        fleetB.add(interceptorBlueprint, 10000);
-        fleetB.add(hunterBlueprint, 2000);
+        fleetB.add(bomberBlueprint, 2000);
+        fleetB.add(interceptorBlueprint, 1000);
+        fleetB.add(hunterBlueprint, 1000);
         fleetB.add(piercerFrigateBP, 500);
         fleetB.add(defenderBlueprint, 500);
-        fleetB.add(combatDestroyerBlueprint, 300);
+        fleetB.add(combatDestroyerBlueprint, 500);
 
-        fleetC.add(assFrigBlueprint, 3000);
+        fleetC.add(assFrigBlueprint, 4000);
 
         fleetD.add(screenBattleshipBP, 200);
         fleetD.add(brawlerBattleshipBP, 200);

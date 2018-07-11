@@ -15,6 +15,7 @@ import main.java.battle.HullDamageLevel;
 import main.java.battle.ShieldInstance;
 import main.java.battle.ShipInstance;
 import main.java.ships.InstantiatedFleet;
+import main.java.ships.blueprints.ShipBlueprint;
 
 public class DebugBattleLogger extends BattleLogger {
     private int                 round             = 0;
@@ -211,7 +212,7 @@ public class DebugBattleLogger extends BattleLogger {
     }
 
     @Override
-    public void hasResupplied(ShipInstance ship, ShipInstance mothership) {
+    public void hasResupplied(ShipBlueprint ship, ShipBlueprint mothership) {
         append("  " + ship + ": Resupplied at " + mothership);
     }
 

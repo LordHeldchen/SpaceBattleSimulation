@@ -7,7 +7,7 @@ import main.java.battle.Shot;
 import main.java.logging.battleLoggers.BattleLogger;
 import main.java.ships.stats.StatType;
 
-public class DetermineHullDamageLevelAction implements CombatAction {
+public class DetermineHullDamageLevelEvent implements CombatEvent {
     private static final BattleLogger logger = BattleLogger.getInstance();
     
     @Override
@@ -18,7 +18,7 @@ public class DetermineHullDamageLevelAction implements CombatAction {
             final StatType resistanceType = BattleConstants.damageTypeToResistanceType.get(shot.damageType);
             shot.specificResistanceOfTarget = target.getHullStat(resistanceType);
             shot.hitStrength -= shot.specificResistanceOfTarget;
-
+            
             if (target.getHullStat(HullDamageLevel.CRIT.getDefenseStatAgainstDamageLevel()) < shot.hitStrength) {
                 shot.hullDamageLevel = HullDamageLevel.CRIT;
             } else if (target.getHullStat(HullDamageLevel.HIT.getDefenseStatAgainstDamageLevel()) < shot.hitStrength) {

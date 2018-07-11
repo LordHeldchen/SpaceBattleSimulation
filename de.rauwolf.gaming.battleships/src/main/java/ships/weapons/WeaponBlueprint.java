@@ -1,15 +1,17 @@
 package main.java.ships.weapons;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import main.java.ships.blueprints.Blueprint;
+import main.java.ships.blueprints.BlueprintWithSubComponents;
 import main.java.ships.blueprints.SizeClass;
+import main.java.ships.components.ComponentBlueprint;
 import main.java.ships.shipHulls.DamageType;
 import main.java.ships.stats.StatType;
 
-public class WeaponBlueprint implements Blueprint {
+public class WeaponBlueprint implements BlueprintWithSubComponents {
     private final String                                    shorthand;
     private final String                                    name;
     private final SizeClass                                 size;
@@ -60,17 +62,17 @@ public class WeaponBlueprint implements Blueprint {
         return statMap.get(stat);
     }
 
+    @Override
+    public final SizeClass getSize() {
+        return this.size;
+    }
+
     public final String getName() {
         return this.name;
     }
 
     public final String getShorthand() {
         return shorthand;
-    }
-
-    @Override
-    public final SizeClass getSize() {
-        return this.size;
     }
 
     public List<SizeClass> getPreferredTargets() {
@@ -87,5 +89,15 @@ public class WeaponBlueprint implements Blueprint {
 
     public DamageType getDmgType() {
         return dmgType;
+    }
+
+    @Override
+    public List<ComponentBlueprint> getComponents() {
+        return new LinkedList<ComponentBlueprint>();
+    }
+
+    @Override
+    public boolean isDesignValid() {
+        return true;
     }
 }

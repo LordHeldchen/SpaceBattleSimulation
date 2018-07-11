@@ -8,7 +8,7 @@ import main.java.battle.Shot;
 import main.java.logging.battleLoggers.BattleLogger;
 import main.java.ships.weapons.WeaponSecondaryEffect;
 
-public class DegradeArmorAction implements CombatAction {
+public class DegradeArmorEvent implements CombatEvent {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override

@@ -4,7 +4,7 @@ import main.java.battle.ShipInstance;
 import main.java.battle.Shot;
 import main.java.logging.battleLoggers.BattleLogger;
 
-public class TakeShieldDamageAction implements CombatAction {
+public class TakeShieldDamageEvent implements CombatEvent {
     private static final BattleLogger logger = BattleLogger.getInstance();
 
     @Override

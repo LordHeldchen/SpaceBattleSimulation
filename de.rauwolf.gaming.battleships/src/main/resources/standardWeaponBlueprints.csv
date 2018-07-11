@@ -22,7 +22,7 @@ slaughter;   'Slaughter' Heavy Artillery;         0;    750;         80;        
 monstrosity; 'Monstrosity' Siege Artillery;       0;   1200;         90;        40;        XL; 80;         1000;   KINETIC;  XXL, XL, L;          50%;
 
 ### KINETIC     - Railguns
-dagger;      'Dagger' Light Railgun;             50;    160;        100;        80;         S; 10;          150;   KINETIC;  L, XL, M;            30%;                      spiercepercent:50
+dagger;      'Dagger' Light Railgun;             50;    160;        100;        80;         S; 10;          150;   KINETIC;  M, L, XL;            30%;                      spiercepercent:50
 crossbow;    'Crossbow' Strike Railgun;          40;    320;        120;        80;         M; 15;          400;   KINETIC;  XL, XXL, L;          40%;                      spiercepercent:50
 javelin;     'Javelin' Heavy Railgun;            30;    650;        150;        80;         L; 25;          750;   KINETIC;  XXL, XL;             50%;                      spiercepercent:50
 

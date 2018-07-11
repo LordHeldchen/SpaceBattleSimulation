@@ -111,7 +111,7 @@ public class StandardConfigurationResourceLoader {
     private static void appendAttribute(StringBuilder saveStringBuilder, ShipBlueprint blueprint, Position position) {
         switch (position) {
             case POS_SHORTHAND:
-                saveStringBuilder.append(blueprint.getShorthand());
+                saveStringBuilder.append(blueprint.getId());
                 break;
             case POS_NAME:
                 saveStringBuilder.append(blueprint.getName());
@@ -127,7 +127,7 @@ public class StandardConfigurationResourceLoader {
                 break;
             case POS_SHIPS_IN_BAY:
                 saveStringBuilder.append(blueprint.getFighterTypesInBay().entrySet().stream()
-                        .map(entry -> entry.getKey().getShorthand() + ": " + entry.getValue()).collect(Collectors.joining(", ")));
+                        .map(entry -> entry.getKey().getId() + ": " + entry.getValue()).collect(Collectors.joining(", ")));
                 break;
             case POS_WEAPON_SHORTHAND_LIST:
                 saveStringBuilder.append(blueprint.getWeapons().stream().map(weap -> weap.getShorthand()).collect(Collectors.joining(", ")));
