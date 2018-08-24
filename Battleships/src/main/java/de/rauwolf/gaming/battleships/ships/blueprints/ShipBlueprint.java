@@ -92,8 +92,7 @@ public class ShipBlueprint implements BlueprintWithSubComponents, Comparable<Shi
     public int getValueOfShipInstance() {
         int value = hullType.getValue();
         value += getWeapons().stream().collect(Collectors.summarizingInt(e -> e.getValue())).getSum();
-        value += (getComponents().stream().collect(Collectors.summarizingInt(e -> e.getValue())).getSum()
-                * BattleConstants.shipSizeScaling.get(hullType.getHullSize()));
+        value += (getComponents().stream().collect(Collectors.summarizingInt(e -> e.getValue(hullType.getHullSize()))).getSum());
         return value;
     }
 
@@ -139,7 +138,7 @@ public class ShipBlueprint implements BlueprintWithSubComponents, Comparable<Shi
     }
 
     public List<ComponentBlueprint> getComponents() {
-        return components.values().stream().flatMap(List::stream).map(c -> c.getSlottedElement()).collect(Collectors.toList());
+        return components.values().stream().flatMap(List::stream).map(c -> c.getSlottedElement()).filter(c -> c != null).collect(Collectors.toList());
     }
 
     @Override

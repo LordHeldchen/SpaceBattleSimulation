@@ -5,7 +5,7 @@ import de.rauwolf.gaming.battleships.ships.components.Typed;
 import de.rauwolf.gaming.battleships.ships.shipHulls.ComponentType;
 
 public class TypeLimitedSlot<T extends Typed> implements Slotted<T> {
-    private T element;
+    private T                   element;
     private final ComponentType type;
 
     public TypeLimitedSlot(ComponentType type) {
@@ -13,7 +13,7 @@ public class TypeLimitedSlot<T extends Typed> implements Slotted<T> {
     }
 
     public void setSlottedElement(T element) throws WrongTypeForSlotException {
-        if (element.getType().equals(this.type)) {
+        if (element.getType().equals(this.type) || this.type.isIgnoresTypeRestrictions()) {
             this.element = element;
         } else {
             throw new WrongTypeForSlotException();

@@ -57,9 +57,9 @@ public class BlueprintDesignerGUI extends BsJPanel {
         blueprintDesignArea.setBackground(Color.LIGHT_GRAY);
         componentChoiceView.setBackground(Color.WHITE);
 
-        add(blueprintDesignArea, "w 70%, h 65%");
-        addAndWrap(shipStatView, "w 30%, h 65%");
-        add(componentChoiceView, "span 2 1, w 100%, h 35%");
+        add(blueprintDesignArea, "w 70%, h 100%");
+        addAndWrap(shipStatView, "w 30%, h 100%");
+        // add(componentChoiceView, "span 2 1, w 100%, h 25%");
     }
 
     void switchPanel(String blueprintName) {

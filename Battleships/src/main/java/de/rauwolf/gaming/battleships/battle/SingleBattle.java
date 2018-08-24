@@ -102,10 +102,10 @@ public class SingleBattle {
                 }
                 combatActors.add(currentActor);
                 currentActor = combatActors.poll();
-                while (currentActor.isNoLongerActive()) {
+                while (currentActor.isNoLongerActive() && !combatActors.isEmpty()) {
                     currentActor = combatActors.poll();
                 }
-                continueCombat &= initiativeOfCurrentRound > endAtInitiative;
+                continueCombat &= initiativeOfCurrentRound > endAtInitiative && !combatActors.isEmpty();
             }
 
         } else {

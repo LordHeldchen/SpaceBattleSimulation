@@ -11,23 +11,16 @@ import net.miginfocom.swing.MigLayout;
 public class BsJPanel extends JPanel implements MouseListener {
     private static final long serialVersionUID = 5867693165613038972L;
 
-    private static final JPanel dummy;
-
-    static {
-        dummy = new JPanel();
-        dummy.setFocusable(false);
-        dummy.setEnabled(false);
-        dummy.setVisible(false);
-    }
-
     public BsJPanel() {
         super(new MigLayout());
+
         addMouseListener(this);
         setFocusable(false);
         setRequestFocusEnabled(false);
     }
 
     public void wrapAndAdd(Component comp, String... constraints) {
+        JPanel dummy = new JPanel();
         add(dummy, "wrap");
         add(comp, String.join(", ", constraints) + ", wrap");
     }

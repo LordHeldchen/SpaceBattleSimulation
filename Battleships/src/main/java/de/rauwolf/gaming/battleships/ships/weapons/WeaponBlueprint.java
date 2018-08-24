@@ -48,17 +48,17 @@ public class WeaponBlueprint implements Blueprint, Sized {
         this.weaponEffects = weaponEffects;
     }
 
+    public Integer getStatFor(StatType stat) {
+        if (!statMap.containsKey(stat)) {
+            return 0;
+        }
+        return statMap.get(stat);
+    }
+
     @Override
     public String toString() {
         return getName() + " (" + getSize() + ") -->  DMG " + statMap.get(StatType.DAMAGE) + ", AP " + statMap.get(StatType.AP) + ", TC "
                 + statMap.get(StatType.TIMECOST);
-    }
-
-    public Integer getStatFor(StatType stat) {
-        if (!statMap.containsKey(stat)) {
-            statMap.put(stat, 0);
-        }
-        return statMap.get(stat);
     }
 
     @Override

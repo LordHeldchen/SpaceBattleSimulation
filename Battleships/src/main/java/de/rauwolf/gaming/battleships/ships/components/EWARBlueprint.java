@@ -2,9 +2,11 @@ package de.rauwolf.gaming.battleships.ships.components;
 
 import java.util.Map;
 
+import de.rauwolf.gaming.battleships.battle.BattleConstants;
 import de.rauwolf.gaming.battleships.battle.CombatActor;
 import de.rauwolf.gaming.battleships.battle.CombatTarget;
 import de.rauwolf.gaming.battleships.battle.SingleBattle;
+import de.rauwolf.gaming.battleships.ships.blueprints.SizeClass;
 import de.rauwolf.gaming.battleships.ships.shipHulls.ComponentType;
 import de.rauwolf.gaming.battleships.ships.stats.StatType;
 
@@ -53,8 +55,8 @@ public class EWARBlueprint extends CombatActor implements Component {
     }
 
     @Override
-    public int getValue() {
-        return value;
+    public int getValue(SizeClass sizeOfShip) {
+        return value * BattleConstants.shipSizeScaling.get(sizeOfShip);
     }
 
     @Override

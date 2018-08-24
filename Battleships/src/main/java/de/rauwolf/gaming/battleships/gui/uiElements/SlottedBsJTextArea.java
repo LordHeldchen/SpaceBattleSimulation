@@ -5,10 +5,10 @@ import de.rauwolf.gaming.battleships.ships.blueprints.Blueprint;
 import de.rauwolf.gaming.battleships.ships.blueprints.Slotted;
 import de.rauwolf.gaming.battleships.ships.blueprints.exceptions.SlotException;
 
-public class SlottedBsJTextArea<X extends Blueprint> extends BsJTextArea implements Slotted<Slotted<X>> {
+public class SlottedBsJTextArea extends BsJTextArea implements Slotted<Slotted<? extends Blueprint>> {
     private static final long serialVersionUID = -3775766461595274451L;
 
-    private Slotted<X>        slottedElement;
+    private Slotted<? extends Blueprint> slottedElement;
 
     private BlueprintToText   blueprintToText;
 
@@ -17,7 +17,7 @@ public class SlottedBsJTextArea<X extends Blueprint> extends BsJTextArea impleme
     }
 
     @Override
-    public void setSlottedElement(Slotted<X> element) throws SlotException {
+    public void setSlottedElement(Slotted<? extends Blueprint> element) throws SlotException {
         this.slottedElement = element;
         if (element.getSlottedElement() != null) {
             setText(blueprintToText.toText(element.getSlottedElement()));
@@ -25,7 +25,7 @@ public class SlottedBsJTextArea<X extends Blueprint> extends BsJTextArea impleme
     }
 
     @Override
-    public Slotted<X> getSlottedElement() {
+    public Slotted<? extends Blueprint> getSlottedElement() {
         return slottedElement;
     }
 

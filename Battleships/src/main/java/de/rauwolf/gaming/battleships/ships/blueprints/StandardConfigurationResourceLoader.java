@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,7 +93,9 @@ public class StandardConfigurationResourceLoader {
                     if (!componentShorthand.trim().equals("")) {
                         ComponentBlueprint componentBlueprint = ComponentResourceLoader.getStandardComponentBlueprint(componentShorthand.trim());
                         ComponentType type = componentBlueprint.getType();
-                        List<TypeLimitedSlot<ComponentBlueprint>> componentSlotsForSize = blueprint.getComponentSlotsForType(type);
+                        List<TypeLimitedSlot<ComponentBlueprint>> componentSlotsForSize = new LinkedList<TypeLimitedSlot<ComponentBlueprint>>(
+                                blueprint.getComponentSlotsForType(type));
+                        componentSlotsForSize.addAll(blueprint.getComponentSlotsForType(ComponentType.ALLROUND));
                         for (TypeLimitedSlot<ComponentBlueprint> slot : componentSlotsForSize) {
                             if (slot.isEmpty()) {
                                 slot.setSlottedElement(componentBlueprint);

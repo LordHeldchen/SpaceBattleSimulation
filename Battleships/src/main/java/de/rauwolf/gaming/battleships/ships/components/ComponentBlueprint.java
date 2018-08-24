@@ -2,6 +2,8 @@ package de.rauwolf.gaming.battleships.ships.components;
 
 import java.util.Map;
 
+import de.rauwolf.gaming.battleships.battle.BattleConstants;
+import de.rauwolf.gaming.battleships.ships.blueprints.SizeClass;
 import de.rauwolf.gaming.battleships.ships.shipHulls.ComponentType;
 import de.rauwolf.gaming.battleships.ships.stats.StatType;
 
@@ -38,18 +40,24 @@ public class ComponentBlueprint implements Component {
     }
 
     @Override
-    public Double getFactorFor(StatType value) {
-        return factors.get(value);
-    }
-
-    @Override
     public Integer getFlatBonusFor(StatType value) {
+        if (!flatBonuses.containsKey(value)) {
+            return 0;
+        }
         return flatBonuses.get(value);
     }
 
     @Override
-    public int getValue() {
-        return value;
+    public Double getFactorFor(StatType value) {
+        if (!factors.containsKey(value)) {
+            return 1d;
+        }
+        return factors.get(value);
+    }
+
+    @Override
+    public int getValue(SizeClass sizeOfShip) {
+        return value * BattleConstants.shipSizeScaling.get(sizeOfShip);
     }
     
     @Override
